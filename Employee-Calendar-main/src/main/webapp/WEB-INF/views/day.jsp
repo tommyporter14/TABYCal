@@ -9,6 +9,10 @@
 <title>Day</title>
 </head>
 <body>
-Day
+
+${dayOfWeek}, ${month} ${day}
+
+
+
 </body>
 </html>
