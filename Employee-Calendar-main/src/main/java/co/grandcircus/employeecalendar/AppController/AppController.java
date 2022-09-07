@@ -24,7 +24,7 @@ public class AppController {
 	private EventService es;
 
 	// DEFAULT will need to change as we go just here to test
-	@RequestMapping("/")
+	@RequestMapping("/month-calendar")
 	public String showHome(Model model) {
 		// should it be event or eventfrontend?
 		EventFrontEnd[] events = es.getEvents();

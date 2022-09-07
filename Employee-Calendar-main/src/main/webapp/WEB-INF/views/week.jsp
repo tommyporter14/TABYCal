@@ -52,7 +52,7 @@
 				<tr><td>8:00</td></tr>
 			</tbody>
 		</table>
-		<a href="/" class="button">Go Back to Calendar</a>
+		<a href="/month-calendar" class="button">Go Back to Calendar</a>
 	</div>
 </body>
 </html>

@@ -78,7 +78,7 @@
 			</tbody>
 
 		</table>
-		<a href="/" class="button">Go Back to Calendar</a>
+		<a href="/month-calendar" class="button">Go Back to Calendar</a>
 
 	</div>
 
