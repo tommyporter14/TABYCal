@@ -14,20 +14,20 @@
 
             <body>
                 <div class="main-account">
-                    <p class="sign" align="center">New Account Details</p>
+                    <p class="sign" >New Account Details</p>
                     <form class="form1" action="/createuser" method="post">
                         <input class="un" type="text"  placeholder="Email" name ="userName" required>
                         <input class="un" type="text" placeholder="First Name" name ="firstName" required>
                         <input class="un" type="text" placeholder="Last Name" name ="lastName"required>
 
                         <!--work on aligning this later -->
-                        <br><label for="dateOfBirth">Birth Day:</label><br>
+                        <br><label class="sign" for="dateOfBirth">Birth Day:</label><br>
 
                         <input class="un" id="dateOfBirth" type="date" name="dateOfBirth"
                         required>
-                        <br><label for="adminStatus">Admin?</label><br>
                         <!-- //need to make true and false  -->
-                        <input class="un" id="adminStatus" type="checkbox" name="adminStatus" >
+                        <label class="sign" for="adminStatus">Enable Admin:</label><input id="adminStatus" type="checkbox" name="adminStatus" >
+                        
                         <input type="submit" class="submit"  value="Submit" >
 
                     </form>

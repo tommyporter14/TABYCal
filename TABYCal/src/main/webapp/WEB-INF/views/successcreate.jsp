@@ -13,10 +13,18 @@
             </head>
 
             <body>
-                <div class="main-account">
-                    <p class="sign" align="center">Success!</p>
-                    <p class="sign" align="center">Account Details</p>
-                    <p class="un" align="center">${newUser.userName}</p>
+                <div style="text-align:center" class="main-account">
+                    <p class="sign" >Success!</p>
+                    <p class="sign" >Account Details</p>
+
+                    <br><label class="sign" for="username">User Name</label><br>
+                    <p class="un" id="username" >${addedUser.userName}</p>
+                    <br><label class="sign" for="firstname">First Name</label><br>
+                    <p class="un" id= "firstname">${addedUser.firstName}</p>
+                    <br><label class="sign" for="lstname">Last Name</label><br>
+                    <p class="un" id= "lastname">${addedUser.lastName}</p>
+                    
+                    <p ><a href="/myhome">My Calendar</p>
                  
 
                 </div>

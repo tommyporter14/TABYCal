@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public User createUser(User newUser){
-        // System.out.println("in create user service");
+        System.out.println("in create user service");
         String url = "http://localhost:8080/users/create";
         final User response = request.postForObject(url, request, User.class, newUser);
         return response;
