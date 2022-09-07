@@ -39,16 +39,9 @@ public class AppController {
 	// in
 	@PostMapping("/createuser")
 	public String createUser(User newUser, Model model) {
-		System.out.println();
-		System.out.println(userService.getClass());
-		System.out.println(es.getClass());
-		System.out.println(newUser.getDateOfBirth());
-		System.out.println();
-
-		// userService.createUser(newUser);
-		model.addAttribute("addedUser", userController.createUser(newUser));
-		// model.addAttribute("newUser",
-		// userService.getByUsername(newUser.getUserName()));
+		// Do we need to make an extra hop to call the User Service? Is it better practice to call the UserController directly.  
+		// model.addAttribute("addedUser", userController.createUser(newUser));
+		model.addAttribute("newUser", userService.getByUsername(newUser.getUserName()));
 		return "successcreate";
 	}
 
