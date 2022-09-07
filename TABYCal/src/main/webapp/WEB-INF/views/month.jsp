@@ -42,12 +42,16 @@
 	<ul>
 			<c:forEach var="events" items="${events}">
 			<li>
-				<a>${events.eventName}</a>
+				<form action="/event-overview" method="Post">
+					<input type="hidden" name="id" value="${events.id}"/>
+					<input type="submit" value="${events.eventName}"/>
+				</form>
 				
 			</li>
 			</c:forEach>
 	
 	</ul>
+	<a href="/check-availability">Check For Availability?</a>
 </div>
         </div>
     </div>

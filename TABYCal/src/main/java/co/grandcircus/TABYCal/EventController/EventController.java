@@ -26,7 +26,7 @@ import co.grandcircus.TABYCal.EventRepository.EventRepository;
 
 @RestController
 public class EventController {
-
+	
 	@ResponseBody
 	@ExceptionHandler(EventNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
@@ -59,6 +59,7 @@ public class EventController {
 		double timeMin = dur.toMinutes();
 		double time = timeMin/60;
 		event.setDuration(time);
+		repo.save(event);
 		return event;
 	}
 	

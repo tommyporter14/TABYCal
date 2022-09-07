@@ -10,5 +10,6 @@
 </head>
 <body>
 Week
+<a href="/">Home</a>
 </body>
 </html>
