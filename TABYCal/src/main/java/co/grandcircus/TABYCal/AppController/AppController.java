@@ -18,8 +18,8 @@ public class AppController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private UserController userController;
+	// @Autowired
+	// private UserController userController;
 
 	@Autowired
 	private EventService es;
@@ -40,8 +40,9 @@ public class AppController {
 	@PostMapping("/createuser")
 	public String createUser(User newUser, Model model) {
 		// Do we need to make an extra hop to call the User Service? Is it better practice to call the UserController directly.  
+		
 		// model.addAttribute("addedUser", userController.createUser(newUser));
-		model.addAttribute("newUser", userService.getByUsername(newUser.getUserName()));
+		model.addAttribute("addedUser", userService.createUser(newUser));
 		return "successcreate";
 	}
 
