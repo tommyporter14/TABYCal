@@ -1,7 +1,8 @@
 package co.grandcircus.TABYCal.UserModel;
 
+import java.time.LocalDate;
+
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("users")
@@ -9,11 +10,10 @@ public class User {
 
     @Id
     private String id;
-    @Indexed
     private String userName;
     private String firstName;
     private String lastName;
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
     private Boolean adminStatus;
 
     public String getId() {
@@ -38,55 +38,52 @@ public class User {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
+    }    
+    
     public String getLastName() {
         return lastName;
-    }
+    }    
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-
-    public String getDateOfBirth() {
+    }    
+    
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(int birthDay, int birthMonth, int birthYear) {
-
-        this.dateOfBirth = birthDay + "/" + birthMonth + "/" + birthYear;
+    public void setDateOfBirth(String dateOfBirth) {
+        LocalDate date = LocalDate.parse(dateOfBirth);
+        this.dateOfBirth = date;
     }
 
+    
     public Boolean getAdminStatus() {
         return adminStatus;
-    }
+    }    
 
     public void setAdminStatus(Boolean adminStatus) {
         this.adminStatus = adminStatus;
-    }
+    }    
 
     public User() {}
 
-    public User(String userName, String firstName, String lastName, int dayBirth, int monthBirth,
-            int yearBirth, String dateOfBirth, Boolean adminStatus) {
-        this.userName = userName;
+    public User(String userName, String firstName, String lastName, LocalDate dateOfBirth, Boolean adminStatus) {
+        this.userName = userName;        
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.adminStatus = adminStatus;
-    }
+    }    
 
     @Override
     public String toString() {
         return "User [adminStatus=" + adminStatus + ", dateOfBirth=" + dateOfBirth + ", firstName="
                 + firstName + ", id=" + id + ", lastName=" + lastName + ", userName=" + userName
                 + "]";
-    }
+    }            
 
-    public User orElseThrow(Object object) {
-        return null;
-    }
+
 
 
 }

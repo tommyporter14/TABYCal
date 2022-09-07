@@ -3,41 +3,78 @@ package co.grandcircus.TABYCal.AppController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import co.grandcircus.TABYCal.EventModelFrontEnd.EventFrontEnd;
 import co.grandcircus.TABYCal.EventService.EventService;
+import co.grandcircus.TABYCal.UserController.UserController;
+import co.grandcircus.TABYCal.UserModel.User;
+import co.grandcircus.TABYCal.UserService.UserService;
 
 @Controller
 public class AppController {
 
 	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private UserController userController;
+
+	@Autowired
 	private EventService es;
-	
-	
-	//DEFAULT will need to change as we go just here to test
+
+	// Log In Page
 	@RequestMapping("/")
-	public String showHome(Model model) {
-		
+	public String showLogin() {
+		return "login";
+	}
+
+	@RequestMapping("/newaccount")
+	public String enterDetails() {
+		return "newaccount";
+	}
+
+	// return to the log in page but we can have a "success page" then direct to log
+	// in
+	@PostMapping("/createuser")
+	public String createUser(User newUser, Model model) {
+		System.out.println();
+		System.out.println(userService.getClass());
+		System.out.println(es.getClass());
+		System.out.println(newUser.getDateOfBirth());
+		System.out.println();
+
+		// userService.createUser(newUser);
+		model.addAttribute("addedUser", userController.createUser(newUser));
+		// model.addAttribute("newUser",
+		// userService.getByUsername(newUser.getUserName()));
+		return "successcreate";
+	}
+
+	// DEFAULT will need to change as we go just here to test
+	@RequestMapping("/test")
+	public String showMonth(Model model) {
+
 		EventFrontEnd[] events = es.getEvents();
 		System.out.print(events[0].getEventName());
-		model.addAttribute("events",events);
+		model.addAttribute("events", events);
 		return "month";
 	}
-	
-	//will need to change as we go just here to test
+
+	// will need to change as we go just here to test
 	@RequestMapping("/month")
 	public String showMonth() {
 		return "month";
 	}
-	
-	//will need to change as we go just here to test
+
+	// will need to change as we go just here to test
 	@RequestMapping("/week")
 	public String showWeek() {
 		return "week";
 	}
-	
-	//will need to change as we go just here to test
+
+	// will need to change as we go just here to test
 	@RequestMapping("/day")
 	public String showDay() {
 		return "day";

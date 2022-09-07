@@ -1,6 +1,7 @@
 package co.grandcircus.TABYCal.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -12,7 +13,7 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     List<User> findByAdminStatus(Boolean adminStatus);
 
-    User findByUserName(String userName);
+    Optional<User> findByUserName(String userName);
 
 
 }
