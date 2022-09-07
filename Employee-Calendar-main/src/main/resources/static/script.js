@@ -62,9 +62,9 @@ const renderCalendar = () => {
 	    days+=`<div class="next-date">${j}</div> `
 	}
 	if(nextDays!== 0){
+		//TODO: Fix week view for trailing days...
 		
-		//TODO: figure out how to find Sunday mathematically by using the date loop above
-		days+=`<div><a href= "/week/2022-${(date.getMonth()+1).toString().padStart(2,"0")}-${nextDays}">View Week</a></div>`;	
+//		days+=`<div><a href= "/week/2022-${(date.getMonth()+1).toString().padStart(2,"0")}-${nextDays}">View Week</a></div>`;	
 	}
 	monthDays.innerHTML=days;
 }
