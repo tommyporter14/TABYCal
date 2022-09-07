@@ -35,7 +35,7 @@ public class UserController {
         return userRepo.findAll();
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/user/{id}")
     public User readOne(@PathVariable("id") String id) {
         return userRepo.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
     }
