@@ -6,10 +6,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Day</title>
+<title>Availability</title>
 </head>
 <body>
-Day
-<a href="/">Home</a>
+<h1>Availability</h1>
+<p>${available}</p>
+<a href="/">Home</a>	
 </body>
 </html>

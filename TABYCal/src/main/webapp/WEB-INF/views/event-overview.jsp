@@ -6,10 +6,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Day</title>
+<title>Event Overview</title>
 </head>
 <body>
-Day
-<a href="/">Home</a>
+	<h1>${event.eventName}</h1>
+	<p>${event.startTime}<p>
+	<p>${event.endTime}<p>
+	<p>${event.description}<p>
+	<p>${event.duration} hrs<p>
+	<p>${event.users}<p>
+	<a href="/">Home</a>
 </body>
 </html>

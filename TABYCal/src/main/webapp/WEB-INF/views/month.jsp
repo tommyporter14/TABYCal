@@ -53,7 +53,45 @@
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
                 <script src="script.js"></script>
             </body>
 
             </html>
+=======
+                <i class="fas fa-angle-right next"></i>
+            </div>
+            <div class="weekdays">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+            </div>
+            <div class="days">
+                
+            </div>
+ <div class="events">
+<h1>Events</h1>
+	<ul>
+			<c:forEach var="events" items="${events}">
+			<li>
+				<form action="/event-overview" method="Post">
+					<input type="hidden" name="id" value="${events.id}"/>
+					<input type="submit" value="${events.eventName}"/>
+				</form>
+				
+			</li>
+			</c:forEach>
+	
+	</ul>
+	<a href="/check-availability">Check For Availability?</a>
+</div>
+        </div>
+    </div>
+<script src="script.js"></script>
+</body>
+</html>
+>>>>>>> TommysBranch
