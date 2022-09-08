@@ -1,4 +1,4 @@
-package co.grandcircus.employeecalendar.RESTcontroller;
+package co.grandcircus.TABYCal.RESTcontroller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import co.grandcircus.employeecalendar.exception.ItemExistsException;
-import co.grandcircus.employeecalendar.exception.ItemNotFoundException;
-import co.grandcircus.employeecalendar.model.User;
-import co.grandcircus.employeecalendar.repository.UserRepository;
+import co.grandcircus.TABYCal.exception.ItemExistsException;
+import co.grandcircus.TABYCal.exception.ItemNotFoundException;
+import co.grandcircus.TABYCal.model.User;
+import co.grandcircus.TABYCal.repository.UserRepository;
 
 @RestController
 public class UserController {

@@ -1,4 +1,4 @@
-package co.grandcircus.employeecalendar.AppController;
+package co.grandcircus.TABYCal.AppController;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -13,9 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import co.grandcircus.employeecalendar.EventModelFrontEnd.EventFrontEnd;
-import co.grandcircus.employeecalendar.EventService.EventService;
-import co.grandcircus.employeecalendar.methodClass.DateTimeWrapper;
+import co.grandcircus.TABYCal.EventModelFrontEnd.EventFrontEnd;
+import co.grandcircus.TABYCal.EventService.EventService;
+import co.grandcircus.TABYCal.methodClass.DateTimeWrapper;
 
 @Controller
 public class AppController {

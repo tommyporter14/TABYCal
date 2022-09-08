@@ -1,4 +1,4 @@
-package co.grandcircus.employeecalendar.methodClass;
+package co.grandcircus.TABYCal.methodClass;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

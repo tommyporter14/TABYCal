@@ -1,4 +1,5 @@
-package co.grandcircus.employeecalendar.EventController;
+package co.grandcircus.TABYCal.EventController;
+
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -21,9 +22,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import co.grandcircus.employeecalendar.EventExceptions.EventNotFoundException;
-import co.grandcircus.employeecalendar.EventModel.Event;
-import co.grandcircus.employeecalendar.EventRepository.EventRepository;
+import co.grandcircus.TABYCal.EventExceptions.EventNotFoundException;
+import co.grandcircus.TABYCal.EventModel.Event;
+import co.grandcircus.TABYCal.EventRepository.EventRepository;
 
 @RestController
 public class EventController {

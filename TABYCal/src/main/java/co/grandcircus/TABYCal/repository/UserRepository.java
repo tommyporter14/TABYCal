@@ -1,10 +1,10 @@
-package co.grandcircus.employeecalendar.repository;
+package co.grandcircus.TABYCal.repository;
 
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import co.grandcircus.employeecalendar.model.User;
+import co.grandcircus.TABYCal.model.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
 

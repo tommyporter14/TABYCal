@@ -1,4 +1,4 @@
-package co.grandcircus.employeecalendar.EventModelFrontEnd;
+package co.grandcircus.TABYCal.EventModelFrontEnd;
 
 import java.time.LocalDateTime;
 import java.util.List;

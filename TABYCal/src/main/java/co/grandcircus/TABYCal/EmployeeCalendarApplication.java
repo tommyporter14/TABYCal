@@ -1,4 +1,4 @@
-package co.grandcircus.employeecalendar;
+package co.grandcircus.TABYCal;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,9 +1,9 @@
-package co.grandcircus.employeecalendar.EventService;
+package co.grandcircus.TABYCal.EventService;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import co.grandcircus.employeecalendar.EventModelFrontEnd.EventFrontEnd;
+import co.grandcircus.TABYCal.EventModelFrontEnd.EventFrontEnd;
 
 @Service
 public class EventService {

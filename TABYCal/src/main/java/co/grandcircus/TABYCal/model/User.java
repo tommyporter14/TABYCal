@@ -1,4 +1,4 @@
-package co.grandcircus.employeecalendar.model;
+package co.grandcircus.TABYCal.model;
 
 
 import org.springframework.data.annotation.Id;
