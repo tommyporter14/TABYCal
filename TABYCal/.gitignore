@@ -38,3 +38,4 @@ out/
 .vscode/
 
 src/main/resources/config/application.properties
+src/main/resources/config/application.properties

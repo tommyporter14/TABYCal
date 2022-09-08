@@ -1,6 +1,5 @@
 package co.grandcircus.TABYCal.EventController;
 
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,14 +20,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import co.grandcircus.TABYCal.EventExceptions.EventNotFoundException;
 import co.grandcircus.TABYCal.EventModel.Event;
 import co.grandcircus.TABYCal.EventRepository.EventRepository;
 
 @RestController
 public class EventController {
-
+	
 	@ResponseBody
 	@ExceptionHandler(EventNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
@@ -61,6 +59,7 @@ public class EventController {
 		double timeMin = dur.toMinutes();
 		double time = timeMin/60;
 		event.setDuration(time);
+		repo.save(event);
 		return event;
 	}
 	
