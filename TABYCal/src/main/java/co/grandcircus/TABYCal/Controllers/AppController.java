@@ -1,4 +1,4 @@
-package co.grandcircus.TABYCal.AppController;
+package co.grandcircus.TABYCal.Controllers;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import co.grandcircus.TABYCal.EventModelFrontEnd.EventFrontEnd;
-import co.grandcircus.TABYCal.EventService.EventService;
-import co.grandcircus.TABYCal.UserController.UserController;
-import co.grandcircus.TABYCal.UserModel.User;
-//import co.grandcircus.TABYCal.UserService.UserService;
+import co.grandcircus.TABYCal.Services.EventService;
+import co.grandcircus.TABYCal.Models.EventFrontEnd;
+import co.grandcircus.TABYCal.Models.User;
+
+
+
 
 @Controller
 public class AppController {

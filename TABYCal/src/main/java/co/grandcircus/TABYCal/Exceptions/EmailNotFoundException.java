@@ -1,4 +1,4 @@
-package co.grandcircus.TABYCal.UserExceptions;
+package co.grandcircus.TABYCal.Exceptions;
 
 
 public class EmailNotFoundException extends RuntimeException {

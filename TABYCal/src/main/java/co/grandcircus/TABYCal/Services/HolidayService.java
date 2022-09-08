@@ -1,11 +1,11 @@
-package co.grandcircus.TABYCal.HolidayService;
+package co.grandcircus.TABYCal.Services;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import co.grandcircus.TABYCal.HolidayResponse.Holiday;
-import co.grandcircus.TABYCal.HolidayResponse.HolidayResponse;
+import co.grandcircus.TABYCal.Models.Holiday;
+
 
 @Service
 public class HolidayService {

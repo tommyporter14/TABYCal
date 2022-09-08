@@ -1,4 +1,4 @@
-package co.grandcircus.TABYCal.HolidayResponse;
+package co.grandcircus.TABYCal.Models;
 
 import java.sql.Date;
 

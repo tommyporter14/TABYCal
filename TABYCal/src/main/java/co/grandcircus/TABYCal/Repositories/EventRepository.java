@@ -1,11 +1,11 @@
-package co.grandcircus.TABYCal.EventRepository;
+package co.grandcircus.TABYCal.Repositories;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import co.grandcircus.TABYCal.EventModel.Event;
+import co.grandcircus.TABYCal.Models.Event;
 
 public interface EventRepository extends MongoRepository<Event, String>{
 	

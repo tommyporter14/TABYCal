@@ -1,10 +1,10 @@
-package co.grandcircus.TABYCal.UserService;
+package co.grandcircus.TABYCal.Services;
 
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import co.grandcircus.TABYCal.UserModel.User;
+import co.grandcircus.TABYCal.Models.User;
 
 @Service
 public class UserService {

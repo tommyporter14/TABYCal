@@ -1,4 +1,4 @@
-package co.grandcircus.TABYCal.UserModel;
+package co.grandcircus.TABYCal.Models;
 
 import java.time.LocalDate;
 

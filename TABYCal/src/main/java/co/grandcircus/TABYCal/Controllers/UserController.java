@@ -1,4 +1,4 @@
-package co.grandcircus.TABYCal.UserController;
+package co.grandcircus.TABYCal.Controllers;
 
 import java.util.List;
 
@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.grandcircus.TABYCal.UserExceptions.EmailNotFoundException;
-import co.grandcircus.TABYCal.UserExceptions.InvalidEmailException;
-import co.grandcircus.TABYCal.UserExceptions.ItemNotFoundException;
-import co.grandcircus.TABYCal.UserExceptions.UserNameExistsException;
-import co.grandcircus.TABYCal.UserModel.User;
-import co.grandcircus.TABYCal.UserRepository.UserRepository;
+import co.grandcircus.TABYCal.Models.User;
+import co.grandcircus.TABYCal.Exceptions.*;
+
+import co.grandcircus.TABYCal.Repositories.UserRepository;
 
 @RestController
 public class UserController {
