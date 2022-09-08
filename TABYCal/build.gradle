@@ -14,7 +14,6 @@ repositories {
 }
 
 dependencies {
-	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 	implementation 'org.apache.commons:commons-lang3:3.0'
 	implementation 'commons-validator:commons-validator:1.6'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
