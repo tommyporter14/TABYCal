@@ -14,21 +14,29 @@
 
             <body>
                 <div class="main-account">
-                    <p class="sign" >New Account Details</p>
+                    <p class="sign">New Account Details</p>
+                    <c:if test="${not empty userName}">
+                        <script>
+                            function myFunction() {
+                                alert("${userName} is not available");
+                            }
+                        </script>
+                    </c:if>
+                    
                     <form class="form1" action="/createuser" method="post">
-                        <input class="un" type="text"  placeholder="Email" name ="userName" required>
-                        <input class="un" type="text" placeholder="First Name" name ="firstName" required>
-                        <input class="un" type="text" placeholder="Last Name" name ="lastName"required>
+                        <input class="un" type="text" placeholder="Email" name="userName" required>
+                        <input class="un" type="text" placeholder="First Name" name="firstName" required>
+                        <input class="un" type="text" placeholder="Last Name" name="lastName" required>
 
                         <!--work on aligning this later -->
                         <br><label class="sign" for="dateOfBirth">Birth Day:</label><br>
 
-                        <input class="un" id="dateOfBirth" type="date" name="dateOfBirth"
-                        required>
+                        <input class="un" id="dateOfBirth" type="date" name="dateOfBirth" required>
                         <!-- //need to make true and false  -->
-                        <label class="sign" for="adminStatus">Enable Admin:</label><input id="adminStatus" type="checkbox" name="adminStatus" >
-                        
-                        <input type="submit" class="submit"  value="Submit" >
+                        <label class="sign" for="adminStatus">Enable Admin:</label><input id="adminStatus"
+                            type="checkbox" name="adminStatus">
+
+                        <input type="submit" class="submit" value="Submit">
 
                     </form>
 

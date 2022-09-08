@@ -89,12 +89,12 @@ public class AppController {
 		return "month";
 	}
 
-	@RequestMapping("/")
-	public String showHome(Model model) {
-		EventFrontEnd[] events = es.getEvents();
-		model.addAttribute("events",events);
-		return "month";
-	}
+	// @RequestMapping("/")
+	// public String showHome(Model model) {
+	// 	EventFrontEnd[] events = es.getEvents();
+	// 	model.addAttribute("events",events);
+	// 	return "month";
+	// }
 		
 	@RequestMapping("/event-overview")
 	public String showEventOverview(Model model, @RequestParam String id) {

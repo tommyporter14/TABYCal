@@ -16,7 +16,7 @@ public class HolidayController {
 	@RequestMapping ("/holiday")
 	private String showHoliday(Model model) {
 		model.addAttribute("holidays", holidayService.getHolidays());
-		return "holidays";
+		return "holiday";
 	
 	}
 
