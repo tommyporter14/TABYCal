@@ -120,14 +120,15 @@ public class AppController {
 		
 		EventFrontEnd[]eventsAll = es.getEvents();
 		List<EventFrontEnd>eventsList = new ArrayList<>();
+		
 		for(String u: users) {
 			for(int i = 0; i < eventsAll.length; i++) {
-				if(eventsAll[i].toString().contains(u)) {
+				if(eventsAll[i].getUsers().contains(u)) {
 					eventsList.add(eventsAll[i]);
 				}
 			}
 		}
-		System.out.println(eventsList);
+		System.out.println(eventsList.toString());
 		EventFrontEnd[] events = new EventFrontEnd[eventsList.size()];
 		for(int i = 0; i < events.length; i++) {
 			events[i] = eventsList.get(i);
