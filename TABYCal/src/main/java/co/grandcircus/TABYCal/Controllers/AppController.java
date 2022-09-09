@@ -3,6 +3,7 @@ package co.grandcircus.TABYCal.Controllers;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.grandcircus.TABYCal.Services.EventService;
+//import co.grandcircus.TABYCal.Services.UserService;
 import co.grandcircus.TABYCal.Models.EventFrontEnd;
 import co.grandcircus.TABYCal.Models.User;
 
@@ -24,8 +25,8 @@ import co.grandcircus.TABYCal.Models.User;
 @Controller
 public class AppController {
 
-	// @Autowired
-	// private UserService userService;
+	//@Autowired
+	//private UserService userService;
 
 	@Autowired
 	private UserController userController;
@@ -104,15 +105,20 @@ public class AppController {
 	}
 	
 	@RequestMapping("/check-availability")
-	public String showCheckAvailability() {
-		return "check-availability";
-	}
+    public String showCheckAvailability(Model model) {
+        List<User> userList = userController.readAll();
+        model.addAttribute("users", userList);
+        return "check-availability";
+    }
 	
 	//currently working on all events, need to talk to Yaksh to make it user specific
 	@RequestMapping("/availability")
 	public String showAvailability(Model model, 
 			@RequestParam("start")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-			@RequestParam("end")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+			@RequestParam("end")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end, 
+			@RequestParam String users) {
+		
+		
 		EventFrontEnd[] events = es.getEvents();
 		HashMap<LocalDateTime, Double> map = new HashMap<>();
 		for(int i= 0; i < events.length;i++) {
@@ -156,14 +162,6 @@ public class AppController {
 			
 		}
 	
-		//testing
-		//System.out.println(map);
-		//System.out.println(sortedMap);
-		//System.out.println(endTimes);
-		//System.out.println(available);
-		//System.out.println(events);
-		//System.out.println(start);
-		//System.out.println(end);
 		model.addAttribute("available", available);
 		return "availability";
 	}

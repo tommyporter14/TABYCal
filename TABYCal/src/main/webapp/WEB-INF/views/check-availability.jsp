@@ -13,8 +13,15 @@
 	<form action="/availability" method="POST">
 			<input type="datetime-local" name="start"/><span>Start Time</span><br>
 			<input type="datetime-local" name="end" /><span>Start Time</span><br>
-			<!-- need to figure out how to select users to check between with Yaksh -->
-			<input type="submit" value="Submit"/><br>
+			<h3>Select Employees To Check Availability With:</h3>
+			<p>Hold control/command to select multiple employees</p>
+			<select name="users" multiple>
+    				<c:forEach var="user" items="${users}">
+						<option value="${user.userName}">${user.userName}</option>
+					</c:forEach>
+  			</select>
+  			<input type="submit" value="Submit"/><br>
+
 	</form>
 	<a href="/">Home</a>			
 </body>
