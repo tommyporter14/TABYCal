@@ -116,10 +116,22 @@ public class AppController {
 	public String showAvailability(Model model, 
 			@RequestParam("start")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
 			@RequestParam("end")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end, 
-			@RequestParam String users) {
+			@RequestParam List<String> users) {
 		
-		
-		EventFrontEnd[] events = es.getEvents();
+		EventFrontEnd[]eventsAll = es.getEvents();
+		List<EventFrontEnd>eventsList = new ArrayList<>();
+		for(String u: users) {
+			for(int i = 0; i < eventsAll.length; i++) {
+				if(eventsAll[i].toString().contains(u)) {
+					eventsList.add(eventsAll[i]);
+				}
+			}
+		}
+		System.out.println(eventsList);
+		EventFrontEnd[] events = new EventFrontEnd[eventsList.size()];
+		for(int i = 0; i < events.length; i++) {
+			events[i] = eventsList.get(i);
+		}
 		HashMap<LocalDateTime, Double> map = new HashMap<>();
 		for(int i= 0; i < events.length;i++) {
 			if(events[i].getStartTime().isAfter(start.minusMinutes(1)) && events[i].getStartTime().isBefore(end.plusMinutes(1))) {
