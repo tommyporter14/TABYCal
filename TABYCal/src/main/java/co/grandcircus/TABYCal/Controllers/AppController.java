@@ -128,7 +128,6 @@ public class AppController {
 				}
 			}
 		}
-		System.out.println(eventsList.toString());
 		EventFrontEnd[] events = new EventFrontEnd[eventsList.size()];
 		for(int i = 0; i < events.length; i++) {
 			events[i] = eventsList.get(i);
@@ -153,28 +152,46 @@ public class AppController {
 		ArrayList<LocalDateTime> endTimes = new ArrayList<>();
 		for(int i = 0; i < startTimes.size(); i ++) {
 			Long hourAdd = durations.get(i).longValue();
-			double addHold = durations.get(i)*60-60;
+			double addHold = 0.0;
+			if(durations.get(i) >= 1) {
+				addHold = durations.get(i)*60-60;
+			}else {
+				addHold = durations.get(i)*60;
+			}
 			int minAdd = (int) addHold;
 			endTimes.add(startTimes.get(i).plusHours(hourAdd).plusMinutes(minAdd));
 		}
+		
+		TreeMap<LocalDateTime, LocalDateTime> sortedEndStartNoOvers = new TreeMap<>();
+		for(int i = 0; i<startTimes.size();i++) {
+			if(sortedEndStartNoOvers.containsKey(endTimes.get(i))) {
+				if(sortedEndStartNoOvers.get(endTimes.get(i)).isAfter(startTimes.get(i))) {
+					sortedEndStartNoOvers.put(endTimes.get(i), startTimes.get(i));
+				}
+			}else {
+				sortedEndStartNoOvers.put(endTimes.get(i), startTimes.get(i));
+			}
+		}
+		ArrayList<LocalDateTime> endTimes2 = new ArrayList<>(sortedEndStartNoOvers.keySet());
+		ArrayList<LocalDateTime> startTimes2 = new ArrayList<>(sortedEndStartNoOvers.values());
+		
 		TreeMap<LocalDateTime, LocalDateTime> available = new TreeMap<>();
-		for(int i = 0; i < startTimes.size(); i ++) {
+		for(int i = 0; i < startTimes2.size(); i ++) {
 			if(i==0) {
-				available.put(start, startTimes.get(i));
-			}else if(i!=0 && i < startTimes.size()-1) {
-				if(startTimes.get(i).equals(endTimes.get(i-1))) {
-					available.put(endTimes.get(i), startTimes.get(i+1));
+				available.put(start, startTimes2.get(i));
+			}else if(i!=0 && i < startTimes2.size()-1) {
+				if(startTimes2.get(i).equals(endTimes2.get(i-1))) {
+					available.put(endTimes2.get(i), startTimes2.get(i+1));
 				}else {
-					available.put(endTimes.get(i-1), startTimes.get(i));
+					available.put(endTimes2.get(i-1), startTimes2.get(i));
 				}	
-			}else if (endTimes.get(i).isEqual(end)){
-				available.put(endTimes.get(i-1), startTimes.get(i));
+			}else if (endTimes2.get(i).isEqual(end)){
+				available.put(endTimes2.get(i-1), startTimes2.get(i));
 			}else{
-				available.put(endTimes.get(i), end);
+				available.put(endTimes2.get(i), end);
 			}
 			
 		}
-	
 		model.addAttribute("available", available);
 		return "availability";
 	}
