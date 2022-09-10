@@ -1,7 +1,11 @@
 package co.grandcircus.TABYCal.Controllers;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
@@ -10,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.grandcircus.TABYCal.Services.EventService;
-//import co.grandcircus.TABYCal.Services.UserService;
+import co.grandcircus.TABYCal.Models.DateTimeWrapper;
+
 import co.grandcircus.TABYCal.Models.EventFrontEnd;
 import co.grandcircus.TABYCal.Models.User;
 
@@ -76,7 +82,7 @@ public class AppController {
 	}
 
 	// DEFAULT will need to change as we go just here to test
-	@RequestMapping("/test")
+	@RequestMapping("/month-calendar")
 	public String showMonth(Model model) {
 
 		EventFrontEnd[] events = es.getEvents();
@@ -85,18 +91,7 @@ public class AppController {
 		return "month";
 	}
 
-	// will need to change as we go just here to test
-	@RequestMapping("/month")
-	public String showMonth() {
-		return "month";
-	}
 
-	// @RequestMapping("/")
-	// public String showHome(Model model) {
-	// 	EventFrontEnd[] events = es.getEvents();
-	// 	model.addAttribute("events",events);
-	// 	return "month";
-	// }
 		
 	@RequestMapping("/event-overview")
 	public String showEventOverview(Model model, @RequestParam String id) {
@@ -196,15 +191,37 @@ public class AppController {
 		return "availability";
 	}
 
-	// will need to change as we go just here to test
-	@RequestMapping("/week")
-	public String showWeek() {
+
+	
+	@RequestMapping("/week/{date}")
+	public String showWeek(@PathVariable String date, Model model) {
+		LocalDate dateTime = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+		List<DateTimeWrapper> weekList = new ArrayList<>();
+		for (int i = 6; i >= 0; i--) {
+			weekList.add( new DateTimeWrapper(dateTime.minusDays(i)));
+		
+		}
+		model.addAttribute("weekList",weekList);
 		return "week";
 	}
 
-	// will need to change as we go just here to test
 	@RequestMapping("/day")
-	public String showDay() {
+	public String showCurrentDay() {
+		Date currentDate = new Date();
+		String currentDateYearMonthDay = new SimpleDateFormat("yyyy-MM-dd").format(currentDate);
+		return "redirect:/day/" + currentDateYearMonthDay;
+	}
+
+	// will need to change as we go just here to test
+	@RequestMapping("/day/{date}")
+	public String showDay(@PathVariable String date, Model model) {
+
+		LocalDate dateTime = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+		model.addAttribute("stringDate", dateTime.format(DateTimeFormatter.ofPattern("E, M d")));
+		model.addAttribute("day", dateTime.getDayOfMonth());
+		model.addAttribute("dayOfWeek", dateTime.getDayOfWeek());
+		model.addAttribute("month", dateTime.getMonth());
+
 		return "day";
 	}
 	
