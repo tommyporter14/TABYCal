@@ -26,85 +26,120 @@ import co.grandcircus.TABYCal.Repositories.EventRepository;
 
 @RestController
 public class EventController {
-	
+
 	@ResponseBody
 	@ExceptionHandler(EventNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	String eventNotFoundHandler(EventNotFoundException ex) {
 		return ex.getMessage();
 	}
-	
+
 	@Autowired
 	private EventRepository repo;
-	
-	//get all
+
+	// get all
 	@GetMapping("/event")
-	public List<Event> getAllEvents(){
+	public List<Event> getAllEvents() {
 		return repo.findAll();
 	}
-	
-	//get by id
+
+	// get by id
 	@GetMapping("/event/{id}")
 	public Event getEventById(@PathVariable("id") String id) {
 		return repo.findById(id).orElseThrow(() -> new EventNotFoundException());
 	}
-	
-	//create
+
+	// create
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/event")
 	public Event createEvent(@RequestBody Event event) {
-		
+		checkEventIsValid(event);
 		repo.insert(event);
 		Duration dur = Duration.between(event.getStartTime(), event.getEndTime());
 		double timeMin = dur.toMinutes();
-		double time = timeMin/60;
+		double time = timeMin / 60;
 		event.setDuration(time);
 		repo.save(event);
 		return event;
 	}
-	
-	//update whole event
+
+	private void checkEventIsValid(Event event) {
+
+		for (String user : event.getUsers()) {
+			List<Event> userEventList = repo.findByUsers(user);
+			for (Event userEvent : userEventList) {
+				boolean startTimeOverlaps = (userEvent.getStartTime().isAfter(event.getStartTime())
+						|| userEvent.getStartTime().isEqual(event.getStartTime())
+								&& userEvent.getStartTime().isBefore(event.getEndTime()));
+				
+				boolean endTimeOverlaps = (userEvent.getEndTime().isAfter(event.getStartTime()) || userEvent.getEndTime().isEqual(event.getStartTime())
+						&& (userEvent.getEndTime().isBefore(event.getEndTime())));
+
+				if (startTimeOverlaps || endTimeOverlaps) {
+					throw new EventOverlapException(user, userEvent.getStartTime(), userEvent.getEndTime());
+				}
+
+			}
+		}
+
+	}
+//			//for(user: event.getUsers()) {
+//			//	fetch all of the events with user in it (look at all events that have user's name in it ;userEventList)
+//			//	for(eventAttachedToUser: userEventList){
+//			//  	check if start and end time of param event coincides with start and end time of eventAttachedToUser
+//			//}
+
+//				for(Event userEvent: userEventList) {
+//					if(userEvent start time/end time = event start time/end time) {
+//						can't create event
+//					}
+//				}
+//			
+//		}
+
+	// update whole event
 	@PutMapping("/event/{id}")
 	public Event updateEvent(@RequestBody Event event, @PathVariable("id") String id) {
 		event.setId(id);
 		return repo.save(event);
 	}
-	
-	//partial update
+
+	// partial update
 	@PatchMapping("event/{id}")
-	public Event updatePartialEvent(@PathVariable("id") String id, 
-									@RequestParam(required=false) String eventName, 
-									@RequestParam(required=false) @DateTimeFormat(pattern="yyyyMMddHHmm")LocalDateTime startTime,
-									@RequestParam(required=false) @DateTimeFormat(pattern="yyyyMMddHHmm")LocalDateTime endTime,
-									@RequestParam(required=false) String description,
-									@RequestParam(required=false) List<String> users){
-		Event event = repo.findById(id).orElseThrow(()-> new EventNotFoundException());
-		if(eventName != null) {
+	public Event updatePartialEvent(@PathVariable("id") String id, @RequestParam(required = false) String eventName,
+			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmm") LocalDateTime startTime,
+			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmm") LocalDateTime endTime,
+			@RequestParam(required = false) String description, @RequestParam(required = false) List<String> users) {
+		Event event = repo.findById(id).orElseThrow(() -> new EventNotFoundException());
+		if (eventName != null) {
 			event.setEventName(eventName);
-		}if(startTime != null) {
+		}
+		if (startTime != null) {
 			event.setStartTime(startTime);
-		}if(endTime != null) {
+		}
+		if (endTime != null) {
 			event.setEndTime(endTime);
-		}if(description != null) {
+		}
+		if (description != null) {
 			event.setDescription(description);
-		}if(users != null) {
+		}
+		if (users != null) {
 			event.setUsers(users);
 		}
-		
+
 		event.setId(id);
 		Duration dur = Duration.between(event.getStartTime(), event.getEndTime());
 		double timeMin = dur.toMinutes();
-		double time = timeMin/60;
+		double time = timeMin / 60;
 		event.setDuration(time);
 		return repo.save(event);
 	}
-	
-	//delete
+
+	// delete
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@DeleteMapping("/event/{id}") 
+	@DeleteMapping("/event/{id}")
 	public void deleteEvent(@PathVariable("id") String id) {
 		repo.deleteById(id);
 	}
-	
-	
+
 }
