@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import co.grandcircus.TABYCal.Services.EventService;
 import co.grandcircus.TABYCal.Models.DateTimeWrapper;
-
+import co.grandcircus.TABYCal.Models.Event;
 import co.grandcircus.TABYCal.Models.EventFrontEnd;
 import co.grandcircus.TABYCal.Models.User;
 
@@ -39,6 +39,9 @@ public class AppController {
 
 	@Autowired
 	private EventService es;
+	
+	@Autowired
+	private EventController ec;
 
 	// Log In Page
 	@RequestMapping("/")
@@ -91,8 +94,27 @@ public class AppController {
 		return "month";
 	}
 
-
+	@RequestMapping("/create-event")
+	public String showCreateEvent(Model model) {
+		List<User> userList = userController.readAll();
+	    model.addAttribute("users", userList);
+		return "create-event";
+	}
 		
+	//not working with overlap fully, talk to Bolanle
+	@RequestMapping("/event-created")
+	public String showEventCreated(Model model,
+			@RequestParam("start")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+			@RequestParam("end")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+			@RequestParam String eventName,
+			@RequestParam String description,
+			@RequestParam List<String> users) {
+		Double placeHolder = 0.0;
+		Event event = new Event(eventName, description, start, end, placeHolder, users);
+		model.addAttribute("event", ec.createEvent(event));
+		
+		return "event-created";
+	}
 	@RequestMapping("/event-overview")
 	public String showEventOverview(Model model, @RequestParam String id) {
 		model.addAttribute("event", es.getEventById(id));
@@ -106,7 +128,6 @@ public class AppController {
         return "check-availability";
     }
 	
-	//currently working on all events, need to talk to Yaksh to make it user specific
 	@RequestMapping("/availability")
 	public String showAvailability(Model model, 
 			@RequestParam("start")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,

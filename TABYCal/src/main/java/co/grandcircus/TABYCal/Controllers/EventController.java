@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import co.grandcircus.TABYCal.Exceptions.*;
 import co.grandcircus.TABYCal.Models.Event;
 import co.grandcircus.TABYCal.Repositories.EventRepository;
+import co.grandcircus.TABYCal.Services.UserService;
 
 @RestController
 public class EventController {
@@ -36,6 +37,7 @@ public class EventController {
 
 	@Autowired
 	private EventRepository repo;
+	private UserService us;
 
 	// get all
 	@GetMapping("/event")
