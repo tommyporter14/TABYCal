@@ -1,6 +1,7 @@
 package co.grandcircus.TABYCal.Controllers;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -37,9 +38,19 @@ public class EventController {
 	@Autowired
 	private EventRepository repo;
 
-	// get all
+	// GET BY NAME, DATE RANGE, OTHERWISE, GET ALL
 	@GetMapping("/event")
-	public List<Event> getAllEvents() {
+	public List<Event> getAllEvents(@RequestParam(required= false) LocalDateTime startDate,
+									@RequestParam(required= false) LocalDateTime endDate,
+	  								@RequestParam(required= false) List<String> users) {
+		if(startDate != null &&endDate != null && users !=null) {
+			return repo.findEventsByUsersAndDateRange(users, startDate, endDate);
+		}else if (startDate != null && endDate !=null) {
+			return repo.findEventsUsingDateRange(startDate, endDate);
+		}else if(users != null){
+			return repo.findEventByListOfUsers(users);	
+		}
+			
 		return repo.findAll();
 	}
 
@@ -48,6 +59,8 @@ public class EventController {
 	public Event getEventById(@PathVariable("id") String id) {
 		return repo.findById(id).orElseThrow(() -> new EventNotFoundException());
 	}
+	
+
 
 	// create
 	@ResponseStatus(HttpStatus.CREATED)
