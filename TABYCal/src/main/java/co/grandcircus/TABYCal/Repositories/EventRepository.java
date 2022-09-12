@@ -17,7 +17,7 @@ public interface EventRepository extends MongoRepository<Event, String>{
 	@Query ("{'users': ?0}")
 	List<Event> findByUsers(String user); 
 	
-	@Query("{'startTime':{$gte: ?0, $lte:?1 }")
+	@Query("{'startTime':{$gte: ?0, $lte:?1 }}")
 	List<Event> findEventsUsingDateRange(LocalDateTime startDate, LocalDateTime endDate);
 	
 	
@@ -26,7 +26,7 @@ public interface EventRepository extends MongoRepository<Event, String>{
 	
 
 	
-	@Query("{'users': {$all: ?0},'startTime':{$gte: ?1, $lte:?2}")
+	@Query("{'users': {$all: ?0},'startTime':{$gte: ?1, $lte:?2}}")
 	List<Event> findEventsByUsersAndDateRange(List<String>users, LocalDateTime startDate, LocalDateTime endDate);
 	
 }
