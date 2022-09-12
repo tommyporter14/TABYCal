@@ -14,6 +14,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     List<User> findByAdminStatus(Boolean adminStatus);
 
     Optional<User> findByUserName(String userName);
+    // User findByUserName(String userName);
 
 
 }

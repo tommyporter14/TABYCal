@@ -44,6 +44,8 @@ public class UserController {
 
     @GetMapping("/users/{userName}")
     public User readByUserName(@PathVariable("userName") String userName) {
+        // System.out.println(userName);
+        System.out.println(userRepo.findByUserName(userName));
         return userRepo.findByUserName(userName).orElseThrow(() -> new EmailNotFoundException(userName));
     }
 

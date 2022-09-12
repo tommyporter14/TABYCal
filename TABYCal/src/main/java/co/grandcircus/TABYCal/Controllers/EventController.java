@@ -49,6 +49,7 @@ public class EventController {
 		return repo.findById(id).orElseThrow(() -> new EventNotFoundException());
 	}
 
+
 	// create
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/event")
