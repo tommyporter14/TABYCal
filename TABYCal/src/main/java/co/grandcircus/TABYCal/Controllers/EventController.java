@@ -34,6 +34,12 @@ public class EventController {
 	String eventNotFoundHandler(EventNotFoundException ex) {
 		return ex.getMessage();
 	}
+	@ResponseBody
+	@ExceptionHandler(EventOverlapException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	String eventOverlapFound(EventOverlapException ex) {
+		return ex.getMessage();
+	}
 
 	@Autowired
 	private EventRepository repo;
