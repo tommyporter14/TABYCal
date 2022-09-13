@@ -65,7 +65,7 @@ public class AppController {
 
 			if (validator.isValid(userName)) {
 				model.addAttribute("userProfile", userController.readByUserName(userName));
-				List<Event> eventList = eventController.getAllEvents();
+				List<Event> eventList = eventController.getAllEvents(null, null, null);
 				List<Event> myEvents = new ArrayList<>();
 				for (Event event : eventList) {
 					if (event.getUsers().contains(userName)) {
