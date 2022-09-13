@@ -1,5 +1,7 @@
 package co.grandcircus.tabycalwebapp.Models;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Holiday {
 	
@@ -7,9 +9,15 @@ public class Holiday {
 		private String localName;
 		private String name;
 		private String countryCode;
+		
 		public String getDate() {
 			return date;
 		}
+		
+		public LocalDate getDateAsLocalDate() {
+			return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+		}
+		
 		public void setDate(String date) {
 			this.date = date;
 		}
