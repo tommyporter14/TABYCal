@@ -34,8 +34,6 @@ public class UserController {
         return userRepo.findAll();
     }
 
-
-
     @GetMapping("/users/{id}")
     public User readById(@PathVariable("id") String id) {
 

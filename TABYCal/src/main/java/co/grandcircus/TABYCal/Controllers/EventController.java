@@ -78,8 +78,6 @@ public class EventController {
 	public Event getEventById(@PathVariable("id") String id) {
 		return repo.findById(id).orElseThrow(() -> new EventNotFoundException());
 	}
-	
-
 
 
 	// create

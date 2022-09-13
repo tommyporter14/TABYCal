@@ -43,9 +43,6 @@ public class AppController {
 	@Autowired
 	private EventController ec;
 
-	@Autowired
-	private EventController eventController;
-
 	// Log In Page
 	@RequestMapping("/")
 	public String showLogin() {
@@ -65,7 +62,7 @@ public class AppController {
 
 			if (validator.isValid(userName)) {
 				model.addAttribute("userProfile", userController.readByUserName(userName));
-				List<Event> eventList = eventController.getAllEvents();
+				List<Event> eventList = ec.getAllEvents(null, null, null);
 				List<Event> myEvents = new ArrayList<>();
 				for (Event event : eventList) {
 					if (event.getUsers().contains(userName)) {
@@ -78,14 +75,12 @@ public class AppController {
 				throw new InvalidEmailException(userName);
 			}
 
-
-
 		} catch (Exception ex) {
 			model.addAttribute("errorMsg", ex.getMessage());
 			return "login";
 		}
 
-		return "myHome";
+		return "month";
 
 	}
 
