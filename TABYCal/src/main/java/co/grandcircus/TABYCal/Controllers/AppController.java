@@ -43,8 +43,6 @@ public class AppController {
 	@Autowired
 	private EventController ec;
 
-	@Autowired
-	private EventController eventController;
 
 	// Log In Page
 	@RequestMapping("/")
@@ -65,7 +63,7 @@ public class AppController {
 
 			if (validator.isValid(userName)) {
 				model.addAttribute("userProfile", userController.readByUserName(userName));
-				List<Event> eventList = eventController.getAllEvents();
+				List<Event> eventList = ec.getAllEvents();
 				List<Event> myEvents = new ArrayList<>();
 				for (Event event : eventList) {
 					if (event.getUsers().contains(userName)) {
