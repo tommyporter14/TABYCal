@@ -34,22 +34,27 @@
 
 				</c:forEach>
 			</thead>
+			
+		
 			<tbody class="scroll-body">
-				<tr><td>6:00</td></tr>
-				<tr><td>7:00</td></tr>
-				<tr><td>8:00</td></tr>
-				<tr><td>9:00</td></tr>
-				<tr><td>10:00</td></tr>
-				<tr><td>11:00</td></tr>
-				<tr><td>12:00</td></tr>
-				<tr><td>1:00</td></tr>
-				<tr><td>2:00</td></tr>
-				<tr><td>3:00</td></tr>
-				<tr><td>4:00</td></tr>
-				<tr><td>5:00</td></tr>
-				<tr><td>6:00</td></tr>
-				<tr><td>7:00</td></tr>
-				<tr><td>8:00</td></tr>
+			<c:forEach begin="6" end="${lastHour}" varStatus="loop">
+			    <tr>
+			    	<td>${loop.index}:00</td>
+			    	<c:forEach var="date" items="${weekList}">
+						<td>
+							<c:forEach var="eventforday" items="${eventsHelper.eventsForDayAtTime(loop.index, date)}">
+								<a href= "##/${eventforday.id}">${eventforday.eventName}</a>
+							<!--  	<c:forEach var="user" items="${eventforday.users}">
+								<br>${user}<br>
+								</c:forEach>-->
+								
+								<br>
+							</c:forEach>
+						</td>
+					</c:forEach>
+			    </tr>
+			</c:forEach>
+
 			</tbody>
 		</table>
 		<a href="/month-calendar" class="button">Go Back to Calendar</a>

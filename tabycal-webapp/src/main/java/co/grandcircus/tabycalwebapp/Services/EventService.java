@@ -1,27 +1,59 @@
 package co.grandcircus.tabycalwebapp.Services;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import co.grandcircus.tabycalwebapp.Models.EventFrontEnd;
 
-
-
 @Service
 public class EventService {
 
 	private RestTemplate rt = new RestTemplate();
-	
+
 	public EventFrontEnd[] getEvents() {
 		String url = "http://localhost:8081/event/";
 		EventFrontEnd[] events = rt.getForObject(url, EventFrontEnd[].class);
 		return events;
 	}
-	
-	//show by id
+
+	// show by id
 	public EventFrontEnd getEventById(String id) {
 		String url = "http://localhost:8081/event/" + id;
 		EventFrontEnd e = rt.getForObject(url, EventFrontEnd.class, id);
 		return e;
 	}
+
+	public List<EventFrontEnd> getEventsByDate(LocalDate date) {
+		String url = "http://localhost:8081/event/";
+		Map<String, String> params = new HashMap<>();
+		String startDate = date.atStartOfDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+		String endDate = date.atTime(23, 59).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+		params.put("startDate", startDate);
+		params.put("endDate", endDate);
+		EventFrontEnd[] events = rt.exchange(url + "?startDate={startDate}&endDate={endDate}", HttpMethod.GET,
+				new HttpEntity<>(new HashMap<>()), EventFrontEnd[].class, params).getBody();
+		return Arrays.asList(events);
+	}
+	
+	public List<EventFrontEnd> getEventsByStartDateAndEndDate(LocalDate startDate,LocalDate endDate) {
+		String url = "http://localhost:8081/event/";
+		Map<String, String> params = new HashMap<>();
+		String fixedStartDate = startDate.atStartOfDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+		String fixedEndDate = endDate.atTime(23, 59).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+		params.put("startDate", fixedStartDate);
+		params.put("endDate", fixedEndDate);
+		EventFrontEnd[] events = rt.exchange(url + "?startDate={startDate}&endDate={endDate}", HttpMethod.GET,
+				new HttpEntity<>(new HashMap<>()), EventFrontEnd[].class, params).getBody();
+		return Arrays.asList(events);
+	}
+
 }

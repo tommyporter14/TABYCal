@@ -2,6 +2,7 @@ package co.grandcircus.restapis.Controllers;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,28 @@ public class EventController {
 	@Autowired
 	private EventRepository repo;
 
-	// get all
 	@GetMapping("/event")
-	public List<Event> getAllEvents() {
+	public List<Event> getAllEvents(@RequestParam(required= false) String startDate,
+									@RequestParam(required= false) String endDate,
+	  								@RequestParam(required= false) List<String> users) {
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+		LocalDateTime adjustedStartDate = null;
+		LocalDateTime adjustedEndDate = null;
+		if(startDate != null && endDate != null) {
+			adjustedStartDate = LocalDateTime.parse(startDate, formatter);
+			adjustedEndDate = LocalDateTime.parse(endDate, formatter);
+
+		}
+		
+		if(startDate != null &&endDate != null && users !=null) {
+			return repo.findEventsByUsersAndDateRange(users, adjustedStartDate, adjustedEndDate);
+		}else if (startDate != null && endDate !=null) {
+			return repo.findEventsUsingDateRange(adjustedStartDate, adjustedEndDate);
+		}else if(users != null){
+			return repo.findEventByListOfUsers(users);	
+		}
+			
 		return repo.findAll();
 	}
 

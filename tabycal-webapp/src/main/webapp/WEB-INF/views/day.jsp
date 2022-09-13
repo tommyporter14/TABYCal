@@ -30,51 +30,18 @@
 			</thead>
 			
 			<tbody>
+				<c:forEach var= "event" items="${listOfDayEvents}">
 				<tr>
-					<td>6:00</td>
+					<td>${event.startTime.getHour()}:${event.startTime.getMinute()} -
+					 <br> ${event.endTime.getHour()}:${event.endTime.getMinute()}</td>
+					<td>${event.eventName} 
+					<br> ${event.description}
+						<c:forEach var="user" items="${event.users}">
+					<br> ${user}
+					</c:forEach>
+					</td>
 				</tr>
-				<tr>
-					<td>7:00</td>
-				</tr>
-				<tr>
-					<td>8:00</td>
-				</tr>
-				<tr>
-					<td>9:00</td>
-				</tr>
-				<tr>
-					<td>10:00</td>
-				</tr>
-				<tr>
-					<td>11:00</td>
-				</tr>
-				<tr>
-					<td>12:00</td>
-				</tr>
-				<tr>
-					<td>1:00</td>
-				</tr>
-				<tr>
-					<td>2:00</td>
-				</tr>
-				<tr>
-					<td>3:00</td>
-				</tr>
-				<tr>
-					<td>4:00</td>
-				</tr>
-				<tr>
-					<td>5:00</td>
-				</tr>
-				<tr>
-					<td>6:00</td>
-				</tr>
-				<tr>
-					<td>7:00</td>
-				</tr>
-				<tr>
-					<td>8:00</td>
-				</tr>
+				</c:forEach>
 			</tbody>
 
 		</table>
