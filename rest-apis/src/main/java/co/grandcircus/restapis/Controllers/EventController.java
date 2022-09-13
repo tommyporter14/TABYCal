@@ -25,8 +25,6 @@ import co.grandcircus.restapis.Exceptions.EventOverlapException;
 import co.grandcircus.restapis.Models.Event;
 import co.grandcircus.restapis.Repositories.EventRepository;
 
-
-
 @RestController
 public class EventController {
 
@@ -50,6 +48,12 @@ public class EventController {
 	@GetMapping("/event/{id}")
 	public Event getEventById(@PathVariable("id") String id) {
 		return repo.findById(id).orElseThrow(() -> new EventNotFoundException());
+	}
+
+	// get by username
+	@GetMapping("/event/{user}")
+	public List<Event> getEventsByUserName(@PathVariable("user") String user) {
+		return repo.findByUsers(user);
 	}
 
 	// create
@@ -87,19 +91,21 @@ public class EventController {
 		}
 
 	}
-//			//for(user: event.getUsers()) {
-//			//	fetch all of the events with user in it (look at all events that have user's name in it ;userEventList)
-//			//	for(eventAttachedToUser: userEventList){
-//			//  	check if start and end time of param event coincides with start and end time of eventAttachedToUser
-//			//}
+	// //for(user: event.getUsers()) {
+	// // fetch all of the events with user in it (look at all events that have
+	// user's name in it ;userEventList)
+	// // for(eventAttachedToUser: userEventList){
+	// // check if start and end time of param event coincides with start and end
+	// time of eventAttachedToUser
+	// //}
 
-//				for(Event userEvent: userEventList) {
-//					if(userEvent start time/end time = event start time/end time) {
-//						can't create event
-//					}
-//				}
-//			
-//		}
+	// for(Event userEvent: userEventList) {
+	// if(userEvent start time/end time = event start time/end time) {
+	// can't create event
+	// }
+	// }
+	//
+	// }
 
 	// update whole event
 	@PutMapping("/event/{id}")

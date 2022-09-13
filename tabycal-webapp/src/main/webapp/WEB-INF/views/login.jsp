@@ -15,8 +15,8 @@
             <body>
                 <div class="main">
                     <p class="sign" >Sign in</p>
-                    <form class="form1" action="/verifyaccount" method="get">
-                        <input class="un " type="text"  placeholder="Enter Email">
+                    <form class="form1" action="/verifyaccount" method="post">
+                        <input class="un " type="text" name="userName" placeholder="Enter Email">
                         <!-- <input class="pass" type="password" align="center" placeholder="Password"> -->
                         <input type="submit" class="submit"  value="Submit">
                         <p class="create"><a href="/newaccount">Create Account?</p>
