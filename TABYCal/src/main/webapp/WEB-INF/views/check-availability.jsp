@@ -12,7 +12,7 @@
 <h1>Fill Out The Form Below To Find Open Times For Scheduling</h1>
 	<form action="/availability" method="POST">
 			<input type="datetime-local" name="start"/><span>Start Time</span><br>
-			<input type="datetime-local" name="end" /><span>Start Time</span><br>
+			<input type="datetime-local" name="end" /><span>End Time</span><br>
 			<h3>Select Employees To Check Availability With:</h3>
 			<p>Hold control/command to select multiple employees</p>
 			<select name="users" multiple>

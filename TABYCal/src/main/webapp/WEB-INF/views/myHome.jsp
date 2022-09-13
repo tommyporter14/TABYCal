@@ -13,20 +13,14 @@
             </head>
 
             <body>
-                <c:if test="${not empty errorMsg}">
-                    <script>
-                         alert("${errorMsg}");
-                    </script>
-                </c:if>
                 <div class="main">
-                    <p class="sign">Sign in</p>
-                    <form class="form1" action="/verifyaccount" method="get">
-                        <input class="un " type="text" name="userName" placeholder="Enter Email">
-                        <!-- <input class="pass" type="password" align="center" placeholder="Password"> -->
-                        <input type="submit" class="submit" value="Submit">
-                        <p class="create"><a href="/newaccount">Create Account?</p>
-                    </form>
-
+                    Event Count<p>${myEvents}</p></br>
+                    <c:forEach var="event" items="${myEvents}">
+                        Event Name<p>${event.eventName}</p></br>
+                        Start Time<p>${event.startTime}</p></br>
+                        End Time<p>${event.endTime}</p></br>
+                        Attendees<p>${event.users}</p></br>
+                    </c:forEach>
                 </div>
 
             </body>

@@ -3,7 +3,9 @@ package co.grandcircus.TABYCal.Services;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import co.grandcircus.TABYCal.Models.Event;
 import co.grandcircus.TABYCal.Models.EventFrontEnd;
+import co.grandcircus.TABYCal.Models.User;
 
 @Service
 public class EventService {
@@ -22,4 +24,5 @@ public class EventService {
 		EventFrontEnd e = rt.getForObject(url, EventFrontEnd.class, id);
 		return e;
 	}
+
 }

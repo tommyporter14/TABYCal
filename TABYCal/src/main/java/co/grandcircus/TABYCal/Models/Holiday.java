@@ -1,6 +1,5 @@
 package co.grandcircus.TABYCal.Models;
 
-import java.sql.Date;
 
 public class Holiday {
 	
