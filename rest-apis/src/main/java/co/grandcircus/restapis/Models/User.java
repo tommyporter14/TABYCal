@@ -52,9 +52,8 @@ public class User {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        LocalDate date = LocalDate.parse(dateOfBirth);
-        this.dateOfBirth = date;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     

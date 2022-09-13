@@ -1,6 +1,7 @@
 package co.grandcircus.tabycalwebapp.Services;
 
 
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,15 +21,18 @@ public class UserService {
     }
 
     public User getByUsername(String userName) {
-        String url = "http://localhost:8081/users/{id}";
+        String url = "http://localhost:8081/userprofile/?userName={0}";
+        System.out.println(userName);
+        System.out.println(url);
         final User response = request.getForObject(url, User.class, userName);
         return response;
     }
 
     public User createUser(User newUser){
-        System.out.println("in create user service");
         String url = "http://localhost:8081/users/create";
-        final User response = request.postForObject(url, request, User.class, newUser);
+        System.out.println(newUser.toString());
+        final User response = request.postForObject(url, newUser, User.class);
+        System.out.println("in create user service");
         return response;
     }
 }

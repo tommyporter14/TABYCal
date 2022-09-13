@@ -2,13 +2,11 @@ package co.grandcircus.tabycalwebapp.Models;
 
 import java.time.LocalDate;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("users")
+
 public class User {
 
-    @Id
+    
     private String id;
     private String userName;
     private String firstName;

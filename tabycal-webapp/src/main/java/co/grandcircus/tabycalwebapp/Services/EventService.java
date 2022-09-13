@@ -56,4 +56,9 @@ public class EventService {
 		return Arrays.asList(events);
 	}
 
+	public EventFrontEnd[] getByUserName(String user){
+		String url = "http://localhost:8081/event/?user={0}";
+		EventFrontEnd[] e = rt.getForObject(url, EventFrontEnd[].class, user);
+		return e;
+	}
 }

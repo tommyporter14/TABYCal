@@ -42,21 +42,19 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     public User readById(@PathVariable("id") String id) {
-
         return userRepo.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
     }
 
-    @GetMapping("/users/{userName}")
-    public User readByUserName(@PathVariable("userName") String userName) {
+    @GetMapping("/userprofile")
+    public User readByUserName(@RequestParam String userName) {
         return userRepo.findByUserName(userName).orElseThrow(() -> new EmailNotFoundException(userName));
     }
-
 
 
     // Update Put Completely replaces the resource. All elements of the
     // body need to be
     // included
-    @PutMapping("/users/{id}")
+    @PutMapping("/users/{id}/change")
     public User updateComplete(@PathVariable("id") String id, @RequestBody User user) {
         user.setId(id);
         return userRepo.save(user);
@@ -74,7 +72,7 @@ public class UserController {
     }
 
     // CRU(D) -- Delete
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/users/{id}/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") String id) {
         userRepo.deleteById(id);
@@ -85,7 +83,6 @@ public class UserController {
     @PostMapping("/users/create")
     @ResponseStatus(HttpStatus.CREATED)
     public User createUser(@RequestBody User newUser) {
-
         EmailValidator validator = EmailValidator.getInstance();
 
         if (validator.isValid(newUser.getUserName())) {

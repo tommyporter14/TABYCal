@@ -40,7 +40,7 @@
         <div class="events">
 <h1>Events</h1>
 	<ul>
-			<c:forEach var="events" items="${events}">
+			<c:forEach var="events" items="${userEvents}">
 			<li>
 				<a>${events.eventName}</a>
 				
