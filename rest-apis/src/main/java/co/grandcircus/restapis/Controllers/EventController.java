@@ -1,9 +1,7 @@
-package co.grandcircus.TABYCal.Controllers;
+package co.grandcircus.restapis.Controllers;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +20,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.grandcircus.TABYCal.Exceptions.*;
-import co.grandcircus.TABYCal.Models.Event;
-import co.grandcircus.TABYCal.Repositories.EventRepository;
-import co.grandcircus.TABYCal.Services.UserService;
+import co.grandcircus.restapis.Exceptions.EventNotFoundException;
+import co.grandcircus.restapis.Exceptions.EventOverlapException;
+import co.grandcircus.restapis.Models.Event;
+import co.grandcircus.restapis.Repositories.EventRepository;
+
+
 
 @RestController
 public class EventController {
@@ -36,40 +36,13 @@ public class EventController {
 	String eventNotFoundHandler(EventNotFoundException ex) {
 		return ex.getMessage();
 	}
-	@ResponseBody
-	@ExceptionHandler(EventOverlapException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	String eventOverlapFound(EventOverlapException ex) {
-		return ex.getMessage();
-	}
 
 	@Autowired
 	private EventRepository repo;
-	private UserService us;
 
-	// GET BY NAME, DATE RANGE, OTHERWISE, GET ALL
+	// get all
 	@GetMapping("/event")
-	public List<Event> getAllEvents(@RequestParam(required= false) String startDate,
-									@RequestParam(required= false) String endDate,
-	  								@RequestParam(required= false) List<String> users) {
-		
-		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-		LocalDateTime adjustedStartDate = null;
-		LocalDateTime adjustedEndDate = null;
-		if(startDate != null && endDate != null) {
-			adjustedStartDate = LocalDateTime.parse(startDate, formatter);
-			adjustedEndDate = LocalDateTime.parse(endDate, formatter);
-
-		}
-		
-		if(startDate != null &&endDate != null && users !=null) {
-			return repo.findEventsByUsersAndDateRange(users, adjustedStartDate, adjustedEndDate);
-		}else if (startDate != null && endDate !=null) {
-			return repo.findEventsUsingDateRange(adjustedStartDate, adjustedEndDate);
-		}else if(users != null){
-			return repo.findEventByListOfUsers(users);	
-		}
-			
+	public List<Event> getAllEvents() {
 		return repo.findAll();
 	}
 
@@ -78,9 +51,6 @@ public class EventController {
 	public Event getEventById(@PathVariable("id") String id) {
 		return repo.findById(id).orElseThrow(() -> new EventNotFoundException());
 	}
-	
-
-
 
 	// create
 	@ResponseStatus(HttpStatus.CREATED)
