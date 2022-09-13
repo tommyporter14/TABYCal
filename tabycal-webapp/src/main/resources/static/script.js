@@ -1,5 +1,27 @@
 const date = new Date();
 
+const events = document.querySelectorAll(".events li");
+
+
+var eventsList = []; 
+
+for(let x = 0; x < events.length; x++){
+	var calEvent = {
+		eventId: events[x].querySelector("#eventId").textContent,
+		eventName: events[x].querySelector("#eventName").textContent,
+		startTime: events[x].querySelector("#startTime").textContent,
+		endTime: events[x].querySelector("#endTime").textContent
+	  }; 
+	eventsList.push(calEvent);
+}
+for (let x = 0; x <eventsList.length;x++){
+
+	console.log(eventsList[x].eventId);
+	console.log(eventsList[x].eventName);
+	console.log(eventsList[x].startTime);
+	console.log(eventsList[x].endTime);
+}
+
 const renderCalendar = () => {
     date.setDate(1);
 	const monthDays = document.querySelector(".days");
