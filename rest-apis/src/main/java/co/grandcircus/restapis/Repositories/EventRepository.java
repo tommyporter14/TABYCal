@@ -1,5 +1,6 @@
 package co.grandcircus.restapis.Repositories;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,5 +17,17 @@ public interface EventRepository extends MongoRepository<Event, String>{
 	
 	@Query ("{'users': ?0}")
 	List<Event> findByUsers(String user); 
+	
+	@Query("{'startTime':{$gte: ?0, $lte:?1 }}")
+	List<Event> findEventsUsingDateRange(LocalDateTime startDate, LocalDateTime endDate);
+	
+	
+	@Query("{'users': {$all: ?0}}")
+	List<Event>findEventByListOfUsers(List<String>users);
+	
+
+	
+	@Query("{'users': {$all: ?0},'startTime':{$gte: ?1, $lte:?2}}")
+	List<Event> findEventsByUsersAndDateRange(List<String>users, LocalDateTime startDate, LocalDateTime endDate);
 }
 
