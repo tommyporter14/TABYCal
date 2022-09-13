@@ -44,18 +44,30 @@
                             <ul>
                                 <c:forEach var="events" items="${userEvents}">
                                     <li>
-                                        <a hidden id="eventId">${events.id}</a>
+                                        <a id="eventId">${events.id}</a>
                                         <a hidden id="eventName">${events.eventName}</a>
                                         <a hidden id="startTime">${events.startTime}</a>
                                         <a hidden id="endTime">${events.endTime}</a>
                                     </li>
-                                    
                                 </c:forEach>
                             </ul>
                         </div>
+
+                        <div class="holiday">
+                            <h1>Holiday</h1>
+                            <ul>
+                                <c:forEach var="holiday" items="${holidays}">
+                                    <li>
+                                        <a hidden id="holidayName">${holiday.name}</a>
+                                        <a hidden id="holidayDate">${holiday.date}</a>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                        
                     </div>
                 </div>
-                <c:set var = "events" scope = "session" value = "${userEvents}"/>
+                <c:set var="events" scope="session" value="${userEvents}" />
                 <script src="script.js"></script>
             </body>
 

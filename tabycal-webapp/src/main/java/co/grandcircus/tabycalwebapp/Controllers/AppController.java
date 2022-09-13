@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import co.grandcircus.tabycalwebapp.Models.EventFrontEnd;
+import co.grandcircus.tabycalwebapp.Models.Holiday;
 import co.grandcircus.tabycalwebapp.Models.User;
 import co.grandcircus.tabycalwebapp.Services.EventService;
+import co.grandcircus.tabycalwebapp.Services.HolidayService;
 import co.grandcircus.tabycalwebapp.Services.UserService;
 
 @Controller
@@ -21,6 +23,9 @@ public class AppController {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	HolidayService holidayService;
 
 	// Log In Page
 	@RequestMapping("/")
@@ -47,9 +52,16 @@ public class AppController {
 			System.out.println(ex.toString());
 			return "redirect:/";
 		}
-
 		return "month";
+	}
 
+	@RequestMapping("/month")
+	public String showMonth(Model model) {
+		EventFrontEnd[] userEvents = eventService.getEvents();
+		model.addAttribute("userEvents", userEvents);
+		Holiday[] holidays = holidayService.getHolidays();
+		model.addAttribute("holidays", holidays);
+		return "month";
 	}
 
 	// return to the log in page but we can have a "success page" then direct to log
