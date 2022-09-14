@@ -3,6 +3,7 @@ package co.grandcircus.tabycalwebapp.Controllers;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,10 @@ import co.grandcircus.tabycalwebapp.Services.UserService;
 
 import co.grandcircus.tabycalwebapp.Models.DateTimeWrapper;
 import co.grandcircus.tabycalwebapp.Models.EventFrontEnd;
+import co.grandcircus.tabycalwebapp.Models.Holiday;
 import co.grandcircus.tabycalwebapp.Services.EventService;
+import co.grandcircus.tabycalwebapp.Services.HolidayService;
+import co.grandcircus.tabycalwebapp.Util.HolidayHelper;
 import co.grandcircus.tabycalwebapp.Util.WeekViewHelper;
 
 @Controller
@@ -29,6 +33,9 @@ public class AppController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	private HolidayService holidayService;
 
 	// Log In Page
 	@RequestMapping("/")
@@ -52,6 +59,11 @@ public class AppController {
 		model.addAttribute("earliestHour",eventsHelper.getEarliestHour());
 		model.addAttribute("eventsHelper", eventsHelper);
 		model.addAttribute("weekList", weekList);
+		
+		List<Holiday> holidayList = Arrays.asList(holidayService.getHolidays());
+		HolidayHelper holidayHelper = new HolidayHelper(holidayList);
+		model.addAttribute("holidayHelper", holidayHelper);
+		
 		return "week";
 	}
 
@@ -67,6 +79,11 @@ public class AppController {
 
 		List<EventFrontEnd> eventData = eventService.getEventsByDate(dateTime);
 		model.addAttribute("listOfDayEvents", eventData);
+		
+		List<Holiday> holidayList = Arrays.asList(holidayService.getHolidays());
+		HolidayHelper holidayHelper = new HolidayHelper(holidayList);
+		model.addAttribute("holidayHelper", holidayHelper);
+		model.addAttribute("dateTime", dateTime);
 
 		return "day";
 	}

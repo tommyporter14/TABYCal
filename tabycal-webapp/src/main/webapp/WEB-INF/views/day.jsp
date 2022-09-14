@@ -21,6 +21,9 @@
 <body>
 <div class="day-heading">
 	Schedule for ${dayOfWeek}, ${month} ${day}
+	<c:if test="${holidayHelper.isThisAHoliday(dateTime)}">
+		<br><c:out value= "${holidayHelper.showActualHoliday(dateTime).name}"/>
+</c:if>
 </div>
 	<div class="table">
 		<table class=table>

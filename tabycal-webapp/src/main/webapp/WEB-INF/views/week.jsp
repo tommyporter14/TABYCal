@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="/day-and-week.css"> 
+<link rel="stylesheet" href="/day-and-week.css">
 
 <title>Week Schedule</title>
 <link
@@ -14,46 +14,52 @@
 	rel="stylesheet"
 	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
 	crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu"
+	rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="path/to/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
-<div class= "week-heading">
-	Week of <c:out value="${weekList[0].getSpecificDayString()}" /> Schedule
+	<div class="week-heading">
+		Week of
+		<c:out value="${weekList[0].getSpecificDayString()}" />
+		Schedule
 
-</div>
+	</div>
 	<div class="table">
 		<table class=table>
 			<thead class="sticky-head">
-				<th> </th>
+				<th></th>
 				<c:forEach var="date" items="${weekList}">
-					<th><c:out value="${date.getDayOfWeek()}" /> 
-						<c:out value="${date.getSpecificDayString()}"/>
-					</th>	 	
+					<th><c:out value="${date.getDayOfWeek()}" /> <c:out
+							value="${date.getSpecificDayString()}" /> 
+							<c:if test="${holidayHelper.isThisAHoliday(date)}">
+							<br>
+							<c:out value="${holidayHelper.showActualHoliday(date).name}" />
+						</c:if></th>
 
 				</c:forEach>
 			</thead>
-			
-		
+
+
 			<tbody class="scroll-body">
-			<c:forEach begin="6" end="${lastHour}" varStatus="loop">
-			    <tr>
-			    	<td>${loop.index}:00</td>
-			    	<c:forEach var="date" items="${weekList}">
-						<td>
-							<c:forEach var="eventforday" items="${eventsHelper.eventsForDayAtTime(loop.index, date)}">
-								<a href= "##/${eventforday.id}">${eventforday.eventName}</a>
-							<!--  	<c:forEach var="user" items="${eventforday.users}">
+				<c:forEach begin="6" end="${lastHour}" varStatus="loop">
+					<tr>
+						<td>${loop.index}:00</td>
+						<c:forEach var="date" items="${weekList}">
+							<td><c:forEach var="eventforday"
+									items="${eventsHelper.eventsForDayAtTime(loop.index, date)}">
+									<a href="##/${eventforday.id}">${eventforday.eventName}</a>
+									<!--  	<c:forEach var="user" items="${eventforday.users}">
 								<br>${user}<br>
 								</c:forEach>-->
-								
-								<br>
-							</c:forEach>
-						</td>
-					</c:forEach>
-			    </tr>
-			</c:forEach>
+
+									<br>
+								</c:forEach></td>
+						</c:forEach>
+					</tr>
+				</c:forEach>
 
 			</tbody>
 		</table>

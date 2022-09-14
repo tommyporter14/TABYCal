@@ -3,6 +3,7 @@ package co.grandcircus.tabycalwebapp.Util;
 import java.time.LocalDate;
 import java.util.List;
 
+import co.grandcircus.tabycalwebapp.Models.DateTimeWrapper;
 import co.grandcircus.tabycalwebapp.Models.Holiday;
 
 public class HolidayHelper {
@@ -44,5 +45,15 @@ public class HolidayHelper {
 		return null;
 	}
 	
-
+	
+	public boolean isThisAHoliday (DateTimeWrapper date) {
+		 return isThisAHoliday(date.getDate());
+		 
+		}
+	
+	public Holiday showActualHoliday (DateTimeWrapper date) {
+		 return showActualHoliday(date.getDate());
+	}
+	
 }
+

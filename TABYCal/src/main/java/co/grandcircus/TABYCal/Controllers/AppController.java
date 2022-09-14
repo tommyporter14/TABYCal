@@ -27,6 +27,7 @@ import co.grandcircus.TABYCal.Models.Event;
 import co.grandcircus.TABYCal.Models.EventFrontEnd;
 import co.grandcircus.TABYCal.Models.User;
 import co.grandcircus.TABYCal.Services.EventService;
+import co.grandcircus.TABYCal.Services.HolidayService;
 
 @Controller
 public class AppController {
@@ -45,6 +46,9 @@ public class AppController {
 
 	@Autowired
 	private EventController eventController;
+	
+	@Autowired
+	private HolidayService hs;
 
 	// Log In Page
 	@RequestMapping("/")
@@ -266,6 +270,7 @@ public class AppController {
 		model.addAttribute("day", dateTime.getDayOfMonth());
 		model.addAttribute("dayOfWeek", dateTime.getDayOfWeek());
 		model.addAttribute("month", dateTime.getMonth());
+		
 
 		return "day";
 	}
