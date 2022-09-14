@@ -75,5 +75,11 @@ public class EventService {
 	        final EventFrontEnd response = rt.postForObject(url, newEvent, EventFrontEnd.class);
 	        return response;
 	    }
+	 
+	 //delete event
+	 public void deleteEvent(String id) {
+		 String url = "http://localhost:8081/event/" + id;
+		 rt.delete(url);
+	 }
 
 }

@@ -18,6 +18,8 @@
 	<p><c:forEach var= "user" items="${event.users}">
 	 | ${user} |  
 	</c:forEach></p>
+	
+	<a href="/successfully-deleted/?id=${event.id}">Delete Event?</a>
 	<a href="/month-calendar">Back To Month View?</a>
 
 </body>

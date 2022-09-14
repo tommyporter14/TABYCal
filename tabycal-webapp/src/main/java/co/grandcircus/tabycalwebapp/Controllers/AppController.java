@@ -224,7 +224,11 @@ public class AppController {
 		model.addAttribute("event", eventService.getEventById(id));
 		return "event-overview";
 	}
-
+	@RequestMapping("/successfully-deleted")
+	public String showSuccessfullyDeleted(@RequestParam String id) {
+		eventService.deleteEvent(id);
+		return "successfully-deleted";
+	}
 	// Schedule Finder Service (Web Service)
 
 	@RequestMapping("/check-availability")
