@@ -23,6 +23,7 @@
   			<input type="submit" value="Submit"/><br>
 
 	</form>
-	<a href="/">Home</a>			
+	
+	<a href="/month-calendar">Back To Month View?</a>			
 </body>
 </html>

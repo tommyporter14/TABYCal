@@ -11,6 +11,9 @@
 <body>
 <h1>Availability</h1>
 <p>${available}</p>
-<a href="/">Home</a>	
+<p>${message}</p>
+<a href="/create-event">Create Event?</a>	
+<a href="/month-calendar">Back To Month View?</a>	
+
 </body>
 </html>

@@ -22,8 +22,8 @@ html {
 }
 
 .calendar {
-    width: 52rem;
-    height: 52rem;
+    width: 100%;
+    height: 100%;
     background-color: #222227;
     box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.4);
 }
@@ -55,11 +55,20 @@ html {
 
 .month p {
     font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+}
+
+.month a{
+	background-color: white;
+  	color: #9C27B0;
+ 	padding: 4px 16px;
+  	text-decoration: none;
 }
 
 .weekdays {
     width: 100%;
-    height: 5rem;
+    height: 1rem;
+    margin-top: 1.3rem;
     padding: 0 0.4rem;
     display: flex;
     align-items: center;
@@ -69,7 +78,7 @@ html {
     font-size: 1.5rem;
     font-weight: 400;
     letter-spacing: 0.1rem;
-    width: calc(44.2rem/7);
+    width: calc(97%/8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -83,33 +92,79 @@ html {
     padding: 0.2rem;
 }
 
-.days div {
-    font-size: 1.4rem;
-    margin: 0.3rem;
-    width: calc(40.2rem/7);
-    height: 5rem;
+.days ul{
+	list-style: none;
+}
+
+/* .viewweek{ */
+/* 	list-style: none; */
+/* 	font-size: 1.5rem; */
+/*     font-weight: 400; */
+/*     letter-spacing: 0.1rem; */
+/*     width: calc(97%/8); */
+/*     display: flex; */
+/*     height: 9rem; */
+/*     justify-content: center; */
+/*     align-items: center; */
+/*     text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5); */
+/* } */
+
+
+.days div{
+	font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0.1rem;
+    width: calc(97%/8);
     display: flex;
+    height: 9rem;
     justify-content: center;
     align-items: center;
     text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
-    transition: background-color 0.2s;
 }
-
-.days div:hover:not(.today) {
-    background-color: #262626;
-    border: 0.2rem solid#777;
-    cursor: pointer;
+.events{
+	color:rgb(213, 169, 227);
 }
+/* .monthdays{ */
+/* 	font-size: 1.5rem; */
+/*     font-weight: 400; */
+/*     letter-spacing: 0.1rem; */
+/*     width: calc(97%/8); */
+/*     display: flex; */
+/*     height: 9rem; */
+/*     justify-content: center; */
+/*     align-items: center; */
+/*     text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5); */
+/* } */
 
-.prev-date,
-.next-date {
-    opacity: 0.5;
-}
 
-.today {
-    background-color: #167e56;
-}
+/* .monthdays:hover:not(.today) { */
+/*     background-color: #262626; */
+/*     border: 0.2rem solid#777; */
+/*     cursor:pointer; */
+/*     width: calc(97%/8); */
+/* } */
 
+/* .viewweek{ */
+/* 	background-color: #9C27B0; */
+/*   	color: white; */
+/*  	padding: 15px 25px; */
+/*   	text-decoration: none; */
+/* } */
+
+/* .prev-date, */
+/* .next-date { */
+/* 	color: grey; */
+/*     opacity: 0.5; */
+/* } */
+/* .today{ */
+/* 	background-color: #9C27B0; */
+/*   	color: white; */
+/*  	padding: 15px 77px; */
+/*   	text-decoration: none; */
+/* } */
+/* .today:hover{ */
+/* 	 border: 0.2rem solid#777; */
+/* } */
 /* Log In landing page css start credit https://speckyboy.com/login-pages-html5-css/*/
 body {
     background-color: #F3EBF6;
@@ -166,6 +221,7 @@ body {
 form.form1 {
     padding-top: 40px;
 }
+
 /* removing password tag */
 /* .pass {
     width: 76%;
@@ -186,7 +242,6 @@ form.form1 {
     margin-bottom: 27px;
     font-family: 'Ubuntu', sans-serif;
 } */
-
 
 .un:focus,
 .pass:focus {
@@ -219,7 +274,7 @@ form.form1 {
 
 a {
     text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
-    color: #E1BEE7;
+    color:#ab3cbe;
     text-decoration: none
 }
 
@@ -229,4 +284,6 @@ a {
     }
 }
 
+
 /* Log In landing page css start  */
+

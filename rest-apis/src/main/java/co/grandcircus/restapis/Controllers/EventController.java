@@ -90,6 +90,7 @@ public class EventController {
 		return event;
 	}
 
+	//validator
 	private void checkEventIsValid(Event event) {
 
 		for (String user : event.getUsers()) {
@@ -111,21 +112,6 @@ public class EventController {
 		}
 
 	}
-	// //for(user: event.getUsers()) {
-	// // fetch all of the events with user in it (look at all events that have
-	// user's name in it ;userEventList)
-	// // for(eventAttachedToUser: userEventList){
-	// // check if start and end time of param event coincides with start and end
-	// time of eventAttachedToUser
-	// //}
-
-	// for(Event userEvent: userEventList) {
-	// if(userEvent start time/end time = event start time/end time) {
-	// can't create event
-	// }
-	// }
-	//
-	// }
 
 	// update whole event
 	@PutMapping("/event/{id}")

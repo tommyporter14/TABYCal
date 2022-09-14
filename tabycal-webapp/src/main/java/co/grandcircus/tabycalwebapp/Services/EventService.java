@@ -9,10 +9,13 @@ import java.util.Map;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import co.grandcircus.tabycalwebapp.Models.EventFrontEnd;
+import co.grandcircus.tabycalwebapp.Models.EventResponse;
+import co.grandcircus.tabycalwebapp.Models.User;
 
 @Service
 public class EventService {
@@ -24,8 +27,14 @@ public class EventService {
 		EventFrontEnd[] events = rt.getForObject(url, EventFrontEnd[].class);
 		return events;
 	}
-
-	// show by id
+	
+	//maybe allow for list instead of array?
+	public List<EventFrontEnd> getEventResponse() {
+		String url = "http://localhost:8081/event/";
+		EventResponse events = rt.getForObject(url, EventResponse.class);
+		return events.getEvents();
+	}
+	
 	public EventFrontEnd getEventById(String id) {
 		String url = "http://localhost:8081/event/" + id;
 		EventFrontEnd e = rt.getForObject(url, EventFrontEnd.class, id);
@@ -61,4 +70,13 @@ public class EventService {
 		EventFrontEnd[] e = rt.getForObject(url, EventFrontEnd[].class, user);
 		return e;
 	}
+	
+	//create event
+	 public EventFrontEnd createEvent(EventFrontEnd newEvent){
+	        String url = "http://localhost:8081/event/";
+	        final EventFrontEnd response = rt.postForObject(url, rt, EventFrontEnd.class, newEvent);
+	        rt.postForEntity(url, response, EventFrontEnd.class);
+	        return response;
+	    }
+
 }
