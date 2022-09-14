@@ -19,7 +19,5 @@ public class HolidayController {
 		return "holiday";
 	
 	}
-	
-	
 
 }

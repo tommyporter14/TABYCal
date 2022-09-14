@@ -8,7 +8,7 @@ public class UserNameExistsException extends RuntimeException {
     private static final long serialVersionUID = 1l;
 
     public UserNameExistsException(String userName) {
-        super("Item with User Name: " + userName + " exists already");
+        super("Item with User Name: " + userName);
     }
 
 }

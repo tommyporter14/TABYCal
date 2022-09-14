@@ -13,13 +13,15 @@
             </head>
 
             <body>
-                <c:if test="${not empty userName}">
-                    <script>
-                         alert("${userName} is not available");
-                    </script>
-                </c:if>
                 <div class="main-account">
                     <p class="sign">New Account Details</p>
+                    <c:if test="${not empty userName}">
+                        <script>
+                            function myFunction() {
+                                alert("${userName} is not available");
+                            }
+                        </script>
+                    </c:if>
                     
                     <form class="form1" action="/createuser" method="post">
                         <input class="un" type="text" placeholder="Email" name="userName" required>
