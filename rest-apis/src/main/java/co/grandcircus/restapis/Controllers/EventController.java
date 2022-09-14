@@ -80,7 +80,6 @@ public class EventController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/event")
 	public Event createEvent(@RequestBody Event event) {
-		checkEventIsValid(event);
 		repo.insert(event);
 		Duration dur = Duration.between(event.getStartTime(), event.getEndTime());
 		double timeMin = dur.toMinutes();

@@ -9,13 +9,11 @@ import java.util.Map;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import co.grandcircus.tabycalwebapp.Models.EventFrontEnd;
 import co.grandcircus.tabycalwebapp.Models.EventResponse;
-import co.grandcircus.tabycalwebapp.Models.User;
 
 @Service
 public class EventService {
@@ -74,8 +72,12 @@ public class EventService {
 	//create event
 	 public EventFrontEnd createEvent(EventFrontEnd newEvent){
 	        String url = "http://localhost:8081/event/";
-	        final EventFrontEnd response = rt.postForObject(url, rt, EventFrontEnd.class, newEvent);
-	        rt.postForEntity(url, response, EventFrontEnd.class);
+			System.out.println(newEvent.toString());
+	        final EventFrontEnd response = rt.postForObject(url, newEvent, EventFrontEnd.class);
+				//We dont need another post for entity 
+			// rt.postForEntity(url, response, EventFrontEnd.class);
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
 	        return response;
 	    }
 

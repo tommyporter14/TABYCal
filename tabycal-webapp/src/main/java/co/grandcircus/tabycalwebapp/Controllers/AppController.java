@@ -1,58 +1,34 @@
 package co.grandcircus.tabycalwebapp.Controllers;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-
-
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
-import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import co.grandcircus.tabycalwebapp.Models.User;
-import co.grandcircus.tabycalwebapp.Services.UserService;
-
 import co.grandcircus.tabycalwebapp.Models.DateTimeWrapper;
 import co.grandcircus.tabycalwebapp.Models.EventFrontEnd;
 import co.grandcircus.tabycalwebapp.Models.Holiday;
+import co.grandcircus.tabycalwebapp.Models.User;
 import co.grandcircus.tabycalwebapp.Services.EventService;
 import co.grandcircus.tabycalwebapp.Services.HolidayService;
+import co.grandcircus.tabycalwebapp.Services.UserService;
 import co.grandcircus.tabycalwebapp.Util.HolidayHelper;
 import co.grandcircus.tabycalwebapp.Util.WeekViewHelper;
-
-
-import co.grandcircus.tabycalwebapp.Exceptions.InvalidEmailException;
-import co.grandcircus.tabycalwebapp.Models.DateTimeWrapper;
-import co.grandcircus.tabycalwebapp.Models.EventFrontEnd;
-import co.grandcircus.tabycalwebapp.Models.Holiday;
-import co.grandcircus.tabycalwebapp.Models.User;
-import co.grandcircus.tabycalwebapp.Services.EventService;
-import co.grandcircus.tabycalwebapp.Services.HolidayService;
-import co.grandcircus.tabycalwebapp.Services.UserService;
 
 
 @Controller
@@ -233,14 +209,15 @@ public class AppController {
 			@RequestParam List<String> users) {
 		Double placeHolder = 0.0;
 		EventFrontEnd event = new EventFrontEnd(eventName, description, start, end, placeHolder, users);
-		//model.addAttribute("event", es.createEvent(event));
+		model.addAttribute("event", eventService.createEvent(event));
 		System.out.println(event);
 		System.out.println(eventName);
 		return "event-created";
 	}
 	
-	@RequestMapping("/event-overview/")
-	public String showEventOverview(Model model, @RequestParam String id) {
+	@RequestMapping("/event-overview/{id}")
+	public String showEventOverview(@PathVariable("id") String id, Model model) {
+		System.out.println("Id:" +id);
 		model.addAttribute("event", eventService.getEventById(id));
 		return "event-overview";
 	}
