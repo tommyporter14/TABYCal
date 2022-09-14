@@ -74,5 +74,13 @@ public class EventFrontEnd {
 	public String getReadableEndTime() {
 		return endTime.format(DateTimeFormatter.ofPattern("EEE, MM/dd/yyyy, h:mm a"));
 	}
+	
+	public String getReadableStartHour() {
+		return startTime.format(DateTimeFormatter.ofPattern("h:mm a"));
+	}
+	
+	public String getReadableEndHour() {
+		return endTime.format(DateTimeFormatter.ofPattern("h:mm a"));
+	}
 }
 

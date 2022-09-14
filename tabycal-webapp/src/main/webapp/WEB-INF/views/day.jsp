@@ -35,8 +35,8 @@
 			<tbody>
 				<c:forEach var= "event" items="${listOfDayEvents}">
 				<tr>
-					<td>${event.startTime.getHour()}:${event.startTime.getMinute()} -
-					 <br> ${event.endTime.getHour()}:${event.endTime.getMinute()}</td>
+					<td>${event.getReadableStartHour()} -
+					 <br> ${event.getReadableEndHour()}</td>
 					<td><a href="/event-overview/?id=${event.id}">${event.eventName}</a>
 					<br> 
 						<c:forEach var="user" items="${event.users}">
