@@ -16,6 +16,8 @@
 	<p>${event.description}<p>
 	<p>${event.duration} hrs<p>
 	<p>${event.users}<p>
+	
+	<<a href="/successfully-deleted/?id=${event.id}">Delete Event?</a>
 	<a href="/month-calendar">Back To Month View?</a>
 </body>
 </html>
