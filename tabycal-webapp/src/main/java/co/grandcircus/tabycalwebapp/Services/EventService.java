@@ -36,9 +36,9 @@ public class EventService {
 	}
 	
 	public EventFrontEnd getEventById(String id) {
-		String url = "http://localhost:8081/event/" + id;
-		EventFrontEnd e = rt.getForObject(url, EventFrontEnd.class, id);
-		return e;
+		String url = "http://localhost:8081/event/find/"+id;
+		EventFrontEnd event = rt.getForObject(url, EventFrontEnd.class, id);
+		return event;
 	}
 
 	public List<EventFrontEnd> getEventsByDate(LocalDate date) {
@@ -73,9 +73,8 @@ public class EventService {
 	
 	//create event
 	 public EventFrontEnd createEvent(EventFrontEnd newEvent){
-	        String url = "http://localhost:8081/event/";
-	        final EventFrontEnd response = rt.postForObject(url, rt, EventFrontEnd.class, newEvent);
-	        rt.postForEntity(url, response, EventFrontEnd.class);
+	        String url = "http://localhost:8081/event/create";
+	        final EventFrontEnd response = rt.postForObject(url, newEvent, EventFrontEnd.class);
 	        return response;
 	    }
 
