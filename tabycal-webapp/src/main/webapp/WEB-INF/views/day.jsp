@@ -37,8 +37,8 @@
 				<tr>
 					<td>${event.startTime.getHour()}:${event.startTime.getMinute()} -
 					 <br> ${event.endTime.getHour()}:${event.endTime.getMinute()}</td>
-					<td>${event.eventName} 
-					<br> ${event.description}
+					<td><a href="/event-overview/?id=${event.id}">${event.eventName}</a>
+					<br> 
 						<c:forEach var="user" items="${event.users}">
 					<br> ${user}
 					</c:forEach>

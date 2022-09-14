@@ -1,6 +1,7 @@
 package co.grandcircus.tabycalwebapp.Models;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class EventFrontEnd {
@@ -65,5 +66,13 @@ public class EventFrontEnd {
 	}
 	
 	public EventFrontEnd() {}
+	
+	public String getReadableStartTime() {
+		return startTime.format(DateTimeFormatter.ofPattern("EEE, MM/dd/yyyy, h:mm a"));
+	}
+	
+	public String getReadableEndTime() {
+		return endTime.format(DateTimeFormatter.ofPattern("EEE, MM/dd/yyyy, h:mm a"));
+	}
 }
 

@@ -11,11 +11,14 @@
 <body>
 
 	<h1>${event.eventName}</h1>
-	<p>${event.startTime}<p>
-	<p>${event.endTime}<p>
+	<p>${event.getReadableStartTime()}<p>
+	<p>${event.getReadableEndTime()}<p>
 	<p>${event.description}<p>
 	<p>${event.duration} hrs<p>
-	<p>${event.users}<p>
+	<p><c:forEach var= "user" items="${event.users}">
+	 | ${user} |  
+	</c:forEach></p>
 	<a href="/month-calendar">Back To Month View?</a>
+
 </body>
 </html>

@@ -44,13 +44,13 @@
 
 
 			<tbody class="scroll-body">
-				<c:forEach begin="6" end="${lastHour}" varStatus="loop">
+				<c:forEach begin="6" end="23" varStatus="loop">
 					<tr>
 						<td>${loop.index}:00</td>
 						<c:forEach var="date" items="${weekList}">
 							<td><c:forEach var="eventforday"
 									items="${eventsHelper.eventsForDayAtTime(loop.index, date)}">
-									<a href="##/${eventforday.id}">${eventforday.eventName}</a>
+									<a href="/event-overview/?id=${eventforday.id}">${eventforday.eventName}</a>
 									<!--  	<c:forEach var="user" items="${eventforday.users}">
 								<br>${user}<br>
 								</c:forEach>-->
