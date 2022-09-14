@@ -9,6 +9,7 @@
 <title>Event Overview</title>
 </head>
 <body>
+
 	<h1>${event.eventName}</h1>
 	<p>${event.startTime}<p>
 	<p>${event.endTime}<p>

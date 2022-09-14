@@ -199,7 +199,6 @@ public class AppController {
 		return "create-event";
 	}
 		
-	//not working with overlap fully, talk to Bolanle
 	@RequestMapping("/event-created")
 	public String showEventCreated(Model model,
 			@RequestParam("start")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
@@ -209,15 +208,19 @@ public class AppController {
 			@RequestParam List<String> users) {
 		Double placeHolder = 0.0;
 		EventFrontEnd event = new EventFrontEnd(eventName, description, start, end, placeHolder, users);
-		model.addAttribute("event", eventService.createEvent(event));
-		System.out.println(event);
-		System.out.println(eventName);
+		try {
+			model.addAttribute("event", eventService.createEvent(event));
+		}catch(Exception ex){
+			System.out.println(ex.getMessage());
+			model.addAttribute("message", "Error: overlapping events for user");
+			return "create-event";
+		}
+		
 		return "event-created";
 	}
 	
-	@RequestMapping("/event-overview/{id}")
-	public String showEventOverview(@PathVariable("id") String id, Model model) {
-		System.out.println("Id:" +id);
+	@RequestMapping("/event-overview")
+	public String showEventOverview(Model model, @RequestParam String id) {
 		model.addAttribute("event", eventService.getEventById(id));
 		return "event-overview";
 	}

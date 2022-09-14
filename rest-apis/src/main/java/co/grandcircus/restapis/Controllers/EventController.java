@@ -65,7 +65,7 @@ public class EventController {
 	}
 
 	// get by id
-	@GetMapping("/event/{id}")
+	@GetMapping("/event/find/{id}")
 	public Event getEventById(@PathVariable("id") String id) {
 		return repo.findById(id).orElseThrow(() -> new EventNotFoundException());
 	}
@@ -78,7 +78,7 @@ public class EventController {
 
 	// create
 	@ResponseStatus(HttpStatus.CREATED)
-	@PostMapping("/event")
+	@PostMapping("/event/create")
 	public Event createEvent(@RequestBody Event event) {
 		repo.insert(event);
 		Duration dur = Duration.between(event.getStartTime(), event.getEndTime());

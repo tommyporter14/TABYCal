@@ -10,7 +10,9 @@
 </head>
 <body>
 <h1>Create An Event</h1>
- 
+ 	
+ 	<h3>${message}</h3>
+                    
                     <form class="eventform" action="/event-created" method="post">
                         <input type="text" name="eventName" required/><span>Name</span><br>
                         <input type="text" name="description"/><span>Description</span><br>
