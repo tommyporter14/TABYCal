@@ -22,6 +22,9 @@
                 <div class="date">
                     <h1></h1>
                     <p></p>
+                  <a href="/create-event">Create Event</a>
+                 <a href="/check-availability">Check Availability</a>
+                  <a href="/">Log Out</a>
                 </div>
                 <i class="fas fa-angle-right next"></i>
             </div>
@@ -33,23 +36,35 @@
                 <div>Thu</div>
                 <div>Fri</div>
                 <div>Sat</div>
+                <div>Week Display</div>
             </div>
             <div class="days">
-                
+       
             </div>
-        <div class="events">
-<h1>Events</h1>
-	<ul>
-			<c:forEach var="events" items="${events}">
-			<li>
-				<a>${events.eventName}</a>
-				
-			</li>
-			</c:forEach>
-	
-	</ul>
-</div>
         </div>
+ <div class="events">
+     <ul>
+        <c:forEach var="events" items="${events}">
+            <li hidden>
+                <a hidden id="eventId">${events.id}</a>
+                <a hidden id="eventName">${events.eventName}</a>
+                <a hidden id="startTime">${events.startTime}</a>
+                <a hidden id="endTime">${events.endTime}</a>
+            </li>
+        </c:forEach>
+    </ul>
+ </div>
+ <div class="holiday">
+  	<ul>
+       <c:forEach var="holiday" items="${holidays}">
+            <li hidden>
+                <a hidden id="holidayName">${holiday.name}</a>
+                <a hidden id="holidayDate">${holiday.date}</a>
+            </li>
+       </c:forEach>
+    </ul>
+</div>
+   
     </div>
 <script src="script.js"></script>
 </body>

@@ -6,15 +6,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Event Overview</title>
+<title>Successfully Created Event</title>
 </head>
 <body>
-	<h1>${event.eventName}</h1>
-	<p>${event.startTime}<p>
-	<p>${event.endTime}<p>
-	<p>${event.description}<p>
-	<p>${event.duration} hrs<p>
+<h1>Successfully Created Event</h1>
+
+	<p>${event.eventName}</p>
+	<p>${event.description}</p>
+	<p>${event.startTime}</p>
+	<p>${event.endTime}</p>
+	<p>${event.duration}</p>
 	<p>${event.users}<p>
-	<a href="/month-calendar">Back To Month View?</a>
+	 <a href="/month-calendar">Back To Month View?</a>
 </body>
 </html>
