@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -266,23 +265,16 @@ public class AppController {
 				if (map.containsKey(events[i].getStartTime())) {
 					if (map.get(events[i].getStartTime()) <= events[i].getDuration()) {
 						map.put(events[i].getStartTime(), events[i].getDuration());
-					} else {
-						// do nothing
-					}
+					} 
 				} else {
 					map.put(events[i].getStartTime(), events[i].getDuration());
 				}
 			}
-			//                   8             before    9
-			else if(events[i].getStartTime().isBefore(start.minusMinutes(1))
-					//	           11					10
-					&& events[i].getEndTime().isAfter(end.plusMinutes(1))){
-				map.put(start, 0.0);
-				System.out.println("!!!!");
+			else if(events[i].getStartTime().isBefore(start)	
+					&& events[i].getEndTime().isAfter(end)){
+				map.put(LocalDateTime.MIN, 0.0);
 			}
-//			else {
-//				map.put(end, 0.0);
-//			}
+			
 		}
 		TreeMap<LocalDateTime, Double> sortedMap = new TreeMap<>(map);
 		ArrayList<LocalDateTime> startTimes = new ArrayList<>(sortedMap.keySet());
@@ -299,7 +291,6 @@ public class AppController {
 			int minAdd = (int) addHold;
 			endTimes.add(startTimes.get(i).plusHours(hourAdd).plusMinutes(minAdd));
 		}
-
 		TreeMap<LocalDateTime, LocalDateTime> sortedEndStartNoOvers = new TreeMap<>();
 		for (int i = 0; i < startTimes.size(); i++) {
 			if (sortedEndStartNoOvers.containsKey(endTimes.get(i))) {
@@ -310,34 +301,44 @@ public class AppController {
 				sortedEndStartNoOvers.put(endTimes.get(i), startTimes.get(i));
 			}
 		}
+
 		ArrayList<LocalDateTime> endTimes2 = new ArrayList<>(sortedEndStartNoOvers.keySet());
 		ArrayList<LocalDateTime> startTimes2 = new ArrayList<>(sortedEndStartNoOvers.values());
-
-		TreeMap<LocalDateTime, LocalDateTime> available = new TreeMap<>();
-		for (int i = 0; i < startTimes2.size(); i++) {
-			if (i == 0) {
-				available.put(start, startTimes2.get(i));
-			} else if (i != 0 && i < startTimes2.size() - 1) {
-				if (startTimes2.get(i).equals(endTimes2.get(i - 1))) {
-					available.put(endTimes2.get(i), startTimes2.get(i + 1));
-				} else {
-					available.put(endTimes2.get(i - 1), startTimes2.get(i));
-				}
-			} else if (endTimes2.get(i).isEqual(end)) {
-				available.put(endTimes2.get(i - 1), startTimes2.get(i));
-			} else {
-				available.put(endTimes2.get(i), end);
-			}
-
-		}
 		
-		String end3 = new ArrayList<>(available.keySet()).toString();
-		String start3 = new ArrayList<>(available.values()).toString();
+		TreeMap<LocalDateTime, LocalDateTime> available = new TreeMap<>();
+		if (!startTimes.isEmpty()) {
+			for (int i = 0; i <= startTimes2.size(); i++) {
+				if (i == 0) {
+					available.put(start, startTimes2.get(i));
+				} else if (i == startTimes2.size()) {
+					if (endTimes2.get(i - 1).isEqual(end)) {
+						available.put(endTimes2.get(i - 1), startTimes2.get(i));
+					} else {
+						available.put(endTimes2.get(i - 1), end);
+					}
+				} else {
+					if (startTimes2.get(i).equals(endTimes2.get(i - 1))) {
+						available.put(endTimes2.get(i), startTimes2.get(i + 1));
+					} else {
+						available.put(endTimes2.get(i - 1), startTimes2.get(i));
+					}
+				} 
+			}
+		}
+
+		System.out.print(available.toString());
+		
+		ArrayList<LocalDateTime> keys = new ArrayList<>(available.keySet());
+		ArrayList<LocalDateTime> values = new ArrayList<>(available.values());
+		String keysString = keys.toString();
+		String valuesString = values.toString();
+		String overallString = keysString+valuesString;
+		
 		
 		if(available.isEmpty()) {
 			model.addAttribute("message","wide open");
 		}
-		else if(start3.contains(start.toString())) {
+		else if(overallString.contains(LocalDateTime.MIN.toString())) {
 			model.addAttribute("message", "no availability");
 		}
 		else {
