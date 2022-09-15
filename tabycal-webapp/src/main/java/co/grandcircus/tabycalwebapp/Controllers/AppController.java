@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -272,6 +273,14 @@ public class AppController {
 					map.put(events[i].getStartTime(), events[i].getDuration());
 				}
 			}
+//			//                   8             before    9
+//			else if(events[i].getStartTime().isBefore(start.minusMinutes(1))
+//					//	           11					10
+//					&& events[i].getEndTime().isAfter(end.plusMinutes(1))){
+//				map.put(start, 0.0);
+//			}else {
+//				map.put(end, 0.0);
+//			}
 		}
 		TreeMap<LocalDateTime, Double> sortedMap = new TreeMap<>(map);
 		ArrayList<LocalDateTime> startTimes = new ArrayList<>(sortedMap.keySet());
@@ -319,13 +328,24 @@ public class AppController {
 			}
 
 		}
-		if(available.isEmpty()) {
-			String message = "wide open";
-			model.addAttribute("message",message);
-		}else {
+		
+//		String end3 = new ArrayList<>(available.keySet()).toString();
+//		String start3 = new ArrayList<>(available.values()).toString();
+//		
+//		System.out.println(end.toString());
+//		System.out.println(start3);
+//		
+//		if(start.toString().contains(end3)) {
+//			model.addAttribute("message","wide open");
+//		}
+//		else if(end.toString().contains(start3)) {
+//			model.addAttribute("message", "no availability");
+//		}
+//		else {
 			model.addAttribute("available", available);
-		}
-		return "availability";
+//		}
+		
+			return "availability";
 	}
 
 	@RequestMapping("/day")
