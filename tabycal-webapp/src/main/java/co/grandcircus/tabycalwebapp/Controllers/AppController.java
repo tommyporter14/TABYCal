@@ -212,7 +212,7 @@ public class AppController {
 		try {
 			model.addAttribute("event", eventService.createEvent(event));
 		}catch(Exception ex){
-			System.out.println(ex.getMessage());
+			//System.out.println(ex.getMessage());
 			model.addAttribute("message", "Error: overlapping events for user");
 			return "create-event";
 		}
@@ -273,12 +273,14 @@ public class AppController {
 					map.put(events[i].getStartTime(), events[i].getDuration());
 				}
 			}
-//			//                   8             before    9
-//			else if(events[i].getStartTime().isBefore(start.minusMinutes(1))
-//					//	           11					10
-//					&& events[i].getEndTime().isAfter(end.plusMinutes(1))){
-//				map.put(start, 0.0);
-//			}else {
+			//                   8             before    9
+			else if(events[i].getStartTime().isBefore(start.minusMinutes(1))
+					//	           11					10
+					&& events[i].getEndTime().isAfter(end.plusMinutes(1))){
+				map.put(start, 0.0);
+				System.out.println("!!!!");
+			}
+//			else {
 //				map.put(end, 0.0);
 //			}
 		}
@@ -329,21 +331,18 @@ public class AppController {
 
 		}
 		
-//		String end3 = new ArrayList<>(available.keySet()).toString();
-//		String start3 = new ArrayList<>(available.values()).toString();
-//		
-//		System.out.println(end.toString());
-//		System.out.println(start3);
-//		
-//		if(start.toString().contains(end3)) {
-//			model.addAttribute("message","wide open");
-//		}
-//		else if(end.toString().contains(start3)) {
-//			model.addAttribute("message", "no availability");
-//		}
-//		else {
+		String end3 = new ArrayList<>(available.keySet()).toString();
+		String start3 = new ArrayList<>(available.values()).toString();
+		
+		if(available.isEmpty()) {
+			model.addAttribute("message","wide open");
+		}
+		else if(start3.contains(start.toString())) {
+			model.addAttribute("message", "no availability");
+		}
+		else {
 			model.addAttribute("available", available);
-//		}
+		}
 		
 			return "availability";
 	}
