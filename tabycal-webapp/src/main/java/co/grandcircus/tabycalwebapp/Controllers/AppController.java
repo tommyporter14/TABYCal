@@ -212,6 +212,8 @@ public class AppController {
 			model.addAttribute("event", eventService.createEvent(event));
 		}catch(Exception ex){
 			//System.out.println(ex.getMessage());
+			User[] userList = userService.getAll();
+		    model.addAttribute("users", userList);
 			model.addAttribute("message", "Error: overlapping events for user");
 			return "create-event";
 		}
@@ -258,6 +260,7 @@ public class AppController {
 		for (int i = 0; i < events.length; i++) {
 			events[i] = eventsList.get(i);
 		}
+		System.out.println(events.toString());
 		HashMap<LocalDateTime, Double> map = new HashMap<>();
 		for (int i = 0; i < events.length; i++) {
 			if (events[i].getStartTime().isAfter(start.minusMinutes(1))
@@ -273,7 +276,14 @@ public class AppController {
 			else if(events[i].getStartTime().isBefore(start)	
 					&& events[i].getEndTime().isAfter(end)){
 				map.put(LocalDateTime.MIN, 0.0);
+				System.out.println("!!!");
 			}
+			
+//WORKING ON ONE MORE FIX 
+//			else if(events[i].getStartTime().isEqual(start) ||events[i].getEndTime().isEqual(end)) {
+//				map.put(LocalDateTime.MAX, 0.0);
+//				System.out.println("!!!");
+//			}
 			
 		}
 		TreeMap<LocalDateTime, Double> sortedMap = new TreeMap<>(map);
