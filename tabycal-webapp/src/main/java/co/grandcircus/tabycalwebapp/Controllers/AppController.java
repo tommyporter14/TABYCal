@@ -30,17 +30,15 @@ import co.grandcircus.tabycalwebapp.Services.UserService;
 import co.grandcircus.tabycalwebapp.Util.HolidayHelper;
 import co.grandcircus.tabycalwebapp.Util.WeekViewHelper;
 
-
 @Controller
 public class AppController {
 
-
 	@Autowired
 	private EventService eventService;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	private HolidayService holidayService;
 
@@ -61,16 +59,16 @@ public class AppController {
 		List<EventFrontEnd> weekEventList = eventService.getEventsByStartDateAndEndDate(weekList.get(0).getDate(),
 				weekList.get(weekList.size() - 1).getDate());
 		WeekViewHelper eventsHelper = new WeekViewHelper(weekEventList);
-		
+
 		model.addAttribute("lastHour", eventsHelper.getLatestHour());
-		model.addAttribute("earliestHour",eventsHelper.getEarliestHour());
+		model.addAttribute("earliestHour", eventsHelper.getEarliestHour());
 		model.addAttribute("eventsHelper", eventsHelper);
 		model.addAttribute("weekList", weekList);
-		
+
 		List<Holiday> holidayList = Arrays.asList(holidayService.getHolidays());
 		HolidayHelper holidayHelper = new HolidayHelper(holidayList);
 		model.addAttribute("holidayHelper", holidayHelper);
-		
+
 		return "week";
 	}
 
@@ -86,7 +84,7 @@ public class AppController {
 
 		List<EventFrontEnd> eventData = eventService.getEventsByDate(dateTime);
 		model.addAttribute("listOfDayEvents", eventData);
-		
+
 		List<Holiday> holidayList = Arrays.asList(holidayService.getHolidays());
 		HolidayHelper holidayHelper = new HolidayHelper(holidayList);
 		model.addAttribute("holidayHelper", holidayHelper);
@@ -94,57 +92,59 @@ public class AppController {
 
 		return "day";
 	}
+
 	@RequestMapping("/newaccount")
 	public String enterDetails() {
 		return "newaccount";
 	}
 
-	//merge conflict head, ask yaksh
+	// merge conflict head, ask yaksh
 	@RequestMapping("/verifyaccount")
 	public String verifyUser(@RequestParam String userName, Model model) {
 		try {
 			User userProfile = userService.getByUsername(userName);
 			model.addAttribute("userProfile", userProfile);
 			EventFrontEnd[] userEvents = eventService.getByUserName(userName);
-			model.addAttribute("userEvents", userEvents );
-	} catch (Exception ex) {
-		System.out.println(ex.toString());
-		return "redirect:/";
+			model.addAttribute("userEvents", userEvents);
+
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
+			return "redirect:/";
+		}
+		return "month";
 	}
 
-	return "month";
 
-}	
-//	public String verifyUser(String userName, Model model) {
-//		try {
-//
-//			EmailValidator validator = EmailValidator.getInstance();
-//
-//			if (validator.isValid(userName)) {
-//				model.addAttribute("userProfile", userService.getByUsername(userName));
-//				List<EventFrontEnd> eventList = eventService.getEventResponse();
-//				List<EventFrontEnd> myEvents = new ArrayList<>();
-//				for (EventFrontEnd event : eventList) {
-//					if (event.getUsers().contains(userName)) {
-//						myEvents.add(event);
-//					}
-//				}
-//				model.addAttribute("myEvents", myEvents);
-//			}
-//			else {
-//				throw new InvalidEmailException(userName);
-//			}
-//
-//
-//
-//		} catch (Exception ex) {
-//			model.addAttribute("errorMsg", ex.getMessage());
-//			return "login";
-//		}
-//
-//		return "month";
-//
-//	}
+	// public String verifyUser(String userName, Model model) {
+	// try {
+	//
+	// EmailValidator validator = EmailValidator.getInstance();
+	//
+	// if (validator.isValid(userName)) {
+	// model.addAttribute("userProfile", userService.getByUsername(userName));
+	// List<EventFrontEnd> eventList = eventService.getEventResponse();
+	// List<EventFrontEnd> myEvents = new ArrayList<>();
+	// for (EventFrontEnd event : eventList) {
+	// if (event.getUsers().contains(userName)) {
+	// myEvents.add(event);
+	// }
+	// }
+	// model.addAttribute("myEvents", myEvents);
+	// }
+	// else {
+	// throw new InvalidEmailException(userName);
+	// }
+	//
+	//
+	//
+	// } catch (Exception ex) {
+	// model.addAttribute("errorMsg", ex.getMessage());
+	// return "login";
+	// }
+	//
+	// return "month";
+	//
+	// }
 
 	// return to the log in page but we can have a "success page" then direct to log
 	@PostMapping("/createuser")
@@ -162,23 +162,23 @@ public class AppController {
 		}
 		return "successcreate";
 	}
-	
+
 	// return to the log in page but we can have a "success page" then direct to log
-		// in
-//		@PostMapping("/createuser")
-//		public String createUser(User newUser, Model model) {
-//			// Do we need to make an extra hop to call the User Service? Is it better
-//			// practice to call the UserController directly.
-//			try {
-//				model.addAttribute("addedUser", userService.createUser(newUser));
-//				System.out.println("created a user yay!");
-//				// model.addAttribute("addedUser", userService.createUser(newUser));
-//			} catch (Exception ex) {
-//				model.addAttribute("userName", newUser.getUserName());
-//				return "redirect:/newaccount";
-//			}
-//			return "successcreate";
-//		}
+	// in
+	// @PostMapping("/createuser")
+	// public String createUser(User newUser, Model model) {
+	// // Do we need to make an extra hop to call the User Service? Is it better
+	// // practice to call the UserController directly.
+	// try {
+	// model.addAttribute("addedUser", userService.createUser(newUser));
+	// System.out.println("created a user yay!");
+	// // model.addAttribute("addedUser", userService.createUser(newUser));
+	// } catch (Exception ex) {
+	// model.addAttribute("userName", newUser.getUserName());
+	// return "redirect:/newaccount";
+	// }
+	// return "successcreate";
+	// }
 
 	// DEFAULT will need to change as we go just here to test
 	@RequestMapping("/month-calendar")
@@ -191,14 +191,14 @@ public class AppController {
 		model.addAttribute("holidays", holidays);
 		return "month";
 	}
-	
+
 	@RequestMapping("/create-event")
 	public String showCreateEvent(Model model) {
 		User[] userList = userService.getAll();
 	    model.addAttribute("users", userList);
 		return "create-event";
 	}
-		
+
 	@RequestMapping("/event-created")
 	public String showEventCreated(Model model,
 			@RequestParam("start")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
@@ -220,12 +220,13 @@ public class AppController {
 		
 		return "event-created";
 	}
-	
+
 	@RequestMapping("/event-overview")
 	public String showEventOverview(Model model, @RequestParam String id) {
 		model.addAttribute("event", eventService.getEventById(id));
 		return "event-overview";
 	}
+
 	@RequestMapping("/successfully-deleted")
 	public String showSuccessfullyDeleted(@RequestParam String id) {
 		eventService.deleteEvent(id);
