@@ -260,7 +260,7 @@ public class AppController {
 		for (int i = 0; i < events.length; i++) {
 			events[i] = eventsList.get(i);
 		}
-		System.out.println(events.toString());
+		//System.out.println(events.toString());
 		HashMap<LocalDateTime, Double> map = new HashMap<>();
 		for (int i = 0; i < events.length; i++) {
 			if (events[i].getStartTime().isAfter(start.minusMinutes(1))
@@ -276,7 +276,7 @@ public class AppController {
 			else if(events[i].getStartTime().isBefore(start)	
 					&& events[i].getEndTime().isAfter(end)){
 				map.put(LocalDateTime.MIN, 0.0);
-				System.out.println("!!!");
+				//System.out.println("!!!");
 			}
 			
 //WORKING ON ONE MORE FIX 
@@ -336,7 +336,7 @@ public class AppController {
 			}
 		}
 
-		System.out.print(available.toString());
+		//System.out.print(available.toString());
 		
 		ArrayList<LocalDateTime> keys = new ArrayList<>(available.keySet());
 		ArrayList<LocalDateTime> values = new ArrayList<>(available.values());
