@@ -3,6 +3,7 @@ package co.grandcircus.tabycalwebapp.Controllers;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,33 +59,45 @@ public class AppController {
 			weekList.add(new DateTimeWrapper(dateTime.minusDays(i)));
 
 		}
-		List<EventFrontEnd> weekEventList = eventService.getEventsByStartDateAndEndDate(weekList.get(0).getDate(),
-				weekList.get(weekList.size() - 1).getDate());
+		List<EventFrontEnd> weekEventList = eventService.getEventsByStartDateAndEndDateAndUser(weekList.get(0).getDate(),
+				weekList.get(weekList.size() - 1).getDate(), userName);
 		WeekViewHelper eventsHelper = new WeekViewHelper(weekEventList);
 		
 		model.addAttribute("lastHour", eventsHelper.getLatestHour());
 		model.addAttribute("earliestHour",eventsHelper.getEarliestHour());
 		model.addAttribute("eventsHelper", eventsHelper);
 		model.addAttribute("weekList", weekList);
+		model.addAttribute("previousWeek", dateTime.minusDays(7));
+		model.addAttribute("nextWeek", dateTime.plusDays(7));
 		
 		List<Holiday> holidayList = Arrays.asList(holidayService.getHolidays());
 		HolidayHelper holidayHelper = new HolidayHelper(holidayList);
 		model.addAttribute("holidayHelper", holidayHelper);
 		
+		LocalTime timeLoop = LocalTime.of(6, 0);
+		
+		System.out.println(timeLoop);
+		model.addAttribute("startTime", timeLoop);
+		model.addAttribute("endTime", timeLoop.plusHours(17));
 		return "week";
 	}
 
 	// will need to change as we go just here to test
 	@RequestMapping("/day/{date}")
-	public String showDay(@PathVariable String date, Model model) {
-
+	public String showDay(@PathVariable String date,
+			   			  @RequestParam(required=false) String userName, 
+			   			  Model model) {
+		
+		
 		LocalDate dateTime = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
 		model.addAttribute("stringDate", dateTime.format(DateTimeFormatter.ofPattern("E, M d")));
 		model.addAttribute("day", dateTime.getDayOfMonth());
 		model.addAttribute("dayOfWeek", dateTime.getDayOfWeek());
 		model.addAttribute("month", dateTime.getMonth());
+		model.addAttribute("nextDay", dateTime.plusDays(1));
+		model.addAttribute("dayBefore", dateTime.minusDays(1));
 
-		List<EventFrontEnd> eventData = eventService.getEventsByDate(dateTime);
+		List<EventFrontEnd> eventData = eventService.getEventsByStartDateAndEndDateAndUser(dateTime,dateTime,userName);
 		model.addAttribute("listOfDayEvents", eventData);
 		
 		List<Holiday> holidayList = Arrays.asList(holidayService.getHolidays());
@@ -213,6 +226,8 @@ public class AppController {
 		}catch(Exception ex){
 			System.out.println(ex.getMessage());
 			model.addAttribute("message", "Error: overlapping events for user");
+			User[] userList = userService.getAll();
+		    model.addAttribute("users", userList);
 			return "create-event";
 		}
 		
@@ -320,8 +335,8 @@ public class AppController {
 
 		}
 		if(available.isEmpty()) {
-			String message = "wide open";
-			model.addAttribute("message",message);
+			//String message = "wide open";
+			//model.addAttribute("message",message);
 		}else {
 			model.addAttribute("available", available);
 		}

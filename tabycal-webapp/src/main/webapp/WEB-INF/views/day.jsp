@@ -20,10 +20,13 @@
 </head>
 <body>
 <div class="day-heading">
-	Schedule for ${dayOfWeek}, ${month} ${day}
+		<a class ="btn btn-light" title="Previous Day" href="/day/${dayBefore}"> << </a>
+		Schedule for ${dayOfWeek}, ${month} ${day}
 	<c:if test="${holidayHelper.isThisAHoliday(dateTime)}">
 		<br><c:out value= "${holidayHelper.showActualHoliday(dateTime).name}"/>
-</c:if>
+	</c:if>		
+		<a class ="btn btn-light" title="Next Day" href="/day/${nextDay}"> >> </a>
+
 </div>
 	<div class="table">
 		<table class=table>

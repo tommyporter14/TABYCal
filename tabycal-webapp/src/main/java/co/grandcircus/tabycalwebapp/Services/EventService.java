@@ -40,25 +40,30 @@ public class EventService {
 	}
 
 	public List<EventFrontEnd> getEventsByDate(LocalDate date) {
-		String url = "http://localhost:8081/event/";
-		Map<String, String> params = new HashMap<>();
-		String startDate = date.atStartOfDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-		String endDate = date.atTime(23, 59).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-		params.put("startDate", startDate);
-		params.put("endDate", endDate);
-		EventFrontEnd[] events = rt.exchange(url + "?startDate={startDate}&endDate={endDate}", HttpMethod.GET,
-				new HttpEntity<>(new HashMap<>()), EventFrontEnd[].class, params).getBody();
-		return Arrays.asList(events);
+		return getEventsByStartDateAndEndDate(date, date);
 	}
 	
 	public List<EventFrontEnd> getEventsByStartDateAndEndDate(LocalDate startDate,LocalDate endDate) {
+		return getEventsByStartDateAndEndDateAndUser(startDate, endDate, null);
+	}
+	public List<EventFrontEnd> getEventsByStartDateAndEndDateAndUser(LocalDate startDate,LocalDate endDate, String userName) {
 		String url = "http://localhost:8081/event/";
 		Map<String, String> params = new HashMap<>();
 		String fixedStartDate = startDate.atStartOfDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 		String fixedEndDate = endDate.atTime(23, 59).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 		params.put("startDate", fixedStartDate);
 		params.put("endDate", fixedEndDate);
-		EventFrontEnd[] events = rt.exchange(url + "?startDate={startDate}&endDate={endDate}", HttpMethod.GET,
+		params.put("userName", userName);
+		
+		String queryString;
+		
+		if(userName == null) {
+			queryString = "?startDate={startDate}&endDate={endDate}";
+		}else {
+			queryString = "?startDate={startDate}&endDate={endDate}&users={userName}";
+		}
+		
+		EventFrontEnd[] events = rt.exchange(url + queryString, HttpMethod.GET,
 				new HttpEntity<>(new HashMap<>()), EventFrontEnd[].class, params).getBody();
 		return Arrays.asList(events);
 	}

@@ -2,6 +2,8 @@ package co.grandcircus.tabycalwebapp.Util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import co.grandcircus.tabycalwebapp.Models.DateTimeWrapper;
@@ -10,6 +12,7 @@ import co.grandcircus.tabycalwebapp.Models.EventFrontEnd;
 public class WeekViewHelper {
 
 	private List<EventFrontEnd> events;
+
 
 	public List<EventFrontEnd> getEvents() {
 		return events;
@@ -49,5 +52,11 @@ public class WeekViewHelper {
 	public int getLatestHour() {
 		return events.stream().map(e -> e.getStartTime()).max((one, two) -> one.compareTo(two)).map(dt -> dt.getHour())
 				.orElse(23);
+	}
+	
+	public String printHourForWeek(int hour) {
+		return LocalTime.of(hour, 0).format(DateTimeFormatter.ofPattern("h:mm a")).toLowerCase();
+		
+		
 	}
 }
