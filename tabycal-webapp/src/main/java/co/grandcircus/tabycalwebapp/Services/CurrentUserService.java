@@ -10,8 +10,9 @@ public class CurrentUserService {
 
     public CurrentUser setCurrentUser(CurrentUser currentUser) {
         String url = "http://localhost:8081/setcurrentuser";
-        return request.postForObject(url, currentUser, CurrentUser.class);
-
+        CurrentUser response =  request.postForObject(url, currentUser, CurrentUser.class) ;
+        System.out.println(response.toString());
+        return response;
     }
 
     public String deleteCurrentUser() {

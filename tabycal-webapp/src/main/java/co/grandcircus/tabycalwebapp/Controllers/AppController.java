@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,22 +22,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import co.grandcircus.tabycalwebapp.Models.CurrentUser;
 import co.grandcircus.tabycalwebapp.Models.DateTimeWrapper;
-import co.grandcircus.tabycalwebapp.Models.EventFrontEnd;
+import co.grandcircus.tabycalwebapp.Models.*;
 import co.grandcircus.tabycalwebapp.Models.Holiday;
 import co.grandcircus.tabycalwebapp.Models.User;
-import co.grandcircus.tabycalwebapp.Services.CurrentUserService;
-import co.grandcircus.tabycalwebapp.Services.EventService;
+import co.grandcircus.tabycalwebapp.Services.*;
 import co.grandcircus.tabycalwebapp.Services.HolidayService;
 import co.grandcircus.tabycalwebapp.Services.UserService;
 import co.grandcircus.tabycalwebapp.Util.HolidayHelper;
 import co.grandcircus.tabycalwebapp.Util.WeekViewHelper;
 
-
 @Controller
 public class AppController {
-
 
 	@Autowired
 	private EventService eventService;
@@ -52,19 +47,17 @@ public class AppController {
 	@Autowired
 	private CurrentUserService currentUserService;
 
-
 	// User login related mappings start/////////////////
 	@RequestMapping("/")
 	public String showLogin() {
+		currentUserService.deleteCurrentUser();
 		return "login";
 	}
-
 
 	@RequestMapping("/newaccount")
 	public String enterDetails() {
 		return "newaccount";
 	}
-
 
 	@RequestMapping("/verifyaccount")
 	public ModelAndView verifyUser(@RequestParam String userName, Model model) {
@@ -72,16 +65,22 @@ public class AppController {
 		try {
 			currentUserService.deleteCurrentUser();
 			User userProfile = userService.getByUsername(userName);
+			System.out.println("this is the user found" + userProfile.getFirstName());
+			System.out.println("we found the uer!");
 			CurrentUser currentUser = new CurrentUser(userProfile.getUserName(),
 					userProfile.getFirstName(), userProfile.getLastName(),
 					userProfile.getDateOfBirth(), userProfile.getAdminStatus());
+			System.out.println("Current user : " + currentUser);
+			
+			
+			currentUserService.setCurrentUser(currentUser);
 			model.addAttribute("currentUser", currentUser);
+			System.out.println(currentUserService.getCurrentUser());
+			System.out.println("meowdkaljflsdkjfhlaskdjfhlaksdjf");
 		} catch (Exception ex) {
-			System.out.println(ex.toString());
-			return new ModelAndView("redirect:/");
+			model.addAttribute("errorMsg", (userName + "User does not exists"));
+			return new ModelAndView("login", "model", model);
 		}
-		System.out.println("MeowMeowMeowMeowMeowMeowMeowMeowMeowMeowMeowMeowMeowMeow");
-
 		return new ModelAndView("redirect:/month-calendar", "model", model);
 
 	}
@@ -103,7 +102,6 @@ public class AppController {
 				model.addAttribute("errorMsg",
 						newUser.getUserName() + " already exists choose another email");
 
-
 			} else if (responseEntity.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
 				model.addAttribute("addedUser", newUser.getUserName());
 				model.addAttribute("statusCode", responseEntity.getStatusCode());
@@ -121,8 +119,6 @@ public class AppController {
 	}
 
 	// User login related mappings end /////////////////
-
-
 
 	@RequestMapping("/week/{date}")
 	public String showWeek(@PathVariable String date, Model model) {
@@ -169,18 +165,18 @@ public class AppController {
 		return "day";
 	}
 
-
-
 	// DEFAULT will need to change as we go just here to test
 	@RequestMapping("/month-calendar")
 	public String showMonth(Model model) {
-		System.out.println(
-				"PEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEW");
-
 		EventFrontEnd[] events = eventService.getByUserName(currentUserService.getCurrentUser());
-
 		Holiday[] holidays = holidayService.getHolidays();
-		// System.out.print(events[0].getEventName());
+
+		for (EventFrontEnd event : events){
+			System.out.println(event.getEventName());
+			System.out.println(event.getUsers());
+		
+		}
+
 		model.addAttribute("events", events);
 		model.addAttribute("holidays", holidays);
 		return "month";
@@ -195,15 +191,12 @@ public class AppController {
 
 	@RequestMapping("/event-created")
 	public String showEventCreated(Model model,
-			@RequestParam("start") @DateTimeFormat(
-					iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-			@RequestParam("end") @DateTimeFormat(
-					iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+			@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+			@RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
 			@RequestParam String eventName, @RequestParam String description,
 			@RequestParam List<String> users) {
 		Double placeHolder = 0.0;
-		EventFrontEnd event =
-				new EventFrontEnd(eventName, description, start, end, placeHolder, users);
+		EventFrontEnd event = new EventFrontEnd(eventName, description, start, end, placeHolder, users);
 		try {
 			model.addAttribute("event", eventService.createEvent(event));
 		} catch (Exception ex) {
@@ -239,10 +232,8 @@ public class AppController {
 
 	@RequestMapping("/availability")
 	public String showAvailability(Model model,
-			@RequestParam("start") @DateTimeFormat(
-					iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-			@RequestParam("end") @DateTimeFormat(
-					iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+			@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+			@RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
 			@RequestParam List<String> users) {
 
 		EventFrontEnd[] eventsAll = eventService.getEvents();
@@ -342,7 +333,6 @@ public class AppController {
 		String keysString = keys.toString();
 		String valuesString = values.toString();
 		String overallString = keysString + valuesString;
-
 
 		if (available.isEmpty()) {
 			model.addAttribute("message", "wide open");

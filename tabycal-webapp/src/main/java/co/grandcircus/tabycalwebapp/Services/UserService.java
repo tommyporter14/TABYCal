@@ -24,8 +24,6 @@ public class UserService {
 
     public User getByUsername(String userName) {
         String url = "http://localhost:8081/userprofile/?userName={0}";
-        System.out.println(userName);
-        System.out.println(url);
         final User response = request.getForObject(url, User.class, userName);
         return response;
     }

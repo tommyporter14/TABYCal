@@ -47,13 +47,13 @@ public class CurrentUser {
         this.lastName = lastName;
     }
 
+      
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        LocalDate date = LocalDate.parse(dateOfBirth);
-        this.dateOfBirth = date;
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
 

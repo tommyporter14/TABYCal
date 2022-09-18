@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import co.grandcircus.restapis.Exceptions.EmailNotFoundException;
 
 import co.grandcircus.restapis.Exceptions.ItemNotFoundException;
-import co.grandcircus.restapis.Models.CurrentUser;
+import co.grandcircus.restapis.Models.*;
 import co.grandcircus.restapis.Models.Event;
 import co.grandcircus.restapis.Models.User;
-import co.grandcircus.restapis.Repositories.CurrentUserRepository;
+import co.grandcircus.restapis.Repositories.*;
 import co.grandcircus.restapis.Repositories.UserRepository;
 
 
