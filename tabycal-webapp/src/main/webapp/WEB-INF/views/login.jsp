@@ -19,7 +19,6 @@
                     </script>
                 </c:if>
                 <div class="main">
-
                     <p class="sign">Sign in</p>
                     <form class="form1" action="/verifyaccount" method="post">
                         <input class="un " type="text" name="userName" placeholder="Enter Email">

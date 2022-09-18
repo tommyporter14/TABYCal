@@ -24,7 +24,7 @@
                     <br><label class="sign" for="lstname">Last Name</label><br>
                     <p class="un" id= "lastname">${addedUser.lastName}</p>
                     
-                    <p  ><a href="/">login</p>
+                    <p class="create" ><a href="/">login</p>
                  
 
                 </div>
