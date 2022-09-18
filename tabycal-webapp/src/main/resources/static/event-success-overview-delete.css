@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+
+body {
+	background-color: #262626;
+	color: #8C55AA;
+}
+
+#month-view  {
+	color: white;
+}
+
+#delete-event {
+	color: red;
+}

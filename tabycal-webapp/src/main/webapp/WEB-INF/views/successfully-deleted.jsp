@@ -6,10 +6,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<link rel="stylesheet" href="/event-success-overview-delete.css"> 
+
 <title>Successfully Deleted Event</title>
 </head>
 <body>
 <h1>Event Successfully Deleted</h1>
-<a href="/month-calendar">Back To Month View?</a>
+<a id="month-view" href="/month-calendar">Back To Month View?</a>
 </body>
 </html>

@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<link rel="stylesheet" href="/event-success-overview-delete.css"> 
 <title>Event Overview</title>
 </head>
 <body>
@@ -19,8 +21,8 @@
 	 | ${user} |  
 	</c:forEach></p>
 	
-	<a href="/successfully-deleted/?id=${event.id}">Delete Event?</a>
-	<a href="/month-calendar">Back To Month View?</a>
+	<a id="delete-event"href="/successfully-deleted/?id=${event.id}">Delete Event?</a><br>
+	<a id="month-view" href="/month-calendar">Back To Month View?</a>
 
 </body>
 </html>

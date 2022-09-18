@@ -6,14 +6,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<link rel="stylesheet" href="/availability.css"> 
 <title>Availability</title>
 </head>
 <body>
 <h1>Availability</h1>
 <p>${available}</p>
 <p>${message}</p>
-<a href="/create-event">Create Event?</a>	
-<a href="/month-calendar">Back To Month View?</a>	
+<a id="create-event"href="/create-event">Create Event?</a>	
+<a id="month-view"href="/month-calendar">Back To Month View?</a>	
 
 </body>
 </html>

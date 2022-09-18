@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="/availability.css"> 
+
 <title>Check Availability</title>
 </head>
 <body>
@@ -19,11 +21,11 @@
     				<c:forEach var="user" items="${users}">
 						<option value="${user.userName}">${user.userName}</option>
 					</c:forEach>
-  			</select>
+  			</select><br>
   			<input type="submit" value="Submit"/><br>
 
 	</form>
 	
-	<a href="/month-calendar">Back To Month View?</a>			
+	<a id="month-view" href="/month-calendar">Back To Month View?</a>			
 </body>
 </html>

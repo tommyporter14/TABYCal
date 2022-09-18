@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<link rel="stylesheet" href="/event-success-overview-delete.css"> 
 <title>Create An Event</title>
 </head>
 <body>
@@ -26,6 +28,6 @@
                         <input type="submit" class="submit" value="Submit">
 
                     </form>
-             <a href="/month-calendar">Back To Month View?</a>
+             <a id="month-view" href="/month-calendar">Back To Month View?</a>
 </body>
 </html>

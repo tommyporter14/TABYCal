@@ -6,6 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<link rel="stylesheet" href="/event-success-overview-delete.css"> 
 <title>Successfully Created Event</title>
 </head>
 <body>
@@ -17,6 +19,6 @@
 	<p>${event.endTime}</p>
 	<p>${event.duration}</p>
 	<p>${event.users}<p>
-	 <a href="/month-calendar">Back To Month View?</a>
+	 <a id="month-view" href="/month-calendar">Back To Month View?</a>
 </body>
 </html>
