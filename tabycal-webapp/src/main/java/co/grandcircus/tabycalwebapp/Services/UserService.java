@@ -2,9 +2,11 @@ package co.grandcircus.tabycalwebapp.Services;
 
 
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import co.grandcircus.tabycalwebapp.Models.User;
 
 
@@ -22,17 +24,15 @@ public class UserService {
 
     public User getByUsername(String userName) {
         String url = "http://localhost:8081/userprofile/?userName={0}";
-        System.out.println(userName);
-        System.out.println(url);
         final User response = request.getForObject(url, User.class, userName);
         return response;
     }
 
-    public User createUser(User newUser){
+    public ResponseEntity<User> createUser(User newUser) {
         String url = "http://localhost:8081/users/create";
-        System.out.println(newUser.toString());
-        final User response = request.postForObject(url, newUser, User.class);
-        System.out.println("in create user service");
-        return response;
+        HttpEntity<User> entittyBody = new HttpEntity<>(newUser);
+        System.out.println("made it to the service");
+        return request.exchange(url, HttpMethod.POST, entittyBody, User.class);
+
     }
 }

@@ -91,18 +91,16 @@ public class EventController {
 
 	//validator
 	private void checkEventIsValid(Event event) {
-
 		for (String user : event.getUsers()) {
 			List<Event> userEventList = repo.findByUsers(user);
+
 			for (Event userEvent : userEventList) {
-				boolean startTimeOverlaps = (userEvent.getStartTime().isAfter(event.getStartTime())
-						|| userEvent.getStartTime().isEqual(event.getStartTime())
+				boolean startTimeOverlaps = ((userEvent.getStartTime().isAfter(event.getStartTime())
+						|| userEvent.getStartTime().isEqual(event.getStartTime()))
 								&& userEvent.getStartTime().isBefore(event.getEndTime()));
-
-				boolean endTimeOverlaps = (userEvent.getEndTime().isAfter(event.getStartTime())
-						|| userEvent.getEndTime().isEqual(event.getStartTime())
+				boolean endTimeOverlaps = ((userEvent.getEndTime().isAfter(event.getStartTime())
+						|| userEvent.getEndTime().isEqual(event.getStartTime()))
 								&& (userEvent.getEndTime().isBefore(event.getEndTime())));
-
 				if (startTimeOverlaps || endTimeOverlaps) {
 					throw new EventOverlapException(user, userEvent.getStartTime(), userEvent.getEndTime());
 				}
