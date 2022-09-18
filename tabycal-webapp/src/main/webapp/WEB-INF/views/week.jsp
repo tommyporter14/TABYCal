@@ -22,31 +22,49 @@
 </head>
 <body>
 	<div class="week-heading">
+		<div class= "text-pointers">	
+		<a class ="btn btn-light" title="Previous Week" href="/week/${previousWeek}">  << </a>
 		Week of
 		<c:out value="${weekList[0].getSpecificDayString()}" />
-		Schedule
-
+		Schedule	
+		<a class ="btn btn-light" title="Next Week" href="/week/${nextWeek}"> >> </a>
+		</div>
+		<div class= "nav-buttons">
+				 <a class="btn btn-secondary" href="/month-calendar" >Go Back to Calendar</a>
+                 <a class="btn btn-secondary" href="/create-event">Create Event</a>
+                 <a class="btn btn-secondary" href="/check-availability">Check Availability</a>			
+		</div>
 	</div>
 	<div class="table">
 		<table class=table>
 			<thead class="sticky-head">
 				<th></th>
 				<c:forEach var="date" items="${weekList}">
-					<th><c:out value="${date.getDayOfWeek()}" /> <c:out
-							value="${date.getSpecificDayString()}" /> 
+					<th> <a href= "/day/${date.dateToString()}">
+						<span class= "day-of-week">
+							<c:out value="${date.getDayOfWeek()}" /> 
+						</span>
+						<span class= "day-string">
+						<br>
+							<c:out value="${date.getSpecificDayString()}" />
+						</span>
+						</a> 
 							<c:if test="${holidayHelper.isThisAHoliday(date)}">
 							<br>
+							<span class= "holiday">
 							<c:out value="${holidayHelper.showActualHoliday(date).name}" />
-						</c:if></th>
+							</span>
+						</c:if>
+					</th>
 
 				</c:forEach>
 			</thead>
 
 
 			<tbody class="scroll-body">
-				<c:forEach begin="6" end="23" varStatus="loop">
+				<c:forEach begin="${startTime.getHour()}" end="${endTime.getHour()}" varStatus="loop">
 					<tr>
-						<td>${loop.index}:00</td>
+						<td> ${eventsHelper.printHourForWeek(loop.index)}</td>
 						<c:forEach var="date" items="${weekList}">
 							<td><c:forEach var="eventforday"
 									items="${eventsHelper.eventsForDayAtTime(loop.index, date)}">
@@ -63,7 +81,7 @@
 
 			</tbody>
 		</table>
-		<a href="/month-calendar" class="button">Go Back to Calendar</a>
+	
 	</div>
 </body>
 </html>

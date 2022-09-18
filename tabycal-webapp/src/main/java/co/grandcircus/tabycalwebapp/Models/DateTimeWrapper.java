@@ -2,6 +2,7 @@ package co.grandcircus.tabycalwebapp.Models;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class DateTimeWrapper {
 
@@ -30,8 +31,12 @@ public class DateTimeWrapper {
 	}
 	
 	public String getSpecificDayString() {
-		String month = date.getMonth().toString();
+		String month = date.format(DateTimeFormatter.ofPattern("MMM"));
 		int day = date.getDayOfMonth();
 		return month+ " " +day;
 	}
+	
+	 public String dateToString() {
+		 return date.toString();
+	 }
 }
