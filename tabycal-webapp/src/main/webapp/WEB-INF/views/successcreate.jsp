@@ -9,7 +9,7 @@
                 <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-                <title>New Account</title>
+                <title> SuccessPage </title>
             </head>
 
             <body>
@@ -24,7 +24,7 @@
                     <br><label class="sign" for="lstname">Last Name</label><br>
                     <p class="un" id= "lastname">${addedUser.lastName}</p>
                     
-                    <p ><a href="/myhome">My Calendar</p>
+                    <p  ><a href="/">login</p>
                  
 
                 </div>

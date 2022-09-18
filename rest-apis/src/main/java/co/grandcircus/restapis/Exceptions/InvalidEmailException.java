@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class InvalidEmailException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
-    public InvalidEmailException(String userName){
-        super( userName + "is an invalid email.");
+    public InvalidEmailException(String userName) {
+        super(userName + "is an invalid email.");
     }
 
 }

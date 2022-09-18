@@ -9,21 +9,26 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.servlet.ModelAndView;
+import co.grandcircus.tabycalwebapp.Models.CurrentUser;
 import co.grandcircus.tabycalwebapp.Models.DateTimeWrapper;
 import co.grandcircus.tabycalwebapp.Models.EventFrontEnd;
 import co.grandcircus.tabycalwebapp.Models.Holiday;
 import co.grandcircus.tabycalwebapp.Models.User;
+import co.grandcircus.tabycalwebapp.Services.CurrentUserService;
 import co.grandcircus.tabycalwebapp.Services.EventService;
 import co.grandcircus.tabycalwebapp.Services.HolidayService;
 import co.grandcircus.tabycalwebapp.Services.UserService;
@@ -37,18 +42,87 @@ public class AppController {
 
 	@Autowired
 	private EventService eventService;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	private HolidayService holidayService;
 
-	// Log In Page
+	@Autowired
+	private CurrentUserService currentUserService;
+
+
+	// User login related mappings start/////////////////
 	@RequestMapping("/")
 	public String showLogin() {
 		return "login";
 	}
+
+
+	@RequestMapping("/newaccount")
+	public String enterDetails() {
+		return "newaccount";
+	}
+
+
+	@RequestMapping("/verifyaccount")
+	public ModelAndView verifyUser(@RequestParam String userName, Model model) {
+
+		try {
+			currentUserService.deleteCurrentUser();
+			User userProfile = userService.getByUsername(userName);
+			CurrentUser currentUser = new CurrentUser(userProfile.getUserName(),
+					userProfile.getFirstName(), userProfile.getLastName(),
+					userProfile.getDateOfBirth(), userProfile.getAdminStatus());
+			model.addAttribute("currentUser", currentUser);
+		} catch (Exception ex) {
+			System.out.println(ex.toString());
+			return new ModelAndView("redirect:/");
+		}
+		System.out.println("MeowMeowMeowMeowMeowMeowMeowMeowMeowMeowMeowMeowMeowMeow");
+
+		return new ModelAndView("redirect:/month-calendar", "model", model);
+
+	}
+
+	@PostMapping("/createuser")
+	public String createUser(User newUser, Model model) {
+		// Do we need to make an extra hop to call the User Service? Is it better
+		// practice to call the UserController directly.
+		try {
+			ResponseEntity<User> responseEntity = userService.createUser(newUser);
+			System.out.println("response to web app");
+			System.out.println(responseEntity.getStatusCode());
+			if (responseEntity.getStatusCode().equals(HttpStatus.CREATED)) {
+				model.addAttribute("addedUser", responseEntity.getBody());
+				return "successcreate";
+			} else if (responseEntity.getStatusCode().equals(HttpStatus.FOUND)) {
+				model.addAttribute("addedUser", newUser.getUserName());
+				model.addAttribute("statusCode", responseEntity.getStatusCode());
+				model.addAttribute("errorMsg",
+						newUser.getUserName() + " already exists choose another email");
+
+
+			} else if (responseEntity.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
+				model.addAttribute("addedUser", newUser.getUserName());
+				model.addAttribute("statusCode", responseEntity.getStatusCode());
+				model.addAttribute("errorMsg", newUser.getUserName() + " is not a valid email");
+
+			}
+			System.out.println(model.toString());
+			return "newaccount";
+		} catch (Exception ex) {
+
+			model.addAttribute("errorMsg", "Unhandled error occured please contact admin");
+			// System.out.println("this is the model: " +model.asMap());
+			return "newaccount";
+		}
+	}
+
+	// User login related mappings end /////////////////
+
+
 
 	@RequestMapping("/week/{date}")
 	public String showWeek(@PathVariable String date, Model model) {
@@ -58,19 +132,19 @@ public class AppController {
 			weekList.add(new DateTimeWrapper(dateTime.minusDays(i)));
 
 		}
-		List<EventFrontEnd> weekEventList = eventService.getEventsByStartDateAndEndDate(weekList.get(0).getDate(),
-				weekList.get(weekList.size() - 1).getDate());
+		List<EventFrontEnd> weekEventList = eventService.getEventsByStartDateAndEndDate(
+				weekList.get(0).getDate(), weekList.get(weekList.size() - 1).getDate());
 		WeekViewHelper eventsHelper = new WeekViewHelper(weekEventList);
-		
+
 		model.addAttribute("lastHour", eventsHelper.getLatestHour());
-		model.addAttribute("earliestHour",eventsHelper.getEarliestHour());
+		model.addAttribute("earliestHour", eventsHelper.getEarliestHour());
 		model.addAttribute("eventsHelper", eventsHelper);
 		model.addAttribute("weekList", weekList);
-		
+
 		List<Holiday> holidayList = Arrays.asList(holidayService.getHolidays());
 		HolidayHelper holidayHelper = new HolidayHelper(holidayList);
 		model.addAttribute("holidayHelper", holidayHelper);
-		
+
 		return "week";
 	}
 
@@ -86,7 +160,7 @@ public class AppController {
 
 		List<EventFrontEnd> eventData = eventService.getEventsByDate(dateTime);
 		model.addAttribute("listOfDayEvents", eventData);
-		
+
 		List<Holiday> holidayList = Arrays.asList(holidayService.getHolidays());
 		HolidayHelper holidayHelper = new HolidayHelper(holidayList);
 		model.addAttribute("holidayHelper", holidayHelper);
@@ -94,138 +168,61 @@ public class AppController {
 
 		return "day";
 	}
-	@RequestMapping("/newaccount")
-	public String enterDetails() {
-		return "newaccount";
-	}
 
-	//merge conflict head, ask yaksh
-	@RequestMapping("/verifyaccount")
-	public String verifyUser(@RequestParam String userName, Model model) {
-		try {
-			User userProfile = userService.getByUsername(userName);
-			model.addAttribute("userProfile", userProfile);
-			EventFrontEnd[] userEvents = eventService.getByUserName(userName);
-			model.addAttribute("userEvents", userEvents );
-	} catch (Exception ex) {
-		System.out.println(ex.toString());
-		return "redirect:/";
-	}
 
-	return "month";
-
-}	
-//	public String verifyUser(String userName, Model model) {
-//		try {
-//
-//			EmailValidator validator = EmailValidator.getInstance();
-//
-//			if (validator.isValid(userName)) {
-//				model.addAttribute("userProfile", userService.getByUsername(userName));
-//				List<EventFrontEnd> eventList = eventService.getEventResponse();
-//				List<EventFrontEnd> myEvents = new ArrayList<>();
-//				for (EventFrontEnd event : eventList) {
-//					if (event.getUsers().contains(userName)) {
-//						myEvents.add(event);
-//					}
-//				}
-//				model.addAttribute("myEvents", myEvents);
-//			}
-//			else {
-//				throw new InvalidEmailException(userName);
-//			}
-//
-//
-//
-//		} catch (Exception ex) {
-//			model.addAttribute("errorMsg", ex.getMessage());
-//			return "login";
-//		}
-//
-//		return "month";
-//
-//	}
-
-	// return to the log in page but we can have a "success page" then direct to log
-	@PostMapping("/createuser")
-	public String createUser(User newUser, Model model) {
-		// Do we need to make an extra hop to call the User Service? Is it better
-		// practice to call the UserController directly.
-		try {
-			User addedUser = userService.createUser(newUser);
-			model.addAttribute("addedUser", addedUser);
-			// model.addAttribute("addedUser", userService.createUser(newUser));
-		} catch (Exception ex) {
-			model.addAttribute("userName", newUser.getUserName());
-			// System.out.println("this is the model: " +model.asMap());
-			return "newaccount";
-		}
-		return "successcreate";
-	}
-	
-	// return to the log in page but we can have a "success page" then direct to log
-		// in
-//		@PostMapping("/createuser")
-//		public String createUser(User newUser, Model model) {
-//			// Do we need to make an extra hop to call the User Service? Is it better
-//			// practice to call the UserController directly.
-//			try {
-//				model.addAttribute("addedUser", userService.createUser(newUser));
-//				System.out.println("created a user yay!");
-//				// model.addAttribute("addedUser", userService.createUser(newUser));
-//			} catch (Exception ex) {
-//				model.addAttribute("userName", newUser.getUserName());
-//				return "redirect:/newaccount";
-//			}
-//			return "successcreate";
-//		}
 
 	// DEFAULT will need to change as we go just here to test
 	@RequestMapping("/month-calendar")
 	public String showMonth(Model model) {
+		System.out.println(
+				"PEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEWPEW");
 
-		EventFrontEnd[] events = eventService.getEvents();
+		EventFrontEnd[] events = eventService.getByUserName(currentUserService.getCurrentUser());
+
 		Holiday[] holidays = holidayService.getHolidays();
-		//System.out.print(events[0].getEventName());
+		// System.out.print(events[0].getEventName());
 		model.addAttribute("events", events);
 		model.addAttribute("holidays", holidays);
 		return "month";
 	}
-	
+
 	@RequestMapping("/create-event")
 	public String showCreateEvent(Model model) {
 		User[] userList = userService.getAll();
-	    model.addAttribute("users", userList);
+		model.addAttribute("users", userList);
 		return "create-event";
 	}
-		
+
 	@RequestMapping("/event-created")
 	public String showEventCreated(Model model,
-			@RequestParam("start")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-			@RequestParam("end")@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
-			@RequestParam String eventName,
-			@RequestParam String description,
+			@RequestParam("start") @DateTimeFormat(
+					iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+			@RequestParam("end") @DateTimeFormat(
+					iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+			@RequestParam String eventName, @RequestParam String description,
 			@RequestParam List<String> users) {
 		Double placeHolder = 0.0;
-		EventFrontEnd event = new EventFrontEnd(eventName, description, start, end, placeHolder, users);
+		EventFrontEnd event =
+				new EventFrontEnd(eventName, description, start, end, placeHolder, users);
 		try {
 			model.addAttribute("event", eventService.createEvent(event));
-		}catch(Exception ex){
-			//System.out.println(ex.getMessage());
+		} catch (Exception ex) {
+			// System.out.println(ex.getMessage());
 			User[] userList = userService.getAll();
-		    model.addAttribute("users", userList);
+			model.addAttribute("users", userList);
 			model.addAttribute("message", "Error: overlapping events for user");
 			return "create-event";
 		}
-		
+
 		return "event-created";
 	}
-	
+
 	@RequestMapping("/event-overview")
 	public String showEventOverview(Model model, @RequestParam String id) {
 		model.addAttribute("event", eventService.getEventById(id));
 		return "event-overview";
 	}
+
 	@RequestMapping("/successfully-deleted")
 	public String showSuccessfullyDeleted(@RequestParam String id) {
 		eventService.deleteEvent(id);
@@ -234,16 +231,18 @@ public class AppController {
 	// Schedule Finder Service (Web Service)
 
 	@RequestMapping("/check-availability")
-    public String showCheckAvailability(Model model) {
-        User[] userList = userService.getAll();
-        model.addAttribute("users", userList);
-        return "check-availability";
-    }
+	public String showCheckAvailability(Model model) {
+		User[] userList = userService.getAll();
+		model.addAttribute("users", userList);
+		return "check-availability";
+	}
 
 	@RequestMapping("/availability")
 	public String showAvailability(Model model,
-			@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
-			@RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+			@RequestParam("start") @DateTimeFormat(
+					iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+			@RequestParam("end") @DateTimeFormat(
+					iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
 			@RequestParam List<String> users) {
 
 		EventFrontEnd[] eventsAll = eventService.getEvents();
@@ -260,7 +259,7 @@ public class AppController {
 		for (int i = 0; i < events.length; i++) {
 			events[i] = eventsList.get(i);
 		}
-		//System.out.println(events.toString());
+		// System.out.println(events.toString());
 		HashMap<LocalDateTime, Double> map = new HashMap<>();
 		for (int i = 0; i < events.length; i++) {
 			if (events[i].getStartTime().isAfter(start.minusMinutes(1))
@@ -268,23 +267,23 @@ public class AppController {
 				if (map.containsKey(events[i].getStartTime())) {
 					if (map.get(events[i].getStartTime()) <= events[i].getDuration()) {
 						map.put(events[i].getStartTime(), events[i].getDuration());
-					} 
+					}
 				} else {
 					map.put(events[i].getStartTime(), events[i].getDuration());
 				}
-			}
-			else if(events[i].getStartTime().isBefore(start)	
-					&& events[i].getEndTime().isAfter(end)){
+			} else if (events[i].getStartTime().isBefore(start)
+					&& events[i].getEndTime().isAfter(end)) {
 				map.put(LocalDateTime.MIN, 0.0);
-				//System.out.println("!!!");
+				// System.out.println("!!!");
 			}
-			
-//WORKING ON ONE MORE FIX 
-//			else if(events[i].getStartTime().isEqual(start) ||events[i].getEndTime().isEqual(end)) {
-//				map.put(LocalDateTime.MAX, 0.0);
-//				System.out.println("!!!");
-//			}
-			
+
+			// WORKING ON ONE MORE FIX
+			// else if(events[i].getStartTime().isEqual(start)
+			// ||events[i].getEndTime().isEqual(end)) {
+			// map.put(LocalDateTime.MAX, 0.0);
+			// System.out.println("!!!");
+			// }
+
 		}
 		TreeMap<LocalDateTime, Double> sortedMap = new TreeMap<>(map);
 		ArrayList<LocalDateTime> startTimes = new ArrayList<>(sortedMap.keySet());
@@ -314,7 +313,7 @@ public class AppController {
 
 		ArrayList<LocalDateTime> endTimes2 = new ArrayList<>(sortedEndStartNoOvers.keySet());
 		ArrayList<LocalDateTime> startTimes2 = new ArrayList<>(sortedEndStartNoOvers.values());
-		
+
 		TreeMap<LocalDateTime, LocalDateTime> available = new TreeMap<>();
 		if (!startTimes.isEmpty()) {
 			for (int i = 0; i <= startTimes2.size(); i++) {
@@ -332,30 +331,28 @@ public class AppController {
 					} else {
 						available.put(endTimes2.get(i - 1), startTimes2.get(i));
 					}
-				} 
+				}
 			}
 		}
 
-		//System.out.print(available.toString());
-		
+		// System.out.print(available.toString());
+
 		ArrayList<LocalDateTime> keys = new ArrayList<>(available.keySet());
 		ArrayList<LocalDateTime> values = new ArrayList<>(available.values());
 		String keysString = keys.toString();
 		String valuesString = values.toString();
-		String overallString = keysString+valuesString;
-		
-		
-		if(available.isEmpty()) {
-			model.addAttribute("message","wide open");
-		}
-		else if(overallString.contains(LocalDateTime.MIN.toString())) {
+		String overallString = keysString + valuesString;
+
+
+		if (available.isEmpty()) {
+			model.addAttribute("message", "wide open");
+		} else if (overallString.contains(LocalDateTime.MIN.toString())) {
 			model.addAttribute("message", "no availability");
-		}
-		else {
+		} else {
 			model.addAttribute("available", available);
 		}
-		
-			return "availability";
+
+		return "availability";
 	}
 
 	@RequestMapping("/day")
