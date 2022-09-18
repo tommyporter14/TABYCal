@@ -128,8 +128,9 @@ public class AppController {
 			weekList.add(new DateTimeWrapper(dateTime.minusDays(i)));
 
 		}
-		List<EventFrontEnd> weekEventList = eventService.getEventsByStartDateAndEndDate(
-				weekList.get(0).getDate(), weekList.get(weekList.size() - 1).getDate());
+		
+		List<EventFrontEnd> weekEventList = eventService.getEventsByStartDateAndEndDateAndUser(
+				weekList.get(0).getDate(), weekList.get(weekList.size() - 1).getDate(),currentUserService.getCurrentUser());
 		WeekViewHelper eventsHelper = new WeekViewHelper(weekEventList);
 
 		model.addAttribute("lastHour", eventsHelper.getLatestHour());
@@ -154,7 +155,7 @@ public class AppController {
 		model.addAttribute("dayOfWeek", dateTime.getDayOfWeek());
 		model.addAttribute("month", dateTime.getMonth());
 
-		List<EventFrontEnd> eventData = eventService.getEventsByDate(dateTime);
+		List<EventFrontEnd> eventData = eventService.getEventsByStartDateAndEndDateAndUser(dateTime, dateTime, currentUserService.getCurrentUser() );
 		model.addAttribute("listOfDayEvents", eventData);
 
 		List<Holiday> holidayList = Arrays.asList(holidayService.getHolidays());
