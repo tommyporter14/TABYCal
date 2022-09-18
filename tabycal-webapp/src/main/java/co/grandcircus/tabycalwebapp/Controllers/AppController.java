@@ -60,7 +60,7 @@ public class AppController {
 
 		}
 		List<EventFrontEnd> weekEventList = eventService.getEventsByStartDateAndEndDateAndUser(weekList.get(0).getDate(),
-				weekList.get(weekList.size() - 1).getDate(), userName);
+				weekList.get(weekList.size() - 1).getDate(), currentUserService.getCurrentUser());
 		WeekViewHelper eventsHelper = new WeekViewHelper(weekEventList);
 		
 		model.addAttribute("lastHour", eventsHelper.getLatestHour());
@@ -224,7 +224,9 @@ public class AppController {
 		try {
 			model.addAttribute("event", eventService.createEvent(event));
 		}catch(Exception ex){
-			System.out.println(ex.getMessage());
+			//System.out.println(ex.getMessage());
+			User[] userList = userService.getAll();
+		    model.addAttribute("users", userList);
 			model.addAttribute("message", "Error: overlapping events for user");
 			User[] userList = userService.getAll();
 		    model.addAttribute("users", userList);
@@ -273,6 +275,7 @@ public class AppController {
 		for (int i = 0; i < events.length; i++) {
 			events[i] = eventsList.get(i);
 		}
+		//System.out.println(events.toString());
 		HashMap<LocalDateTime, Double> map = new HashMap<>();
 		for (int i = 0; i < events.length; i++) {
 			if (events[i].getStartTime().isAfter(start.minusMinutes(1))
@@ -280,13 +283,23 @@ public class AppController {
 				if (map.containsKey(events[i].getStartTime())) {
 					if (map.get(events[i].getStartTime()) <= events[i].getDuration()) {
 						map.put(events[i].getStartTime(), events[i].getDuration());
-					} else {
-						// do nothing
-					}
+					} 
 				} else {
 					map.put(events[i].getStartTime(), events[i].getDuration());
 				}
 			}
+			else if(events[i].getStartTime().isBefore(start)	
+					&& events[i].getEndTime().isAfter(end)){
+				map.put(LocalDateTime.MIN, 0.0);
+				//System.out.println("!!!");
+			}
+			
+//WORKING ON ONE MORE FIX 
+//			else if(events[i].getStartTime().isEqual(start) ||events[i].getEndTime().isEqual(end)) {
+//				map.put(LocalDateTime.MAX, 0.0);
+//				System.out.println("!!!");
+//			}
+			
 		}
 		TreeMap<LocalDateTime, Double> sortedMap = new TreeMap<>(map);
 		ArrayList<LocalDateTime> startTimes = new ArrayList<>(sortedMap.keySet());
@@ -303,7 +316,6 @@ public class AppController {
 			int minAdd = (int) addHold;
 			endTimes.add(startTimes.get(i).plusHours(hourAdd).plusMinutes(minAdd));
 		}
-
 		TreeMap<LocalDateTime, LocalDateTime> sortedEndStartNoOvers = new TreeMap<>();
 		for (int i = 0; i < startTimes.size(); i++) {
 			if (sortedEndStartNoOvers.containsKey(endTimes.get(i))) {
@@ -314,33 +326,51 @@ public class AppController {
 				sortedEndStartNoOvers.put(endTimes.get(i), startTimes.get(i));
 			}
 		}
+
 		ArrayList<LocalDateTime> endTimes2 = new ArrayList<>(sortedEndStartNoOvers.keySet());
 		ArrayList<LocalDateTime> startTimes2 = new ArrayList<>(sortedEndStartNoOvers.values());
-
+		
 		TreeMap<LocalDateTime, LocalDateTime> available = new TreeMap<>();
-		for (int i = 0; i < startTimes2.size(); i++) {
-			if (i == 0) {
-				available.put(start, startTimes2.get(i));
-			} else if (i != 0 && i < startTimes2.size() - 1) {
-				if (startTimes2.get(i).equals(endTimes2.get(i - 1))) {
-					available.put(endTimes2.get(i), startTimes2.get(i + 1));
+		if (!startTimes.isEmpty()) {
+			for (int i = 0; i <= startTimes2.size(); i++) {
+				if (i == 0) {
+					available.put(start, startTimes2.get(i));
+				} else if (i == startTimes2.size()) {
+					if (endTimes2.get(i - 1).isEqual(end)) {
+						available.put(endTimes2.get(i - 1), startTimes2.get(i));
+					} else {
+						available.put(endTimes2.get(i - 1), end);
+					}
 				} else {
-					available.put(endTimes2.get(i - 1), startTimes2.get(i));
-				}
-			} else if (endTimes2.get(i).isEqual(end)) {
-				available.put(endTimes2.get(i - 1), startTimes2.get(i));
-			} else {
-				available.put(endTimes2.get(i), end);
+					if (startTimes2.get(i).equals(endTimes2.get(i - 1))) {
+						available.put(endTimes2.get(i), startTimes2.get(i + 1));
+					} else {
+						available.put(endTimes2.get(i - 1), startTimes2.get(i));
+					}
+				} 
 			}
-
 		}
+
+		//System.out.print(available.toString());
+		
+		ArrayList<LocalDateTime> keys = new ArrayList<>(available.keySet());
+		ArrayList<LocalDateTime> values = new ArrayList<>(available.values());
+		String keysString = keys.toString();
+		String valuesString = values.toString();
+		String overallString = keysString+valuesString;
+		
+		
 		if(available.isEmpty()) {
-			//String message = "wide open";
-			//model.addAttribute("message",message);
-		}else {
+			model.addAttribute("message","wide open");
+		}
+		else if(overallString.contains(LocalDateTime.MIN.toString())) {
+			model.addAttribute("message", "no availability");
+		}
+		else {
 			model.addAttribute("available", available);
 		}
-		return "availability";
+		
+			return "availability";
 	}
 
 	@RequestMapping("/day")

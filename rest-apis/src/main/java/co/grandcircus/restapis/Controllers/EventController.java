@@ -43,7 +43,6 @@ public class EventController {
 	public List<Event> getAllEvents(@RequestParam(required= false) String startDate,
 									@RequestParam(required= false) String endDate,
 	  								@RequestParam(required= false) List<String> users) {
-		
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 		LocalDateTime adjustedStartDate = null;
 		LocalDateTime adjustedEndDate = null;
