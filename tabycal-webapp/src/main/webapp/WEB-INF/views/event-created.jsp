@@ -18,14 +18,13 @@
 	<p>${event.getReadableStartTime()}</p>
 	<p>${event.getReadableEndTime()}</p>
 	<p>${event.duration}</p>
-<<<<<<< HEAD
+
 	<p>${event.users}<p>
 	 <a id="month-view" href="/month-calendar">Back To Month View?</a>
-=======
+
 	<p><c:forEach var= "user" items="${event.users}">
 	 | ${user} |  
 	</c:forEach></p>
-	 <a href="/month-calendar">Back To Month View?</a>
->>>>>>> 2074cb7d2036e6a8eb07adb64a8b7e5a93782c4c
+
 </body>
 </html>
