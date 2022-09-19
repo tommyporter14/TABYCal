@@ -21,6 +21,7 @@
                 prev"></i> 
                 <div class="date">
                     <h1></h1>
+                    <h3></h3>
                     <p></p>
                   <a href="/create-event">Create Event</a>
                  <a href="/check-availability">Check Availability</a>

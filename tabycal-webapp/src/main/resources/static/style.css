@@ -96,18 +96,64 @@ html {
   list-style: none;
 }
 
-/* .viewweek{ */
-/* 	list-style: none; */
-/* 	font-size: 1.5rem; */
-/*     font-weight: 400; */
-/*     letter-spacing: 0.1rem; */
-/*     width: calc(97%/8); */
-/*     display: flex; */
-/*     height: 9rem; */
-/*     justify-content: center; */
-/*     align-items: center; */
-/*     text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5); */
-/* } */
+.days a.prev-date{
+  text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+  color: grey;
+  text-decoration: none;
+  opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+}
+.days a.next-date{
+  text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+  color: grey;
+  text-decoration: none;
+  opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.days a.monthdays{
+  text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+  color: white;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+}
+.days a.today{
+  text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+  color: white;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #565257;
+  padding: 15px 30px;
+  text-decoration: none;
+ 
+}
+.days span.holidays{
+	  color: grey;
+	  font-size: small;
+	  opacity: 0.5;
+	  display: flex;
+  	  justify-content: center;
+  	  align-items: center;
+	  
+}
+.days a.events{
+	  color: #9c27b0;
+	  font-size: small;
+	  opacity: 0.8;
+	  display: flex;
+	  flex-direction: column;
+  	  justify-content: flex-end;
+  	  align-items: center;
+  	
+}
 
 .days div {
   font-size: 1.5rem;
@@ -119,53 +165,9 @@ html {
   justify-content: center;
   align-items: center;
   text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
-}
-.events {
-  color: rgb(213, 169, 227);
-}
-.monthdays a{
-	
-}
-/* .monthdays{ */
-/* 	font-size: 1.5rem; */
-/*     font-weight: 400; */
-/*     letter-spacing: 0.1rem; */
-/*     width: calc(97%/8); */
-/*     display: flex; */
-/*     height: 9rem; */
-/*     justify-content: center; */
-/*     align-items: center; */
-/*     text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5); */
-/* } */
 
-/* .monthdays:hover:not(.today) { */
-/*     background-color: #262626; */
-/*     border: 0.2rem solid#777; */
-/*     cursor:pointer; */
-/*     width: calc(97%/8); */
-/* } */
+}
 
-/* .viewweek{ */
-/* 	background-color: #9C27B0; */
-/*   	color: white; */
-/*  	padding: 15px 25px; */
-/*   	text-decoration: none; */
-/* } */
-
-/* .prev-date, */
-/* .next-date { */
-/* 	color: grey; */
-/*     opacity: 0.5; */
-/* } */
-/* .today{ */
-/* 	background-color: #9C27B0; */
-/*   	color: white; */
-/*  	padding: 15px 77px; */
-/*   	text-decoration: none; */
-/* } */
-/* .today:hover{ */
-/* 	 border: 0.2rem solid#777; */
-/* } */
 /* Log In landing page css start credit https://speckyboy.com/login-pages-html5-css/*/
 body {
   background-color: #f3ebf6;
@@ -223,27 +225,6 @@ form.form1 {
   padding-top: 40px;
 }
 
-/* removing password tag */
-/* .pass {
-    width: 76%;
-    color: rgb(38, 50, 56);
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 1px;
-    background: rgba(136, 126, 126, 0.04);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    outline: none;
-    box-sizing: border-box;
-    border: 2px solid rgba(0, 0, 0, 0.02);
-    margin-bottom: 50px;
-    margin-left: 46px;
-    text-align: center;
-    margin-bottom: 27px;
-    font-family: 'Ubuntu', sans-serif;
-} */
-
 .un:focus,
 .pass:focus {
   border: 2px solid rgba(0, 0, 0, 0.18) !important;
@@ -288,5 +269,6 @@ a {
     border-radius: 0px;
   }
 }
+
 
 /* Log In landing page css start  */
