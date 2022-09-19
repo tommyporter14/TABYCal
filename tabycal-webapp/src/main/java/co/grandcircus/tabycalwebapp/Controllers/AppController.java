@@ -175,7 +175,7 @@ public class AppController {
 		model.addAttribute("stringDate", dateTime.format(DateTimeFormatter.ofPattern("E, M d")));
 		model.addAttribute("day", dateTime.getDayOfMonth());
 		model.addAttribute("dayOfWeek", dateTime.getDayOfWeek());
-		model.addAttribute("month", dateTime.getMonth());
+		model.addAttribute("month", dateTime.format(DateTimeFormatter.ofPattern("MMM")));
 		model.addAttribute("nextDay", dateTime.plusDays(1));
 		model.addAttribute("dayBefore", dateTime.minusDays(1));
 

@@ -20,19 +20,19 @@
 </head>
 <body>
 <div class="day-heading">
-		<div class = "text-pointers">
+	<div class = "text-pointers">
 		<a class ="btn btn-light" title="Previous Day" href="/day/${dayBefore}"> << </a>
 		Schedule for ${dayOfWeek}, ${month} ${day}
-	<c:if test="${holidayHelper.isThisAHoliday(dateTime)}">
-		<br><c:out value= "${holidayHelper.showActualHoliday(dateTime).name}"/>
-	</c:if>		
-		<a class ="btn btn-light" title="Next Day" href="/day/${nextDay}"> >> </a>
+		<a class ="btn btn-light" title="Next Day" href="/day/${nextDay}"> >> </a>		
 	</div>
-		<div class= "nav-buttons">
-			  <a class="btn btn-secondary" href="/month-calendar" >Back to Calendar</a>
-              <a class="btn btn-secondary" href="/create-event">Create Event</a>
-              <a class="btn btn-secondary" href="/check-availability">Check Availability</a>			
-		</div>
+	<c:if test="${holidayHelper.isThisAHoliday(dateTime)}">
+		<div class= "holiday-on-day"><c:out value= "${holidayHelper.showActualHoliday(dateTime).name}"/></div>
+	</c:if>	
+	<div class= "nav-buttons">
+		  <a class="btn btn-secondary" href="/month-calendar" >Back to Calendar</a>
+             <a class="btn btn-secondary" href="/create-event">Create Event</a>
+             <a class="btn btn-secondary" href="/check-availability">Check Availability</a>			
+	</div>
 </div>
 	<div class="table">
 		<table class=table>

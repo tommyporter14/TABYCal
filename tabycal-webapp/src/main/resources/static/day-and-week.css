@@ -93,7 +93,14 @@ td {
 .holiday {
 	font-size: 0.8rem;
 	color: black;
+	background-color:transparent;
 }
+.holiday-on-day{
+	font-size: 1.1rem;
+	color: black;
+	margin-top:0;
+	margin-bottom:0;
+} 
 
 .btn-light {
 	border-color: #8c55aa26;
@@ -137,4 +144,7 @@ td {
 .day-time{
 	width: 90px;
     text-align: center;
+}
+.time-week{
+	width:92px;
 }

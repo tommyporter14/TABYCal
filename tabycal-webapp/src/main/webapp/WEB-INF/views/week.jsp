@@ -64,7 +64,7 @@
 			<tbody class="scroll-body">
 				<c:forEach begin="${startTime.getHour()}" end="${endTime.getHour()}" varStatus="loop">
 					<tr>
-						<td> ${eventsHelper.printHourForWeek(loop.index)}</td>
+						<td class= "time-week"> ${eventsHelper.printHourForWeek(loop.index)}</td>
 						<c:forEach var="date" items="${weekList}">
 							<td><c:forEach var="eventforday"
 									items="${eventsHelper.eventsForDayAtTime(loop.index, date)}">
