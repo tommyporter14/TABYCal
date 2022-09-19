@@ -72,6 +72,12 @@ td {
 .sticky-head tr {
 	box-shadow: 40px 1px 36px 2px rgb(0 0 0/ 14%);
 }
+.sticky-head th{
+	width:120px;
+}
+.sticky-head th:first-child{
+	width:80px;
+}
 
 .table thead th {
 	border-bottom: 2px solid #dee2e6;
