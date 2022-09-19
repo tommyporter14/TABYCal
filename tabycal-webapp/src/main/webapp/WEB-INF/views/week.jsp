@@ -38,7 +38,7 @@
 	<div class="table">
 		<table class=table>
 			<thead class="sticky-head">
-				<th></th>
+				<th class="time-week"></th>
 				<c:forEach var="date" items="${weekList}">
 					<th> <a href= "/day/${date.dateToString()}">
 						<span class= "day-of-week">
