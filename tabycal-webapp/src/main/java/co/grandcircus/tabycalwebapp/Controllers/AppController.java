@@ -120,9 +120,16 @@ public class AppController {
 	}
 
 	// User login related mappings end /////////////////
+	
+	@RequestMapping("/current-user/week/{date}")
+	public String showWeekForCurrentUser(@PathVariable String date, Model model) {
+		String currentUser = currentUserService.getCurrentUser();
+		return showWeek(date, currentUser, model);
+		
+	}
 
 	@RequestMapping("/week/{date}")
-	public String showWeek(@PathVariable String date, Model model) {
+	public String showWeek(@PathVariable String date,@RequestParam(required=false) String user, Model model) {
 		LocalDate dateTime = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
 		List<DateTimeWrapper> weekList = new ArrayList<>();
 		for (int i = 6; i >= 0; i--) {
@@ -131,9 +138,9 @@ public class AppController {
 		}
 		
 		List<EventFrontEnd> weekEventList = eventService.getEventsByStartDateAndEndDateAndUser(
-				weekList.get(0).getDate(), weekList.get(weekList.size() - 1).getDate(),currentUserService.getCurrentUser());
+				weekList.get(0).getDate(), weekList.get(weekList.size() - 1).getDate(),user);
 		WeekViewHelper eventsHelper = new WeekViewHelper(weekEventList);
-
+//copy code here for start and end hours
 		model.addAttribute("lastHour", eventsHelper.getLatestHour());
 		model.addAttribute("earliestHour", eventsHelper.getEarliestHour());
 		model.addAttribute("eventsHelper", eventsHelper);
