@@ -76,7 +76,7 @@ const renderCalendar = () => {
 
 		days += `<div><ul>
                     <li>
-                        <a href="/day/${padYear}-${padMonth}-${padDay}" class="prev-date">${padDay}</a>
+                        <a href="/current-user/day/${padYear}-${padMonth}-${padDay}" class="prev-date">${padDay}</a>
                     </li>`
 		//change
 		for(let y = 0; y < holidayList.length; y++){
@@ -105,7 +105,7 @@ const renderCalendar = () => {
 	    if(i===new Date().getDate() && date.getMonth()=== new Date().getMonth()){
 	      days += `<div><ul>
                     <li>
-                        <a href="/day/${padYear}-${padMonth}-${padDay}" class="today">${i}</a>
+                        <a href="/current-user/day/${padYear}-${padMonth}-${padDay}" class="today">${i}</a>
                     </li>`
 
 		//change
@@ -128,7 +128,7 @@ const renderCalendar = () => {
 			
 	       days += `<div><ul>
                     <li>
-                        <a href="/day/${padYear}-${padMonth}-${padDay}" class="monthdays">${i}</a>
+                        <a href="/current-user/day/${padYear}-${padMonth}-${padDay}" class="monthdays">${i}</a>
                     </li>`
 
 		//change 
@@ -151,8 +151,8 @@ const renderCalendar = () => {
         
         
 		if ((i+firstDayIndex)%7 === 0){
-			days+=`<div><a href= "/week/${padYear}-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
-		
+			days+=`<div><a href= "/current-user/week/${padYear}-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
+			
 		}        
         
 	}
@@ -162,7 +162,7 @@ const renderCalendar = () => {
 		let padYear = date.getFullYear().toString();
 	   days += `<div><ul>
                     <li>
-                        <a href="/day/${padYear}-${padMonth}-${padDay}" class="next-date">${j}</a>
+                        <a href="/current-user/day/${padYear}-${padMonth}-${padDay}" class="next-date">${j}</a>
                     </li>`
 
 		//change
@@ -182,7 +182,7 @@ const renderCalendar = () => {
 		}
 		days += `</ul></div>`;
 	if ((j-nextDays)%7 === 0){
-			days+=`<div><a href= "/week/${padYear}-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
+			days+=`<div><a href= "/current-user/week/${padYear}-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
 		
 		}    
 	}
