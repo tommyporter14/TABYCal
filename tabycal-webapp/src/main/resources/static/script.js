@@ -63,7 +63,7 @@ const renderCalendar = () => {
 	];
 	
 	document.querySelector(".date h1").innerHTML=months[date.getMonth()];
-	
+	document.querySelector(".date h3").innerHTML=date.getFullYear().toString();
 	document.querySelector(".date p").innerHTML=new Date().toDateString();
 	
 	let days = "";
@@ -72,14 +72,22 @@ const renderCalendar = () => {
 	for (let x = firstDayIndex; x > 0; x--) {
 		let padMonth = (date.getMonth()).toString().padStart(2, "0");
 		let padDay = (prevLastDay - x + 1).toString().padStart(2, "0");
+		let padYear = date.getFullYear().toString();
 
 		days += `<div><ul>
                     <li>
-                        <a href="/day/2022-${padMonth}-${padDay}" class="monthdays">${padDay}</a>
+                        <a href="/day/${padYear}-${padMonth}-${padDay}" class="prev-date">${padDay}</a>
                     </li>`
-
+		//change
+		for(let y = 0; y < holidayList.length; y++){
+			if (holidayList[y].holidayDate.toString().includes(padYear + "-" + padMonth + "-" + padDay)) {
+				days += `<li>
+                        <span class="holidays">${holidayList[y].holidayName}</span>
+                    </li>`;
+			}
+		}
 		for (let z = 0; z < eventsList.length; z++) {
-			if (eventsList[z].startTime.toString().includes("2022-" + padMonth + "-" + padDay)) {
+			if (eventsList[z].startTime.toString().includes(padYear +"-" + padMonth + "-" + padDay)) {
 				days += `<li>
                         <a href="/event-overview/?id=${eventsList[z].eventId}"class="events">${eventsList[z].eventName}</a>
                     </li>`;
@@ -87,21 +95,29 @@ const renderCalendar = () => {
 		}
 		days += `</ul></div>`;
 	}
-	//working logic
 	
 	for(let i =1; i<=lastDay; i++){
 
 	    let padMonth = (date.getMonth()+1).toString().padStart(2,"0");
 		let padDay = i.toString().padStart(2,"0");
+		let padYear = date.getFullYear().toString();
 		
 	    if(i===new Date().getDate() && date.getMonth()=== new Date().getMonth()){
 	      days += `<div><ul>
                     <li>
-                        <a href="/day/2022-${padMonth}-${padDay}" class="monthdays">${i}</a>
+                        <a href="/day/${padYear}-${padMonth}-${padDay}" class="today">${i}</a>
                     </li>`
 
+		//change
+		for(let y = 0; y < holidayList.length; y++){
+			if (holidayList[y].holidayDate.toString().includes(padYear + "-" + padMonth + "-" + padDay)) {
+				days += `<li>
+                        <span class="holidays">${holidayList[y].holidayName}</span>
+                    </li>`;
+			}
+		}
 		for (let z = 0; z < eventsList.length; z++) {
-			if (eventsList[z].startTime.toString().includes("2022-" + padMonth + "-" + padDay)) {
+			if (eventsList[z].startTime.toString().includes(padYear + "-" + padMonth + "-" + padDay)) {
 				days += `<li>
                        <a href="/event-overview/?id=${eventsList[z].eventId}"class="events">${eventsList[z].eventName}</a>
                     </li>`;
@@ -112,11 +128,19 @@ const renderCalendar = () => {
 			
 	       days += `<div><ul>
                     <li>
-                        <a href="/day/2022-${padMonth}-${padDay}" class="monthdays">${i}</a>
+                        <a href="/day/${padYear}-${padMonth}-${padDay}" class="monthdays">${i}</a>
                     </li>`
 
+		//change 
+		for(let y = 0; y < holidayList.length; y++){
+			if (holidayList[y].holidayDate.toString().includes(padYear + "-" + padMonth + "-" + padDay)) {
+				days += `<li>
+                        <span class="holidays">${holidayList[y].holidayName}</span>
+                    </li>`;
+			}
+		}
 		for (let z = 0; z < eventsList.length; z++) {
-			if (eventsList[z].startTime.toString().includes("2022-" + padMonth + "-" + padDay)) {
+			if (eventsList[z].startTime.toString().includes(padYear + "-" + padMonth + "-" + padDay)) {
 				days += `<li>
                        <a href="/event-overview/?id=${eventsList[z].eventId}"class="events">${eventsList[z].eventName}</a>
                     </li>`;
@@ -127,7 +151,7 @@ const renderCalendar = () => {
         
         
 		if ((i+firstDayIndex)%7 === 0){
-			days+=`<div><a href= "/week/2022-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
+			days+=`<div><a href= "/week/${padYear}-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
 		
 		}        
         
@@ -135,13 +159,22 @@ const renderCalendar = () => {
 	for(let j = 1; j<=nextDays; j++){
 	    let padMonth = (date.getMonth()+2).toString().padStart(2,"0");
 		let padDay = j.toString().padStart(2,"0");
+		let padYear = date.getFullYear().toString();
 	   days += `<div><ul>
                     <li>
-                        <a href="/day/2022-${padMonth}-${padDay}" class="monthdays">${j}</a>
+                        <a href="/day/${padYear}-${padMonth}-${padDay}" class="next-date">${j}</a>
                     </li>`
 
+		//change
+		for(let y = 0; y < holidayList.length; y++){
+			if (holidayList[y].holidayDate.toString().includes(padYear + "-" + padMonth + "-" + padDay)) {
+				days += `<li>
+                        <span class="holidays">${holidayList[y].holidayName}</span>
+                    </li>`;
+			}
+		}
 		for (let z = 0; z < eventsList.length; z++) {
-			if (eventsList[z].startTime.toString().includes("2022-" + padMonth + "-" + padDay)) {
+			if (eventsList[z].startTime.toString().includes(padYear + "-" + padMonth + "-" + padDay)) {
 				days += `<li>
                        <a href="/event-overview/?id=${eventsList[z].eventId}" class="events">${eventsList[z].eventName}</a>
                     </li>`;
@@ -149,7 +182,7 @@ const renderCalendar = () => {
 		}
 		days += `</ul></div>`;
 	if ((j-nextDays)%7 === 0){
-			days+=`<div><a href= "/week/2022-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
+			days+=`<div><a href= "/week/${padYear}-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
 		
 		}    
 	}

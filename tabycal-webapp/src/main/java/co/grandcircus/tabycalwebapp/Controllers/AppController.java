@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +76,6 @@ public class AppController {
 		return "week";
 	}
 
-	// will need to change as we go just here to test
 	@RequestMapping("/day/{date}")
 	public String showDay(@PathVariable String date, Model model) {
 
@@ -99,7 +100,6 @@ public class AppController {
 		return "newaccount";
 	}
 
-	//merge conflict head, ask yaksh
 	@RequestMapping("/verifyaccount")
 	public String verifyUser(@RequestParam String userName, Model model) {
 		try {
@@ -115,36 +115,6 @@ public class AppController {
 	return "month";
 
 }	
-//	public String verifyUser(String userName, Model model) {
-//		try {
-//
-//			EmailValidator validator = EmailValidator.getInstance();
-//
-//			if (validator.isValid(userName)) {
-//				model.addAttribute("userProfile", userService.getByUsername(userName));
-//				List<EventFrontEnd> eventList = eventService.getEventResponse();
-//				List<EventFrontEnd> myEvents = new ArrayList<>();
-//				for (EventFrontEnd event : eventList) {
-//					if (event.getUsers().contains(userName)) {
-//						myEvents.add(event);
-//					}
-//				}
-//				model.addAttribute("myEvents", myEvents);
-//			}
-//			else {
-//				throw new InvalidEmailException(userName);
-//			}
-//
-//
-//
-//		} catch (Exception ex) {
-//			model.addAttribute("errorMsg", ex.getMessage());
-//			return "login";
-//		}
-//
-//		return "month";
-//
-//	}
 
 	// return to the log in page but we can have a "success page" then direct to log
 	@PostMapping("/createuser")
@@ -162,31 +132,12 @@ public class AppController {
 		}
 		return "successcreate";
 	}
-	
-	// return to the log in page but we can have a "success page" then direct to log
-		// in
-//		@PostMapping("/createuser")
-//		public String createUser(User newUser, Model model) {
-//			// Do we need to make an extra hop to call the User Service? Is it better
-//			// practice to call the UserController directly.
-//			try {
-//				model.addAttribute("addedUser", userService.createUser(newUser));
-//				System.out.println("created a user yay!");
-//				// model.addAttribute("addedUser", userService.createUser(newUser));
-//			} catch (Exception ex) {
-//				model.addAttribute("userName", newUser.getUserName());
-//				return "redirect:/newaccount";
-//			}
-//			return "successcreate";
-//		}
 
-	// DEFAULT will need to change as we go just here to test
 	@RequestMapping("/month-calendar")
 	public String showMonth(Model model) {
 
 		EventFrontEnd[] events = eventService.getEvents();
 		Holiday[] holidays = holidayService.getHolidays();
-		//System.out.print(events[0].getEventName());
 		model.addAttribute("events", events);
 		model.addAttribute("holidays", holidays);
 		return "month";
@@ -246,109 +197,105 @@ public class AppController {
 			@RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
 			@RequestParam List<String> users) {
 
+		//gets all events that exist in db
 		EventFrontEnd[] eventsAll = eventService.getEvents();
+		
+		//blank events list
 		List<EventFrontEnd> eventsList = new ArrayList<>();
 
+		//fills event list with events correlated to user name
 		for (String u : users) {
 			for (int i = 0; i < eventsAll.length; i++) {
 				if (eventsAll[i].getUsers().contains(u)) {
 					eventsList.add(eventsAll[i]);
 				}
 			}
-		}
+		} 
+		//converts events for user to array
 		EventFrontEnd[] events = new EventFrontEnd[eventsList.size()];
 		for (int i = 0; i < events.length; i++) {
 			events[i] = eventsList.get(i);
-		}
-		//System.out.println(events.toString());
-		HashMap<LocalDateTime, Double> map = new HashMap<>();
+		}	
+		
+		TreeMap<LocalDateTime, LocalDateTime> relaventEvents= new TreeMap<>();
 		for (int i = 0; i < events.length; i++) {
-			if (events[i].getStartTime().isAfter(start.minusMinutes(1))
-					&& events[i].getStartTime().isBefore(end.plusMinutes(1))) {
-				if (map.containsKey(events[i].getStartTime())) {
-					if (map.get(events[i].getStartTime()) <= events[i].getDuration()) {
-						map.put(events[i].getStartTime(), events[i].getDuration());
-					} 
-				} else {
-					map.put(events[i].getStartTime(), events[i].getDuration());
-				}
-			}
-			else if(events[i].getStartTime().isBefore(start)	
-					&& events[i].getEndTime().isAfter(end)){
-				map.put(LocalDateTime.MIN, 0.0);
-				//System.out.println("!!!");
-			}
-			
-//WORKING ON ONE MORE FIX 
-//			else if(events[i].getStartTime().isEqual(start) ||events[i].getEndTime().isEqual(end)) {
-//				map.put(LocalDateTime.MAX, 0.0);
-//				System.out.println("!!!");
-//			}
-			
-		}
-		TreeMap<LocalDateTime, Double> sortedMap = new TreeMap<>(map);
-		ArrayList<LocalDateTime> startTimes = new ArrayList<>(sortedMap.keySet());
-		ArrayList<Double> durations = new ArrayList<>(sortedMap.values());
-		ArrayList<LocalDateTime> endTimes = new ArrayList<>();
-		for (int i = 0; i < startTimes.size(); i++) {
-			Long hourAdd = durations.get(i).longValue();
-			double addHold = 0.0;
-			if (durations.get(i) >= 1) {
-				addHold = durations.get(i) * 60 - 60;
-			} else {
-				addHold = durations.get(i) * 60;
-			}
-			int minAdd = (int) addHold;
-			endTimes.add(startTimes.get(i).plusHours(hourAdd).plusMinutes(minAdd));
-		}
-		TreeMap<LocalDateTime, LocalDateTime> sortedEndStartNoOvers = new TreeMap<>();
-		for (int i = 0; i < startTimes.size(); i++) {
-			if (sortedEndStartNoOvers.containsKey(endTimes.get(i))) {
-				if (sortedEndStartNoOvers.get(endTimes.get(i)).isAfter(startTimes.get(i))) {
-					sortedEndStartNoOvers.put(endTimes.get(i), startTimes.get(i));
-				}
-			} else {
-				sortedEndStartNoOvers.put(endTimes.get(i), startTimes.get(i));
+			if (
+					!((events[i].getStartTime().isBefore(start) 
+					&& (events[i].getEndTime().isBefore(start) || events[i].getEndTime().equals(start))) 
+					|| ((events[i].getStartTime().isAfter(end) || events[i].getStartTime().equals(end)) 
+					&& events[i].getEndTime().isAfter(end)))
+				){
+				
+				relaventEvents.put(events[i].getStartTime(), events[i].getEndTime());
+				
 			}
 		}
-
-		ArrayList<LocalDateTime> endTimes2 = new ArrayList<>(sortedEndStartNoOvers.keySet());
-		ArrayList<LocalDateTime> startTimes2 = new ArrayList<>(sortedEndStartNoOvers.values());
 		
 		TreeMap<LocalDateTime, LocalDateTime> available = new TreeMap<>();
-		if (!startTimes.isEmpty()) {
-			for (int i = 0; i <= startTimes2.size(); i++) {
-				if (i == 0) {
-					available.put(start, startTimes2.get(i));
-				} else if (i == startTimes2.size()) {
-					if (endTimes2.get(i - 1).isEqual(end)) {
-						available.put(endTimes2.get(i - 1), startTimes2.get(i));
-					} else {
-						available.put(endTimes2.get(i - 1), end);
+		
+		System.out.println(relaventEvents.toString());
+		if(!relaventEvents.isEmpty()) {
+			int index = 0;
+			for(Map.Entry<LocalDateTime,LocalDateTime> event : relaventEvents.entrySet()) {
+				
+				//3-5, event is 4 -5, 3-4
+				if((event.getKey().isAfter(start) || event.getKey().equals(start)) && (event.getValue().isBefore(end)|| event.getValue().equals(end))){
+					//if there is only 1 event do this
+					if(relaventEvents.size()==1) {
+						if((event.getKey().equals(start)) 
+								&& 
+								(event.getValue().equals(end))
+								){
+						}else if((event.getKey().equals(start))
+								&& event.getValue().isBefore(end)){
+							available.put(event.getValue(), end);
+						}else if((event.getValue().equals(end))
+								&& event.getKey().isAfter(start)) {
+							available.put(start, event.getKey());
+						}else {
+							available.put(start, event.getKey());
+							available.put(event.getValue(), end);
+						}
+					//if more than 1 event
+					}else {
+						if((event.getKey().equals(start))
+								&& event.getValue().isBefore(end)){
+							if(index+1 == relaventEvents.size()) {
+								available.put(event.getValue(), end);
+							}else if(index==0) {
+								available.put(event.getValue(), relaventEvents.higherEntry(event.getKey()).getValue());
+							}
+							else {
+							available.put(event.getValue(), relaventEvents.higherKey(event.getKey()));
+							}
+						}else if((event.getValue().equals(end))
+								&& event.getKey().isAfter(start)) {
+							available.put(relaventEvents.lowerEntry(event.getKey()).getValue(), event.getKey());
+						}else {
+							if(index+1 == relaventEvents.size()){
+								available.put(event.getValue(), end);
+							}else if(index ==0) {
+								available.put(start, event.getKey());
+								available.put(event.getValue(),relaventEvents.higherKey(event.getKey()));
+							}
+							else {
+							available.put(relaventEvents.lowerEntry(event.getKey()).getValue(), event.getKey());
+							available.put(event.getValue(), relaventEvents.higherEntry(event.getKey()).getKey());
+							}
+						}
 					}
-				} else {
-					if (startTimes2.get(i).equals(endTimes2.get(i - 1))) {
-						available.put(endTimes2.get(i), startTimes2.get(i + 1));
-					} else {
-						available.put(endTimes2.get(i - 1), startTimes2.get(i));
-					}
-				} 
+				}
+			index++;
 			}
 		}
-
-		//System.out.print(available.toString());
 		
 		ArrayList<LocalDateTime> keys = new ArrayList<>(available.keySet());
 		ArrayList<LocalDateTime> values = new ArrayList<>(available.values());
-		String keysString = keys.toString();
-		String valuesString = values.toString();
-		String overallString = keysString+valuesString;
 		
-		
-		if(available.isEmpty()) {
+		if(relaventEvents.isEmpty()) {
 			model.addAttribute("message","wide open");
 		}
-		else if(overallString.contains(LocalDateTime.MIN.toString())) {
+		else if(available.isEmpty()) {
 			model.addAttribute("message", "no availability");
 		}
 		else {
@@ -357,7 +304,7 @@ public class AppController {
 		
 			return "availability";
 	}
-
+	
 	@RequestMapping("/day")
 	public String showCurrentDay() {
 		Date currentDate = new Date();
