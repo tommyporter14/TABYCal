@@ -10,10 +10,21 @@
 </head>
 <body>
 <h1>Availability</h1>
-<p>${available}</p>
+<h3>Free From:</h3>
+<c:forEach items="${available}" var="entry">
+    <fmt:parseDate  value="${entry.key}"  type="date" pattern="yyyy-MM-dd'T'HH:mm" var="parsedKey" />
+	<fmt:formatDate value="${parsedKey}" type="date" pattern="EEE, MM/dd/yyyy, h:mm a" var="newKey" />
+    <fmt:parseDate  value="${entry.value}"  type="date" pattern="yyyy-MM-dd'T'HH:mm" var="parsedValue" />
+	<fmt:formatDate value="${parsedValue}" type="date" pattern="EEE, MM/dd/yyyy, h:mm a" var="newValue" />
+    
+    <p>${newKey} to ${newValue}</p><br>
+
+
+</c:forEach>
 <p>${message}</p>
 <a href="/create-event">Create Event?</a>	
 <a href="/month-calendar">Back To Month View?</a>	
 
 </body>
 </html>
+
