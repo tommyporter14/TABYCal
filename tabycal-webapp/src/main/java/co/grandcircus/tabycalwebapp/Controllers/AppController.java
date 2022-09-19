@@ -28,8 +28,6 @@ import co.grandcircus.tabycalwebapp.Models.*;
 import co.grandcircus.tabycalwebapp.Models.Holiday;
 import co.grandcircus.tabycalwebapp.Models.User;
 import co.grandcircus.tabycalwebapp.Services.*;
-import co.grandcircus.tabycalwebapp.Services.HolidayService;
-import co.grandcircus.tabycalwebapp.Services.UserService;
 import co.grandcircus.tabycalwebapp.Util.HolidayHelper;
 import co.grandcircus.tabycalwebapp.Util.WeekViewHelper;
 
@@ -119,38 +117,51 @@ public class AppController {
 		}
 	}
 
-	// User login related mappings end /////////////////
+	// Shouldn't concatenate url strings, but here we are. Something to fix later....
 	
 	@RequestMapping("/current-user/week/{date}")
 	public String showWeekForCurrentUser(@PathVariable String date, Model model) {
 		String currentUser = currentUserService.getCurrentUser();
-		return showWeek(date, currentUser, model);
+		return "redirect:/week/"+date +"/?userName=" + currentUser;
 		
 	}
-
+	
+	
 	@RequestMapping("/week/{date}")
-	public String showWeek(@PathVariable String date,@RequestParam(required=false) String user, Model model) {
+	public String showWeek(@PathVariable String date,@RequestParam(required=false) String userName,Model model) {
 		LocalDate dateTime = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
 		List<DateTimeWrapper> weekList = new ArrayList<>();
 		for (int i = 6; i >= 0; i--) {
 			weekList.add(new DateTimeWrapper(dateTime.minusDays(i)));
 
 		}
-		
-		List<EventFrontEnd> weekEventList = eventService.getEventsByStartDateAndEndDateAndUser(
-				weekList.get(0).getDate(), weekList.get(weekList.size() - 1).getDate(),user);
+		List<EventFrontEnd> weekEventList = eventService.getEventsByStartDateAndEndDateAndUser(weekList.get(0).getDate(),
+				weekList.get(weekList.size() - 1).getDate(), userName);
 		WeekViewHelper eventsHelper = new WeekViewHelper(weekEventList);
-//copy code here for start and end hours
+		
 		model.addAttribute("lastHour", eventsHelper.getLatestHour());
-		model.addAttribute("earliestHour", eventsHelper.getEarliestHour());
+		model.addAttribute("earliestHour",eventsHelper.getEarliestHour());
 		model.addAttribute("eventsHelper", eventsHelper);
 		model.addAttribute("weekList", weekList);
-
+		model.addAttribute("previousWeek", dateTime.minusDays(7));
+		model.addAttribute("nextWeek", dateTime.plusDays(7));
+		
 		List<Holiday> holidayList = Arrays.asList(holidayService.getHolidays());
 		HolidayHelper holidayHelper = new HolidayHelper(holidayList);
 		model.addAttribute("holidayHelper", holidayHelper);
-
+		
+		LocalTime timeLoop = LocalTime.of(6, 0);
+		
+		System.out.println(timeLoop);
+		model.addAttribute("startTime", timeLoop);
+		model.addAttribute("endTime", timeLoop.plusHours(17));
 		return "week";
+	}
+	
+	@RequestMapping("/current-user/day/{date}")
+	public String showDayForCurrentUser(@PathVariable String date, Model model) {
+		String currentUser = currentUserService.getCurrentUser();
+		return "redirect:/day/"+date +"/?userName=" + currentUser;
 	}
 
 	// will need to change as we go just here to test
@@ -168,7 +179,7 @@ public class AppController {
 		model.addAttribute("nextDay", dateTime.plusDays(1));
 		model.addAttribute("dayBefore", dateTime.minusDays(1));
 
-		List<EventFrontEnd> eventData = eventService.getEventsByStartDateAndEndDateAndUser(dateTime, dateTime, currentUserService.getCurrentUser() );
+		List<EventFrontEnd> eventData = eventService.getEventsByStartDateAndEndDateAndUser(dateTime, dateTime, userName );
 		model.addAttribute("listOfDayEvents", eventData);
 
 		List<Holiday> holidayList = Arrays.asList(holidayService.getHolidays());

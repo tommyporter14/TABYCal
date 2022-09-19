@@ -30,7 +30,7 @@
 		<a class ="btn btn-light" title="Next Week" href="/week/${nextWeek}"> >> </a>
 		</div>
 		<div class= "nav-buttons">
-				 <a class="btn btn-secondary" href="/month-calendar" >Go Back to Calendar</a>
+				 <a class="btn btn-secondary" href="/month-calendar" >Back to Calendar</a>
                  <a class="btn btn-secondary" href="/create-event">Create Event</a>
                  <a class="btn btn-secondary" href="/check-availability">Check Availability</a>			
 		</div>
