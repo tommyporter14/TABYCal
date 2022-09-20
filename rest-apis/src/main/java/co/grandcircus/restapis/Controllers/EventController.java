@@ -113,7 +113,8 @@ public class EventController {
 	// update whole event
 	@PutMapping("/event/put/{id}")
 	public Event updateEvent(@RequestBody Event updateEvent, @PathVariable("id") String id) {
-		checkEventIsValid(updateEvent);
+		System.out.println("IN EVENT CONTROLLER");
+		// checkEventIsValid(updateEvent);
 		Duration dur = Duration.between(updateEvent.getStartTime(), updateEvent.getEndTime());
 		double timeMin = dur.toMinutes();
 		double time = timeMin / 60;
@@ -151,7 +152,7 @@ public class EventController {
 		double time = timeMin / 60;
 		event.setDuration(time);
 		return repo.save(event);
-	}
+	}	
 
 	// delete
 	@ResponseStatus(HttpStatus.NO_CONTENT)

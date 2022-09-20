@@ -275,6 +275,7 @@ public class AppController {
 			ResponseEntity<EventFrontEnd> responseEntity = eventService.updateEvent(updateEvent, id);
 			EventFrontEnd eventUpdated = responseEntity.getBody();
 			model.addAttribute("updatedEvent", eventUpdated);
+			System.out.println("WEEEEEADE IT" );
 		} catch (Exception ex) {
 			User[] userList = userService.getAll();
 			model.addAttribute("serverErrorms",ex.getMessage());
