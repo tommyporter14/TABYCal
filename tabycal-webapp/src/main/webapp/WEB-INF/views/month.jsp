@@ -49,7 +49,7 @@
                 <div>Thu</div>
                 <div>Fri</div>
                 <div>Sat</div>
-                <div> </div>
+                <div><i class="icon-sign-blank"></i>‎</div>
             </div>
             <div class="days">
        

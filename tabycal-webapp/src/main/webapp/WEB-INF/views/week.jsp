@@ -23,6 +23,7 @@
 	href="path/to/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
+	<div class= "outer-container">
 	<div class="week-heading">
 		<a class ="btn btn-light" title="Previous Week" href="/week/${previousWeek}">
 		 <i class="fas fa-angle-left prev"></i>
@@ -36,7 +37,7 @@
 		<div class= "nav-buttons">
                  <a class="btn btn-secondary" href="/create-event">Create Event</a>
                  <a class="btn btn-secondary" href="/check-availability">Check Availability</a>
-                 <a class="btn btn-secondary" href="/month-calendar" >Back to Calendar</a>
+                 <a class="btn btn-secondary" href="/month-calendar" >Back to Month</a>
          </div>			
 		</div>
 		<a class ="btn btn-light" title="Next Week" href="/week/${nextWeek}"> 
@@ -91,5 +92,6 @@
 		</table>
 	
 	</div>
+   </div>
 </body>
 </html>

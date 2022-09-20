@@ -13,26 +13,41 @@
 	rel="stylesheet"
 	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
 	crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu"
+	rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="path/to/font-awesome/css/font-awesome.min.css">
 <title>Day</title>
 </head>
 <body>
+<div class ="outer-container">
 <div class="day-heading">
+		<a class ="btn btn-light" title="Previous Day" href="/day/${dayBefore}">
+			<i class="fas fa-angle-left prev"></i> 
+		</a>
+	<div class= "date-and-nav-buttons">
 	<div class = "text-pointers">
-		<a class ="btn btn-light" title="Previous Day" href="/day/${dayBefore}"> << </a>
+
 		Schedule for ${dayOfWeek}, ${month} ${day}
-		<a class ="btn btn-light" title="Next Day" href="/day/${nextDay}"> >> </a>		
+		
 	</div>
+
 	<c:if test="${holidayHelper.isThisAHoliday(dateTime)}">
 		<div class= "holiday-on-day"><c:out value= "${holidayHelper.showActualHoliday(dateTime).name}"/></div>
 	</c:if>	
 	<div class= "nav-buttons">
              <a class="btn btn-secondary" href="/create-event">Create Event</a>
              <a class="btn btn-secondary" href="/check-availability">Check Availability</a>
-             <a class="btn btn-secondary" href="/month-calendar" >Back to Calendar</a>			
+             <a class="btn btn-secondary" href="/month-calendar" >Back to Month</a>			
 	</div>
+	</div>
+		<a class ="btn btn-light" title="Next Day" href="/day/${nextDay}"> 
+			<i class="fas fa-angle-right next"></i>		
+		</a>
+	
 </div>
 	<div class="table">
 		<table class=table>
@@ -57,10 +72,9 @@
 			</tbody>
 
 		</table>
-		<a href="/month-calendar" class="button">Go Back to Calendar</a>
 
 	</div>
-
+</div>
 
 
 

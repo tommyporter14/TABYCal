@@ -5,6 +5,10 @@
 .top{
 	margin-top:0;
 }
+.outer-container{
+	 margin-right: 20px;
+    margin-left: 20px;
+}
 
 .sticky-head {
 	border-radius: 0.5em;
@@ -31,27 +35,17 @@
 .sticky-head th:nth-of-type(even) {
 	background-color: #8c55aa26;
 }
-.week-heading{
-	flex-direction:row;
-	padding: 0px;
-}
-.day-heading{
-	flex-direction: column;
-	padding: 10px 20px;
-}
 
 .week-heading, .day-heading {
+	flex-direction:row;
 	width: auto;
 	letter-spacing: 2px;
 	border: none;
-	border-radius: 20px;
 	outline: none;
 	box-sizing: border-box;
 	border: 2px solid #1a0b2306;
 	margin-top: 5px;
-	margin-bottom: 50px;
 	text-align: center;
-	margin-bottom: 27px;
 	font-family: 'Ubuntu', sans-serif;
 	font-weight: bold;
 	font-size: 23px;
@@ -59,8 +53,10 @@
 	justify-content: space-between;
 	align-items: center;
 	box-shadow: 0px 11px 35px 2px rgb(0 0 0/ 34%);
-	display: flex !important;
-	
+	margin-bottom: 0px;
+ 	border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    padding: 0px;
 	
 }
 
@@ -88,11 +84,14 @@ td {
 .sticky-head tr {
 	box-shadow: 40px 1px 36px 2px rgb(0 0 0/ 14%);
 }
-.sticky-head th{
+.sticky-head .time-week th{
 	width:120px;
 }
-.sticky-head th:first-child{
+.sticky-head .time-week:first-child{
 	width:80px;
+}
+.table{
+	margin-top: 0px;
 }
 
 .table thead th {
@@ -118,7 +117,7 @@ td {
 	background-color: transparent !important;
 }
 
-.btn {
+.btn-light {
 	border: 2px hidden transparent;
 	border-radius: 20px !important;
 }
@@ -151,11 +150,15 @@ td {
 .text-pointers {
 	margin-bottom: 1px;
 	margin-top: 1px;
+	text-shadow: 0 0.1rem 0.5rem rgb(0 0 0 / 25%);
 }
 .day-time{
-	width: 90px;
+	width: 93px;
     text-align: center;
 }
 .time-week{
 	width:92px;
+}
+.time-week a{
+	color: #3695ED !important; 
 }

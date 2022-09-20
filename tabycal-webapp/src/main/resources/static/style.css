@@ -34,7 +34,9 @@ html {
   height: 100%;
   background-color: white;
   box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.4);
-  border-radius: 20px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  margin-bottom: 10px;
 }
 
 .month {
@@ -46,19 +48,18 @@ html {
   align-items: center;
   padding: 0 2rem;
   text-align: center;
-  text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
-  border-top-left-radius: 20px;
+  text-shadow: 0 0.1rem 0.5rem rgb(0 0 0 / 35%);  border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
 
 .month i {
-  font-size: 2.5rem;
+  font-size: 30px;
   cursor: pointer;
 }
 
 .month h1  {
   font-size: 3rem;
-  font-weight: 400;
+  font-weight: bolder;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
   margin-bottom: 1rem;
@@ -75,6 +76,12 @@ html {
   color: #9c27b0;
   padding: 4px 16px;
   text-decoration: none;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.nav-buttons .btn-secondary:not(:last-child) {
+    margin-right: 10px;
 }
 
 .weekdays {
@@ -87,6 +94,7 @@ html {
   color: black;
   margin-bottom: 5px;
   padding-left: 12px;
+  padding-right: 1px;
 }
 
 .weekdays div {
@@ -104,6 +112,9 @@ html {
 .weekdays div:nth-of-type(odd) {
     background-color: #8c55aa26;
 }
+.weekdays div:nth-of-type(even) {
+    background-color: #80808042;
+}
 .days {
   width: 100%;
   display: flex;
@@ -118,6 +129,9 @@ html {
 }
 .cal-cell{
 	padding-left: 5px;
+}
+.cal-cell:hover{
+	border: 2px solid black;
 }
 
 .cal-cell li{
@@ -164,13 +178,14 @@ html {
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  border: 3px red;
+  border: 3px solid #57c9cfe3;
+  border-radius: 50% 30% / 10% 60%;
+  background-color: #57c9cfe3;
  
 }
 .days span.holidays{
-	  color: grey;
+	  color: black;
 	  font-size: small;
-	  opacity: 0.5;
 	  display: flex;
   	  justify-content: center;
   	  align-items: center;
@@ -196,7 +211,6 @@ html {
   height: 9rem;
   justify-content: flex-start;
   align-items: flex-start;
-  text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
   border: 1px solid #8080803b;
   box-shadow: 3px 3px 3px inset;
 
