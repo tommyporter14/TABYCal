@@ -74,7 +74,7 @@ const renderCalendar = () => {
 		let padDay = (prevLastDay - x + 1).toString().padStart(2, "0");
 		let padYear = date.getFullYear().toString();
 
-		days += `<div><ul>
+		days += `<div class= "cal-cell"><ul>
                     <li>
                         <a href="/current-user/day/${padYear}-${padMonth}-${padDay}" class="prev-date">${padDay}</a>
                     </li>`
@@ -103,7 +103,7 @@ const renderCalendar = () => {
 		let padYear = date.getFullYear().toString();
 		
 	    if(i===new Date().getDate() && date.getMonth()=== new Date().getMonth()){
-	      days += `<div><ul>
+	      days += `<div class= "cal-cell"><ul>
                     <li>
                         <a href="/current-user/day/${padYear}-${padMonth}-${padDay}" class="today">${i}</a>
                     </li>`
@@ -126,7 +126,7 @@ const renderCalendar = () => {
 		days += `</ul></div>`;
 	    }else{
 			
-	       days += `<div><ul>
+	       days += `<div class= "cal-cell"><ul>
                     <li>
                         <a href="/current-user/day/${padYear}-${padMonth}-${padDay}" class="monthdays">${i}</a>
                     </li>`
@@ -151,7 +151,7 @@ const renderCalendar = () => {
         
         
 		if ((i+firstDayIndex)%7 === 0){
-			days+=`<div><a href= "/current-user/week/${padYear}-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
+			days+=`<div class= "week-cell"><a href= "/current-user/week/${padYear}-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
 			
 		}        
         
@@ -160,7 +160,7 @@ const renderCalendar = () => {
 	    let padMonth = (date.getMonth()+2).toString().padStart(2,"0");
 		let padDay = j.toString().padStart(2,"0");
 		let padYear = date.getFullYear().toString();
-	   days += `<div><ul>
+	   days += `<div class= "cal-cell"><ul>
                     <li>
                         <a href="/current-user/day/${padYear}-${padMonth}-${padDay}" class="next-date">${j}</a>
                     </li>`
@@ -182,7 +182,7 @@ const renderCalendar = () => {
 		}
 		days += `</ul></div>`;
 	if ((j-nextDays)%7 === 0){
-			days+=`<div><a href= "/current-user/week/${padYear}-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
+			days+=`<div class= "week-cell"><a href= "/current-user/week/${padYear}-${padMonth}-${padDay}" class = "viewweek">View Week</a></div>`;	
 		
 		}    
 	}

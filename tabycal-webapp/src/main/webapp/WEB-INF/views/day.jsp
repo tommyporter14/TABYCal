@@ -29,9 +29,9 @@
 		<div class= "holiday-on-day"><c:out value= "${holidayHelper.showActualHoliday(dateTime).name}"/></div>
 	</c:if>	
 	<div class= "nav-buttons">
-		  <a class="btn btn-secondary" href="/month-calendar" >Back to Calendar</a>
              <a class="btn btn-secondary" href="/create-event">Create Event</a>
-             <a class="btn btn-secondary" href="/check-availability">Check Availability</a>			
+             <a class="btn btn-secondary" href="/check-availability">Check Availability</a>
+             <a class="btn btn-secondary" href="/month-calendar" >Back to Calendar</a>			
 	</div>
 </div>
 	<div class="table">

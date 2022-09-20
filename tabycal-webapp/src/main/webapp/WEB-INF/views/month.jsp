@@ -7,14 +7,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Month</title>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+	crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
-	<div class="container">
+<body class ="body">
+	<div class="outer-container">
         <div class="calendar">
             <div class="month">
                 <i class="fas fa-angle-left
@@ -23,9 +28,11 @@
                     <h1></h1>
                     <h3></h3>
                     <p></p>
-                  <a href="/create-event">Create Event</a>
-                 <a href="/check-availability">Check Availability</a>
-                  <a href="/">Log Out</a>
+                  <div class= "nav-buttons">
+                  	<a class="btn btn-secondary" href="/create-event">Create Event</a>
+                  	<a class="btn btn-secondary" href="/check-availability">Check Availability</a>
+                  	<a class="btn btn-secondary" href="/">Log Out</a>
+                 </div>
                 </div>
                 <i class="fas fa-angle-right next"></i>
             </div>
