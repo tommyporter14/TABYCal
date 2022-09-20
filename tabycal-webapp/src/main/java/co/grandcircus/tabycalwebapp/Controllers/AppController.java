@@ -212,12 +212,6 @@ public class AppController {
 			events = eventService.getEvents();
 		}
 		Holiday[] holidays = holidayService.getHolidays();
-		// TESTING
-		// for (EventFrontEnd event : events){
-		// System.out.println(event.getEventName());
-		// System.out.println(event.getUsers());
-		//
-		// }
 
 		model.addAttribute("events", events);
 		model.addAttribute("holidays", holidays);
