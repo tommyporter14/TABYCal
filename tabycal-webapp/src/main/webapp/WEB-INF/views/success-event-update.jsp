@@ -20,13 +20,17 @@
                     <br><label class="create" >Event Description</label><br>
                     <p class="un">${updatedEvent.description}</p>
                     <br><label class="create" >Start Time </label><br>
-                    <p class="un">${updatedEvent.startTime}</p>
+                    <p class="un">${updatedEvent.getReadableStartTime()}</p>
                     <br><label class="create" >End Time </label><br>
-                    <p class="un">${updatedEvent.endTime}</p>
+                    <p class="un">${updatedEvent.getReadableEndTime()}</p>
                     <br><label class="create" >Event Duration</label><br>
                     <p class="un">${updatedEvent.duration}</p>
                     <br><label class="create" >Event Attendees</label><br>
-                    <p class="un">${updatedEvent.users}</p>
+                    <p class="un">
+                    <c:forEach var="user" items="${updatedEvent.users}">
+						| ${user} | <br>
+					</c:forEach>
+                    </p>
                     <p class="create"><a href="/month-calendar">Back To Month View?</p>
                 </div>
             </body>
