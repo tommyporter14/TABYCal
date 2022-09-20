@@ -122,36 +122,36 @@ public class EventController {
 		return repo.save(updateEvent);
 	}
 
-	// // partial update
-	// @PatchMapping("event/{id}")
-	// public Event updatePartialEvent(@PathVariable("id") String id, @RequestParam(required = false) String eventName,
-	// 		@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmm") LocalDateTime startTime,
-	// 		@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmm") LocalDateTime endTime,
-	// 		@RequestParam(required = false) String description, @RequestParam(required = false) List<String> users) {
-	// 	Event event = repo.findById(id).orElseThrow(() -> new EventNotFoundException());
-	// 	if (eventName != null) {
-	// 		event.setEventName(eventName);
-	// 	}
-	// 	if (startTime != null) {
-	// 		event.setStartTime(startTime);
-	// 	}
-	// 	if (endTime != null) {
-	// 		event.setEndTime(endTime);
-	// 	}
-	// 	if (description != null) {
-	// 		event.setDescription(description);
-	// 	}
-	// 	if (users != null) {
-	// 		event.setUsers(users);
-	// 	}
+	// partial update
+	@PatchMapping("event/{id}")
+	public Event updatePartialEvent(@PathVariable("id") String id, @RequestParam(required = false) String eventName,
+			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmm") LocalDateTime startTime,
+			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmm") LocalDateTime endTime,
+			@RequestParam(required = false) String description, @RequestParam(required = false) List<String> users) {
+		Event event = repo.findById(id).orElseThrow(() -> new EventNotFoundException());
+		if (eventName != null) {
+			event.setEventName(eventName);
+		}
+		if (startTime != null) {
+			event.setStartTime(startTime);
+		}
+		if (endTime != null) {
+			event.setEndTime(endTime);
+		}
+		if (description != null) {
+			event.setDescription(description);
+		}
+		if (users != null) {
+			event.setUsers(users);
+		}
 
-	// 	event.setId(id);
-	// 	Duration dur = Duration.between(event.getStartTime(), event.getEndTime());
-	// 	double timeMin = dur.toMinutes();
-	// 	double time = timeMin / 60;
-	// 	event.setDuration(time);
-	// 	return repo.save(event);
-	// }
+		event.setId(id);
+		Duration dur = Duration.between(event.getStartTime(), event.getEndTime());
+		double timeMin = dur.toMinutes();
+		double time = timeMin / 60;
+		event.setDuration(time);
+		return repo.save(event);
+	}
 
 	// delete
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -162,36 +162,36 @@ public class EventController {
 
 
 
-// partial update 
-@PatchMapping("event/patch/{id}")
-public Event updatePartialEvent(@PathVariable("id") String id, @RequestBody Event updateEvent) {
-	System.out.println("I'm in updatePartialEvent");
+// // partial update Yaksh's aptch mapping. apparently a rest template cannot call using patch method see https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html#patchForObject-java.lang.String-java.lang.Object-java.lang.Class-java.util.Map-
+// @PatchMapping("event/patch/{id}")
+// public Event updatePartialEvent(@PathVariable("id") String id, @RequestBody Event updateEvent) {
+// 	System.out.println("I'm in updatePartialEvent");
 	
-	checkEventIsValid(updateEvent);
-	Event event = repo.findById(id).orElseThrow(() -> new EventNotFoundException());
-	event.setId(id);
-	if (updateEvent.getEventName() != null) {
-		event.setEventName(updateEvent.getEventName());
-	}
-	if (updateEvent.getStartTime() != null) {
-		event.setStartTime(updateEvent.getStartTime());
-	}
-	if (updateEvent.getEndTime() != null) {
-		event.setEndTime(updateEvent.getEndTime());
-	}
-	if (updateEvent.getDescription() != null) {
-		event.setDescription(updateEvent.getDescription());
-	}
-	if (updateEvent.getUsers() != null) {
-		event.setUsers(updateEvent.getUsers());
-	}
+// 	checkEventIsValid(updateEvent);
+// 	Event event = repo.findById(id).orElseThrow(() -> new EventNotFoundException());
+// 	event.setId(id);
+// 	if (updateEvent.getEventName() != null) {
+// 		event.setEventName(updateEvent.getEventName());
+// 	}
+// 	if (updateEvent.getStartTime() != null) {
+// 		event.setStartTime(updateEvent.getStartTime());
+// 	}
+// 	if (updateEvent.getEndTime() != null) {
+// 		event.setEndTime(updateEvent.getEndTime());
+// 	}
+// 	if (updateEvent.getDescription() != null) {
+// 		event.setDescription(updateEvent.getDescription());
+// 	}
+// 	if (updateEvent.getUsers() != null) {
+// 		event.setUsers(updateEvent.getUsers());
+// 	}
 
-	Duration dur = Duration.between(event.getStartTime(), event.getEndTime());
-	double timeMin = dur.toMinutes();
-	double time = timeMin / 60;
-	event.setDuration(time);
-	return repo.save(event);
-}
+// 	Duration dur = Duration.between(event.getStartTime(), event.getEndTime());
+// 	double timeMin = dur.toMinutes();
+// 	double time = timeMin / 60;
+// 	event.setDuration(time);
+// 	return repo.save(event);
+// }
 
 
 
