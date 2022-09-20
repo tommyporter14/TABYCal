@@ -25,10 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import co.grandcircus.tabycalwebapp.Models.DateTimeWrapper;
+import org.w3c.dom.events.Event;
+
 import co.grandcircus.tabycalwebapp.Models.*;
-import co.grandcircus.tabycalwebapp.Models.Holiday;
-import co.grandcircus.tabycalwebapp.Models.User;
 import co.grandcircus.tabycalwebapp.Services.*;
 import co.grandcircus.tabycalwebapp.Util.HolidayHelper;
 import co.grandcircus.tabycalwebapp.Util.WeekViewHelper;
@@ -212,12 +211,6 @@ public class AppController {
 			events = eventService.getEvents();
 		}
 		Holiday[] holidays = holidayService.getHolidays();
-		// TESTING
-		// for (EventFrontEnd event : events){
-		// System.out.println(event.getEventName());
-		// System.out.println(event.getUsers());
-		//
-		// }
 
 		model.addAttribute("events", events);
 		model.addAttribute("holidays", holidays);
@@ -255,8 +248,47 @@ public class AppController {
 	@RequestMapping("/event-overview")
 	public String showEventOverview(Model model, @RequestParam String id) {
 		model.addAttribute("event", eventService.getEventById(id));
+		
 		return "event-overview";
 	}
+	@RequestMapping("/update-event")
+	public String updateEvent(Model model, @RequestParam String id) {
+		User[] userList = userService.getAll();
+		model.addAttribute("users", userList);
+		model.addAttribute("event", eventService.getEventById(id));
+		return "update-event";
+	}
+
+
+
+	@RequestMapping("/event-updated")
+	public String showUpdatedEvent(Model model, @RequestParam("id") String id,
+			@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+			@RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+			@RequestParam String eventName, @RequestParam String description,
+			@RequestParam List<String> users) {
+		Double placeHolder = 0.0;
+
+		EventFrontEnd updateEvent = new EventFrontEnd( eventName, description, start, end, placeHolder, users);
+		updateEvent.setId(id);
+		try {
+			ResponseEntity<EventFrontEnd> responseEntity = eventService.updateEvent(updateEvent, id);
+			EventFrontEnd eventUpdated = responseEntity.getBody();
+			model.addAttribute("updatedEvent", eventUpdated);
+			System.out.println("WEEEEEADE IT" );
+		} catch (Exception ex) {
+			User[] userList = userService.getAll();
+			model.addAttribute("serverErrorms",ex.getMessage());
+			model.addAttribute("users", userList);
+			model.addAttribute("message", "Error: overlapping events for user");
+			return "update-error";
+		}
+
+		return "success-event-update";
+	}
+	
+
+
 
 	@RequestMapping("/successfully-deleted")
 	public String showSuccessfullyDeleted(@RequestParam String id) {

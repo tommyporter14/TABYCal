@@ -111,10 +111,16 @@ public class EventController {
 	}
 
 	// update whole event
-	@PutMapping("/event/{id}")
-	public Event updateEvent(@RequestBody Event event, @PathVariable("id") String id) {
-		event.setId(id);
-		return repo.save(event);
+	@PutMapping("/event/put/{id}")
+	public Event updateEvent(@RequestBody Event updateEvent, @PathVariable("id") String id) {
+		System.out.println("IN EVENT CONTROLLER");
+		// checkEventIsValid(updateEvent);
+		Duration dur = Duration.between(updateEvent.getStartTime(), updateEvent.getEndTime());
+		double timeMin = dur.toMinutes();
+		double time = timeMin / 60;
+		updateEvent.setDuration(time);
+		updateEvent.setId(id);
+		return repo.save(updateEvent);
 	}
 
 	// partial update
@@ -146,7 +152,7 @@ public class EventController {
 		double time = timeMin / 60;
 		event.setDuration(time);
 		return repo.save(event);
-	}
+	}	
 
 	// delete
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -154,5 +160,40 @@ public class EventController {
 	public void deleteEvent(@PathVariable("id") String id) {
 		repo.deleteById(id);
 	}
+
+
+
+// // partial update Yaksh's aptch mapping. apparently a rest template cannot call using patch method see https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html#patchForObject-java.lang.String-java.lang.Object-java.lang.Class-java.util.Map-
+// @PatchMapping("event/patch/{id}")
+// public Event updatePartialEvent(@PathVariable("id") String id, @RequestBody Event updateEvent) {
+// 	System.out.println("I'm in updatePartialEvent");
+	
+// 	checkEventIsValid(updateEvent);
+// 	Event event = repo.findById(id).orElseThrow(() -> new EventNotFoundException());
+// 	event.setId(id);
+// 	if (updateEvent.getEventName() != null) {
+// 		event.setEventName(updateEvent.getEventName());
+// 	}
+// 	if (updateEvent.getStartTime() != null) {
+// 		event.setStartTime(updateEvent.getStartTime());
+// 	}
+// 	if (updateEvent.getEndTime() != null) {
+// 		event.setEndTime(updateEvent.getEndTime());
+// 	}
+// 	if (updateEvent.getDescription() != null) {
+// 		event.setDescription(updateEvent.getDescription());
+// 	}
+// 	if (updateEvent.getUsers() != null) {
+// 		event.setUsers(updateEvent.getUsers());
+// 	}
+
+// 	Duration dur = Duration.between(event.getStartTime(), event.getEndTime());
+// 	double timeMin = dur.toMinutes();
+// 	double time = timeMin / 60;
+// 	event.setDuration(time);
+// 	return repo.save(event);
+// }
+
+
 
 }

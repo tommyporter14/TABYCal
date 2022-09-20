@@ -18,7 +18,6 @@ public class HolidayService {
 		public Holiday[] getHolidays() {
 			LocalDateTime currentDate = LocalDateTime.now();
 			int currentYear = currentDate.getYear();
-			//String url = "https://date.nager.at/api/v3/PublicHolidays/2022/US";
 			String url = "https://date.nager.at/api/v3/PublicHolidays/{0}/US";
 			Holiday[] response = restTemplate.getForObject(url, Holiday[].class, currentYear);
 			return response;

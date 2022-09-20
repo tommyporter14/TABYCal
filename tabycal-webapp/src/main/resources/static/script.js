@@ -3,7 +3,6 @@ const date = new Date();
 const events = document.querySelectorAll(".events li");
 const holidays = document.querySelectorAll(".holiday li");
 
-
 var eventsList = [];
 var holidayList = [];
 
