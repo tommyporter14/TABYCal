@@ -31,11 +31,18 @@
 .sticky-head th:nth-of-type(even) {
 	background-color: #8c55aa26;
 }
+.week-heading{
+	flex-direction:row;
+	padding: 0px;
+}
+.day-heading{
+	flex-direction: column;
+	padding: 10px 20px;
+}
 
 .week-heading, .day-heading {
 	width: auto;
 	letter-spacing: 2px;
-	padding: 10px 20px;
 	border: none;
 	border-radius: 20px;
 	outline: none;
@@ -53,7 +60,7 @@
 	align-items: center;
 	box-shadow: 0px 11px 35px 2px rgb(0 0 0/ 34%);
 	display: flex !important;
-	flex-direction: column;
+	
 	
 }
 
@@ -63,6 +70,10 @@
 	font-weight: bold;
 	font-size: 30px;
 	line-height: 0.6;
+	margin:5px;
+}
+i{
+	background-color: transparent;
 }
 
 th {
@@ -109,6 +120,7 @@ td {
 
 .btn {
 	border: 2px hidden transparent;
+	border-radius: 20px !important;
 }
 
 .btn-secondary {
@@ -119,7 +131,7 @@ td {
 
 .btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active,
 	.btn-light:hover, .btn-light:focus, .btn-light:active {
-	color: #fff;
+	color: #fff !important;
 	background-color: grey !important;
 }
 
@@ -139,7 +151,6 @@ td {
 .text-pointers {
 	margin-bottom: 1px;
 	margin-top: 1px;
-	height: 65px;
 }
 .day-time{
 	width: 90px;

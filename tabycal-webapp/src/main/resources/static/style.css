@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Quicksand", sans-serif;
+  font-family: "Ubuntu"";
 }
 .body{
 	background-color: white !important;
@@ -40,7 +40,7 @@ html {
 .month {
   width: 100%;
   height: 17rem;
-  background: linear-gradient(to right, #9c27b0, #e040fb);
+  background: linear-gradient(to bottom, #8c55aa26, #8c55aa99);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -56,12 +56,13 @@ html {
   cursor: pointer;
 }
 
-.month h1 {
+.month h1  {
   font-size: 3rem;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
   margin-bottom: 1rem;
+  color:black;
 }
 
 .month p {

@@ -16,7 +16,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ubuntu"
+	rel="stylesheet">
 </head>
 <body class ="body">
 	<div class="outer-container">
@@ -25,8 +26,12 @@
                 <i class="fas fa-angle-left
                 prev"></i> 
                 <div class="date">
-                    <h1></h1>
-                    <h3></h3>
+                    <h1>
+                    <span class= "month-heading-top"></span>
+                    <span class= "year-heading-top"></span>
+                    
+                    </h1>
+                    
                     <p></p>
                   <div class= "nav-buttons">
                   	<a class="btn btn-secondary" href="/create-event">Create Event</a>
@@ -44,7 +49,7 @@
                 <div>Thu</div>
                 <div>Fri</div>
                 <div>Sat</div>
-                <div>Week Display</div>
+                <div> </div>
             </div>
             <div class="days">
        

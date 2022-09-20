@@ -16,24 +16,32 @@
 	crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu"
 	rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet"
 	href="path/to/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
 	<div class="week-heading">
+		<a class ="btn btn-light" title="Previous Week" href="/week/${previousWeek}">
+		 <i class="fas fa-angle-left prev"></i>
+		 </a>
+		<div class= date-and-nav-buttons">
 		<div class= "text-pointers">	
-		<a class ="btn btn-light" title="Previous Week" href="/week/${previousWeek}">  << </a>
 		Week of
 		<c:out value="${weekList[0].getSpecificDayString()}" />
-		Schedule	
-		<a class ="btn btn-light" title="Next Week" href="/week/${nextWeek}"> >> </a>
+		Schedule
 		</div>
 		<div class= "nav-buttons">
                  <a class="btn btn-secondary" href="/create-event">Create Event</a>
                  <a class="btn btn-secondary" href="/check-availability">Check Availability</a>
-                 <a class="btn btn-secondary" href="/month-calendar" >Back to Calendar</a>			
+                 <a class="btn btn-secondary" href="/month-calendar" >Back to Calendar</a>
+         </div>			
 		</div>
+		<a class ="btn btn-light" title="Next Week" href="/week/${nextWeek}"> 
+			<i class="fas fa-angle-right next"></i>
+		 </a>
 	</div>
 	<div class="table">
 		<table class=table>
