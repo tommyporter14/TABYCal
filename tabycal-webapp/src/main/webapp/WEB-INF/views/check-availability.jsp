@@ -12,7 +12,7 @@
 
 			<body>
 				<div class="main-account">
-					<p class="sign">Fill Out The Form Below To Find Open Times For Scheduling</p>
+					<p class="sign">Find Open Times For Scheduling</p>
 					<form class="form1" action="/availability" method="post">
 						<p class="create">Enter Start Time</p>
 						<input class="un"  type="datetime-local" placeholder="Start Time" name="start" /><br>
