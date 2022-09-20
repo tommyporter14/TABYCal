@@ -111,42 +111,47 @@ public class EventController {
 	}
 
 	// update whole event
-	@PutMapping("/event/{id}")
-	public Event updateEvent(@RequestBody Event event, @PathVariable("id") String id) {
-		event.setId(id);
-		return repo.save(event);
-	}
-
-	// partial update
-	@PatchMapping("event/{id}")
-	public Event updatePartialEvent(@PathVariable("id") String id, @RequestParam(required = false) String eventName,
-			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmm") LocalDateTime startTime,
-			@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmm") LocalDateTime endTime,
-			@RequestParam(required = false) String description, @RequestParam(required = false) List<String> users) {
-		Event event = repo.findById(id).orElseThrow(() -> new EventNotFoundException());
-		if (eventName != null) {
-			event.setEventName(eventName);
-		}
-		if (startTime != null) {
-			event.setStartTime(startTime);
-		}
-		if (endTime != null) {
-			event.setEndTime(endTime);
-		}
-		if (description != null) {
-			event.setDescription(description);
-		}
-		if (users != null) {
-			event.setUsers(users);
-		}
-
-		event.setId(id);
-		Duration dur = Duration.between(event.getStartTime(), event.getEndTime());
+	@PutMapping("/event/put/{id}")
+	public Event updateEvent(@RequestBody Event updateEvent, @PathVariable("id") String id) {
+		checkEventIsValid(updateEvent);
+		Duration dur = Duration.between(updateEvent.getStartTime(), updateEvent.getEndTime());
 		double timeMin = dur.toMinutes();
 		double time = timeMin / 60;
-		event.setDuration(time);
-		return repo.save(event);
+		updateEvent.setDuration(time);
+		updateEvent.setId(id);
+		return repo.save(updateEvent);
 	}
+
+	// // partial update
+	// @PatchMapping("event/{id}")
+	// public Event updatePartialEvent(@PathVariable("id") String id, @RequestParam(required = false) String eventName,
+	// 		@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmm") LocalDateTime startTime,
+	// 		@RequestParam(required = false) @DateTimeFormat(pattern = "yyyyMMddHHmm") LocalDateTime endTime,
+	// 		@RequestParam(required = false) String description, @RequestParam(required = false) List<String> users) {
+	// 	Event event = repo.findById(id).orElseThrow(() -> new EventNotFoundException());
+	// 	if (eventName != null) {
+	// 		event.setEventName(eventName);
+	// 	}
+	// 	if (startTime != null) {
+	// 		event.setStartTime(startTime);
+	// 	}
+	// 	if (endTime != null) {
+	// 		event.setEndTime(endTime);
+	// 	}
+	// 	if (description != null) {
+	// 		event.setDescription(description);
+	// 	}
+	// 	if (users != null) {
+	// 		event.setUsers(users);
+	// 	}
+
+	// 	event.setId(id);
+	// 	Duration dur = Duration.between(event.getStartTime(), event.getEndTime());
+	// 	double timeMin = dur.toMinutes();
+	// 	double time = timeMin / 60;
+	// 	event.setDuration(time);
+	// 	return repo.save(event);
+	// }
 
 	// delete
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -154,5 +159,40 @@ public class EventController {
 	public void deleteEvent(@PathVariable("id") String id) {
 		repo.deleteById(id);
 	}
+
+
+
+// partial update 
+@PatchMapping("event/patch/{id}")
+public Event updatePartialEvent(@PathVariable("id") String id, @RequestBody Event updateEvent) {
+	System.out.println("I'm in updatePartialEvent");
+	
+	checkEventIsValid(updateEvent);
+	Event event = repo.findById(id).orElseThrow(() -> new EventNotFoundException());
+	event.setId(id);
+	if (updateEvent.getEventName() != null) {
+		event.setEventName(updateEvent.getEventName());
+	}
+	if (updateEvent.getStartTime() != null) {
+		event.setStartTime(updateEvent.getStartTime());
+	}
+	if (updateEvent.getEndTime() != null) {
+		event.setEndTime(updateEvent.getEndTime());
+	}
+	if (updateEvent.getDescription() != null) {
+		event.setDescription(updateEvent.getDescription());
+	}
+	if (updateEvent.getUsers() != null) {
+		event.setUsers(updateEvent.getUsers());
+	}
+
+	Duration dur = Duration.between(event.getStartTime(), event.getEndTime());
+	double timeMin = dur.toMinutes();
+	double time = timeMin / 60;
+	event.setDuration(time);
+	return repo.save(event);
+}
+
+
 
 }

@@ -30,6 +30,7 @@
 						| ${user} | <br>
 					</c:forEach>
 				</p>
+				<p class="create"><a href="/update-event/?id=${event.id}">Update Event?</a></p>
 				<p class="create"><a href="/successfully-deleted/?id=${event.id}">Delete Event?</a></p>
 				<p class="create"><a href="/month-calendar">Back To Month View?</a></p>
 				
