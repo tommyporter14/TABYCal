@@ -8,10 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +32,7 @@ import co.grandcircus.tabycalwebapp.Util.WeekViewHelper;
 
 @Controller
 public class AppController {
+
 
 	@Autowired
 	private EventService eventService;

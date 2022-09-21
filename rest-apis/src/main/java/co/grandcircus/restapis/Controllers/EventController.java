@@ -29,6 +29,11 @@ import co.grandcircus.restapis.Repositories.EventRepository;
 @RestController
 public class EventController {
 
+	@GetMapping("")
+	public String root() {
+		return "ok";
+	}
+
 	@ResponseBody
 	@ExceptionHandler(EventNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
@@ -40,26 +45,25 @@ public class EventController {
 	private EventRepository repo;
 
 	@GetMapping("/event")
-	public List<Event> getAllEvents(@RequestParam(required= false) String startDate,
-									@RequestParam(required= false) String endDate,
-	  								@RequestParam(required= false) List<String> users) {
+	public List<Event> getAllEvents(@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate, @RequestParam(required = false) List<String> users) {
 		DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 		LocalDateTime adjustedStartDate = null;
 		LocalDateTime adjustedEndDate = null;
-		if(startDate != null && endDate != null) {
+		if (startDate != null && endDate != null) {
 			adjustedStartDate = LocalDateTime.parse(startDate, formatter);
 			adjustedEndDate = LocalDateTime.parse(endDate, formatter);
 
 		}
-		
-		if(startDate != null &&endDate != null && users !=null) {
+
+		if (startDate != null && endDate != null && users != null) {
 			return repo.findEventsByUsersAndDateRange(users, adjustedStartDate, adjustedEndDate);
-		}else if (startDate != null && endDate !=null) {
+		} else if (startDate != null && endDate != null) {
 			return repo.findEventsUsingDateRange(adjustedStartDate, adjustedEndDate);
-		}else if(users != null){
-			return repo.findEventByListOfUsers(users);	
+		} else if (users != null) {
+			return repo.findEventByListOfUsers(users);
 		}
-			
+
 		return repo.findAll();
 	}
 
@@ -89,7 +93,7 @@ public class EventController {
 		return event;
 	}
 
-	//validator
+	// validator
 	private void checkEventIsValid(Event event) {
 		for (String user : event.getUsers()) {
 			List<Event> userEventList = repo.findByUsers(user);
@@ -97,10 +101,10 @@ public class EventController {
 			for (Event userEvent : userEventList) {
 				boolean startTimeOverlaps = ((userEvent.getStartTime().isAfter(event.getStartTime())
 						|| userEvent.getStartTime().isEqual(event.getStartTime()))
-								&& userEvent.getStartTime().isBefore(event.getEndTime()));
+						&& userEvent.getStartTime().isBefore(event.getEndTime()));
 				boolean endTimeOverlaps = ((userEvent.getEndTime().isAfter(event.getStartTime())
 						|| userEvent.getEndTime().isEqual(event.getStartTime()))
-								&& (userEvent.getEndTime().isBefore(event.getEndTime())));
+						&& (userEvent.getEndTime().isBefore(event.getEndTime())));
 				if (startTimeOverlaps || endTimeOverlaps) {
 					throw new EventOverlapException(user, userEvent.getStartTime(), userEvent.getEndTime());
 				}
