@@ -36,7 +36,7 @@
                   <div class= "nav-buttons">
                   	<a class="btn btn-secondary" href="/create-event">Create Event</a>
                   	<a class="btn btn-secondary" href="/check-availability">Check Availability</a>
-                  	<a class="btn btn-secondary" href="/">Log Out</a>
+                  	<a class="btn btn-secondary" href="/login">Log Out</a>
                  </div>
                 </div>
                 <i class="fas fa-angle-right next"></i>

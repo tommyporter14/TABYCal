@@ -48,6 +48,12 @@ public class AppController {
 
 	// User login related mappings start/////////////////
 	@RequestMapping("/")
+	public String goToMonthView() {
+		return "redirect:/month-calendar";
+	}
+	
+	
+	@RequestMapping("/login")
 	public String showLogin() {
 		currentUserService.deleteCurrentUser();
 		return "login";

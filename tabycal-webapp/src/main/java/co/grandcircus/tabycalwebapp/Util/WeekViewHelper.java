@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 
 import co.grandcircus.tabycalwebapp.Models.DateTimeWrapper;
@@ -33,11 +34,12 @@ public class WeekViewHelper {
 	public List<EventFrontEnd> eventsForDayAtTime(int time, LocalDate date) {
 		LocalDateTime startOfHour = date.atTime(time, 0);
 		LocalDateTime endOfHour = date.atTime(time, 59);
-		return events.stream().filter(event -> event.getStartTime().toLocalDate().equals(date)).filter(event -> {
+		EventFrontEnd[] eventFrontEndArr =  events.stream().filter(event -> event.getStartTime().toLocalDate().equals(date)).filter(event -> {
 			LocalDateTime startingEventTime = event.getStartTime();
 			return (startingEventTime.isEqual(startOfHour) || startingEventTime.isAfter(startOfHour))
 					&& (startingEventTime.isBefore(endOfHour) || startingEventTime.isEqual(endOfHour));
-		}).toList();
+		}).toArray(num -> new EventFrontEnd[num]);
+		return Arrays.asList(eventFrontEndArr);
 	}
 
 	public List<EventFrontEnd> eventsForDayAtTime(int time, DateTimeWrapper date) {

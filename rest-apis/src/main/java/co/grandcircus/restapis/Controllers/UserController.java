@@ -113,8 +113,11 @@ public class UserController {
     // get current suer
     @GetMapping("/currentuser")
     public String getCurrentUserName() throws Exception {
+        
         List<CurrentUser> currentUsers = currentUserRepository.findAll();
+        System.out.println(currentUsers.size());
         if (currentUsers.size() > 1) {
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             throw new Exception("too many current users, check repo");
         } else {
             CurrentUser currentUser = currentUsers.get(0);
