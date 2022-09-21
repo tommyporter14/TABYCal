@@ -20,29 +20,26 @@ import co.grandcircus.tabycalwebapp.Models.EventResponse;
 @Service
 public class EventService {
 	
-	@Value("${tabycalapis.url}")
-	private String apiUrl;
-	
 	private RestTemplate rt = new RestTemplate();
 
 
 	
 
 	public EventFrontEnd[] getEvents() {
-		String url = apiUrl + "/event/";
+		String url = "http://localhost:8081/event/";
 		EventFrontEnd[] events = rt.getForObject(url, EventFrontEnd[].class);
 		return events;
 	}
 
 	// maybe allow for list instead of array?
 	public List<EventFrontEnd> getEventResponse() {
-		String url = apiUrl + "/event/";
+		String url = "http://localhost:8081/event/";
 		EventResponse events = rt.getForObject(url, EventResponse.class);
 		return events.getEvents();
 	}
 
 	public EventFrontEnd getEventById(String id) {
-		String url = apiUrl + "/event/find/"+id;
+		String url = "http://localhost:8081/event/find/"+id;
 		EventFrontEnd event = rt.getForObject(url, EventFrontEnd.class, id);
 		return event;
 	}
@@ -55,7 +52,7 @@ public class EventService {
 		return getEventsByStartDateAndEndDateAndUser(startDate, endDate, null);
 	}
 	public List<EventFrontEnd> getEventsByStartDateAndEndDateAndUser(LocalDate startDate,LocalDate endDate, String userName) {
-		String url = apiUrl + "/event/";
+		String url = "http://localhost:8081/event/";
 		Map<String, String> params = new HashMap<>();
 		String fixedStartDate = startDate.atStartOfDay().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 		String fixedEndDate = endDate.atTime(23, 59).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
@@ -77,27 +74,27 @@ public class EventService {
 	}
 
 	public EventFrontEnd[] getByUserName(String user){
-		String url = apiUrl + "/event/{user}";
+		String url = "http://localhost:8081/event/{user}";
 		EventFrontEnd[] e = rt.getForObject(url, EventFrontEnd[].class, user);
 		return e;
 	}
 	
 	//create event
 	 public EventFrontEnd createEvent(EventFrontEnd newEvent){
-	        String url = apiUrl + "/event/create";
+	        String url = "http://localhost:8081/event/create";
 	        final EventFrontEnd response = rt.postForObject(url, newEvent, EventFrontEnd.class);
 	        return response;
 	    }
 	 
 	 //delete event
 	 public void deleteEvent(String id) {
-		 String url = apiUrl + "/event/" + id;
+		 String url = "http://localhost:8081/event/" + id;
 		 rt.delete(url);
 	 }
 
 	// update event
 	public ResponseEntity<EventFrontEnd> updateEvent(EventFrontEnd updateEvent, String id) {
-		String url = apiUrl + "/event/put/{0}";
+		String url = "http://localhost:8081/event/put/{0}";
 		HttpEntity<EventFrontEnd> entityBody = new HttpEntity<>(updateEvent);
 		System.out.println("after response");
 		ResponseEntity<EventFrontEnd> response =  rt.exchange(url, HttpMethod.PUT, entityBody, EventFrontEnd.class,id);

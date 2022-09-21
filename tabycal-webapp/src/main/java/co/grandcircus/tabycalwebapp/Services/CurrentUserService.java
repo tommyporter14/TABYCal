@@ -8,26 +8,23 @@ import co.grandcircus.tabycalwebapp.Models.CurrentUser;
 @Service
 public class CurrentUserService {
 	
-	@Value("${tabycalapis.url}")
-	private String apiUrl;
-	
     RestTemplate request = new RestTemplate();
 
     public CurrentUser setCurrentUser(CurrentUser currentUser) {
-        String url = apiUrl + "/setcurrentuser";
+        String url = "http://localhost:8081/setcurrentuser";
         CurrentUser response =  request.postForObject(url, currentUser, CurrentUser.class) ;
         System.out.println(response.toString());
         return response;
     }
 
     public String deleteCurrentUser() {
-        String url = apiUrl + "/deletecurrentuser";
+        String url = "http://localhost:8081/deletecurrentuser";
         request.delete(url);
         return "current user is cleared";
     }
 
     public String getCurrentUser() {
-        String url = apiUrl + "/currentuser";
+        String url = "http://localhost:8081/currentuser";
         return request.getForObject(url, String.class);
     }
 

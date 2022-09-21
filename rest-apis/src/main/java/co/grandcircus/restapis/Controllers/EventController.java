@@ -29,11 +29,6 @@ import co.grandcircus.restapis.Repositories.EventRepository;
 @RestController
 public class EventController {
 
-	@GetMapping("")
-	public String root() {
-		return "ok";
-	}
-
 	@ResponseBody
 	@ExceptionHandler(EventNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
