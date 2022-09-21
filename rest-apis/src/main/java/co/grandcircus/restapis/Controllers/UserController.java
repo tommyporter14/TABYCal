@@ -1,6 +1,5 @@
 package co.grandcircus.restapis.Controllers;
 
-import java.util.Currency;
 import java.util.List;
 
 import org.apache.commons.validator.routines.EmailValidator;
@@ -22,7 +21,6 @@ import co.grandcircus.restapis.Exceptions.EmailNotFoundException;
 
 import co.grandcircus.restapis.Exceptions.ItemNotFoundException;
 import co.grandcircus.restapis.Models.*;
-import co.grandcircus.restapis.Models.Event;
 import co.grandcircus.restapis.Models.User;
 import co.grandcircus.restapis.Repositories.*;
 import co.grandcircus.restapis.Repositories.UserRepository;
